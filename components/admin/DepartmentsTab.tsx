@@ -10,9 +10,16 @@ import { useToast } from "./ToastContext";
 interface DepartmentsTabProps {
   departments: Department[];
   onRefresh: () => Promise<void>;
+  onDepartmentSaved?: (dept: Department) => void;
+  onDepartmentDeleted?: (id: string) => void;
 }
 
-export function DepartmentsTab({ departments, onRefresh }: DepartmentsTabProps) {
+export function DepartmentsTab({
+  departments,
+  onRefresh,
+  onDepartmentSaved,
+  onDepartmentDeleted,
+}: DepartmentsTabProps) {
   const { showToast } = useToast();
   const [searchTerm, setSearchTerm] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -52,6 +59,12 @@ export function DepartmentsTab({ departments, onRefresh }: DepartmentsTabProps) 
       throw new Error(resData.error || "Bo'limni saqlashda xatolik");
     }
 
+    if (resData.department && onDepartmentSaved) {
+      onDepartmentSaved(resData.department);
+    } else if (onDepartmentSaved && data.id) {
+      onDepartmentSaved(data as Department);
+    }
+
     showToast(isEdit ? "Bo'lim muvaffaqiyatli yangilandi!" : "Yangi bo'lim muvaffaqiyatli qo'shildi!");
     await onRefresh();
   };
@@ -68,6 +81,10 @@ export function DepartmentsTab({ departments, onRefresh }: DepartmentsTabProps) 
       const resData = await res.json();
       if (!res.ok || resData.error) {
         throw new Error(resData.error || "Bo'limni o'chirib bo'lmadi");
+      }
+
+      if (onDepartmentDeleted) {
+        onDepartmentDeleted(deleteTarget.id);
       }
 
       showToast("Bo'lim muvaffaqiyatli o'chirildi!");

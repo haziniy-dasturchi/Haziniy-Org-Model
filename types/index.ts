@@ -39,6 +39,7 @@ export interface Position {
   status: PositionStatus;
   sort_order: number;
   branch_id?: string | null; // Ixtiyoriy: filialga xos lavozimlar uchun
+  estimated_salary?: number | null;
   created_at: string;
   // Bog'langan bo'lim, filial va xodimlar (join qilinganda)
   department?: Department;

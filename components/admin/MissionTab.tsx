@@ -8,9 +8,10 @@ import { useToast } from "./ToastContext";
 
 interface MissionTabProps {
   initialMission: string;
+  onMissionSaved?: (mission: string) => void;
 }
 
-export function MissionTab({ initialMission }: MissionTabProps) {
+export function MissionTab({ initialMission, onMissionSaved }: MissionTabProps) {
   const { showToast } = useToast();
   const [mission, setMission] = useState(initialMission || HAZINIY_MAIN_MISSION);
   const [isLoading, setIsLoading] = useState(false);
@@ -41,6 +42,10 @@ export function MissionTab({ initialMission }: MissionTabProps) {
       const data = await res.json();
       if (!res.ok || data.error) {
         throw new Error(data.error || "Saqlashda xatolik yuz berdi");
+      }
+
+      if (onMissionSaved) {
+        onMissionSaved(mission.trim());
       }
 
       showToast("Korxona bosh maqsadi muvaffaqiyatli saqlandi!");

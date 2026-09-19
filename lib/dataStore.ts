@@ -112,9 +112,9 @@ function getInitialStore(): OrgStoreSchema {
   };
 }
 
-export async function ensureStoreSyncedFromSupabase(): Promise<OrgStoreSchema> {
+export async function ensureStoreSyncedFromSupabase(force = false): Promise<OrgStoreSchema> {
   const now = Date.now();
-  if (memoryStoreCache && now - lastSyncTimestamp < SYNC_TTL_MS) {
+  if (!force && memoryStoreCache && now - lastSyncTimestamp < SYNC_TTL_MS) {
     return memoryStoreCache;
   }
 
@@ -215,7 +215,11 @@ export async function writeStoreAsync(store: OrgStoreSchema): Promise<void> {
 
 export async function syncCurrentStoreToCloud(): Promise<boolean> {
   const store = readStore();
-  return await pushStoreSnapshotToSupabase(store);
+  const ok = await pushStoreSnapshotToSupabase(store);
+  if (ok) {
+    lastSyncTimestamp = Date.now();
+  }
+  return ok;
 }
 
 // ==========================================

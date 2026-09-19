@@ -12,6 +12,8 @@ interface EmployeesTabProps {
   employees: (Employee & { position?: Position & { department?: Department } })[];
   positions: (Position & { department?: Department })[];
   onRefresh: () => Promise<void>;
+  onEmployeeSaved?: (emp: Employee) => void;
+  onEmployeeDeleted?: (id: string) => void;
 }
 
 function getInitials(name: string): string {
@@ -21,7 +23,13 @@ function getInitials(name: string): string {
   return (parts[0][0] + parts[1][0]).toUpperCase();
 }
 
-export function EmployeesTab({ employees, positions, onRefresh }: EmployeesTabProps) {
+export function EmployeesTab({
+  employees,
+  positions,
+  onRefresh,
+  onEmployeeSaved,
+  onEmployeeDeleted,
+}: EmployeesTabProps) {
   const { showToast } = useToast();
   const [searchTerm, setSearchTerm] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -62,6 +70,12 @@ export function EmployeesTab({ employees, positions, onRefresh }: EmployeesTabPr
       throw new Error(resData.error || "Xodimni saqlashda xatolik");
     }
 
+    if (resData.employee && onEmployeeSaved) {
+      onEmployeeSaved(resData.employee);
+    } else if (onEmployeeSaved && data.id) {
+      onEmployeeSaved(data as Employee);
+    }
+
     showToast(isEdit ? "Xodim ma'lumotlari muvaffaqiyatli yangilandi!" : "Yangi xodim muvaffaqiyatli qo'shildi!");
     await onRefresh();
   };
@@ -78,6 +92,10 @@ export function EmployeesTab({ employees, positions, onRefresh }: EmployeesTabPr
       const resData = await res.json();
       if (!res.ok || resData.error) {
         throw new Error(resData.error || "Xodimni o'chirib bo'lmadi");
+      }
+
+      if (onEmployeeDeleted) {
+        onEmployeeDeleted(deleteTarget.id);
       }
 
       showToast("Xodim muvaffaqiyatli o'chirildi!");

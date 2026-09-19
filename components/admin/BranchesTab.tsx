@@ -9,9 +9,16 @@ import { useToast } from "./ToastContext";
 interface BranchesTabProps {
   branches: Branch[];
   onRefresh: () => Promise<void>;
+  onBranchSaved?: (branch: Branch) => void;
+  onBranchDeleted?: (id: string) => void;
 }
 
-export function BranchesTab({ branches, onRefresh }: BranchesTabProps) {
+export function BranchesTab({
+  branches,
+  onRefresh,
+  onBranchSaved,
+  onBranchDeleted,
+}: BranchesTabProps) {
   const { showToast } = useToast();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingBranch, setEditingBranch] = useState<Branch | null>(null);
@@ -43,6 +50,10 @@ export function BranchesTab({ branches, onRefresh }: BranchesTabProps) {
         throw new Error(resData.error || "Filialni o'chirishda xatolik");
       }
 
+      if (onBranchDeleted) {
+        onBranchDeleted(branch.id);
+      }
+
       showToast("Filial muvaffaqiyatli o'chirildi!");
       await onRefresh();
     } catch (err: any) {
@@ -65,6 +76,12 @@ export function BranchesTab({ branches, onRefresh }: BranchesTabProps) {
     const resData = await res.json();
     if (!res.ok || resData.error) {
       throw new Error(resData.error || "Filialni saqlashda xatolik");
+    }
+
+    if (resData.branch && onBranchSaved) {
+      onBranchSaved(resData.branch);
+    } else if (onBranchSaved && data.id) {
+      onBranchSaved(data as Branch);
     }
 
     showToast(isEdit ? "Filial muvaffaqiyatli yangilandi!" : "Yangi filial muvaffaqiyatli qo'shildi!");

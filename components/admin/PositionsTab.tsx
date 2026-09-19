@@ -12,9 +12,18 @@ interface PositionsTabProps {
   departments: Department[];
   branches?: Branch[];
   onRefresh: () => Promise<void>;
+  onPositionSaved?: (pos: Position) => void;
+  onPositionDeleted?: (id: string) => void;
 }
 
-export function PositionsTab({ positions, departments, branches = [], onRefresh }: PositionsTabProps) {
+export function PositionsTab({
+  positions,
+  departments,
+  branches = [],
+  onRefresh,
+  onPositionSaved,
+  onPositionDeleted,
+}: PositionsTabProps) {
 
   const { showToast } = useToast();
   const [searchTerm, setSearchTerm] = useState("");
@@ -64,6 +73,13 @@ export function PositionsTab({ positions, departments, branches = [], onRefresh 
       throw new Error(resData.error || "Lavozimni saqlashda xatolik");
     }
 
+    // Immediately update local UI state
+    if (resData.position && onPositionSaved) {
+      onPositionSaved(resData.position);
+    } else if (onPositionSaved && data.id) {
+      onPositionSaved(data as Position);
+    }
+
     showToast(isEdit ? "Lavozim muvaffaqiyatli yangilandi!" : "Yangi lavozim muvaffaqiyatli qo'shildi!");
     await onRefresh();
   };
@@ -80,6 +96,10 @@ export function PositionsTab({ positions, departments, branches = [], onRefresh 
       const resData = await res.json();
       if (!res.ok || resData.error) {
         throw new Error(resData.error || "Lavozimni o'chirib bo'lmadi");
+      }
+
+      if (onPositionDeleted) {
+        onPositionDeleted(deleteTarget.id);
       }
 
       showToast("Lavozim muvaffaqiyatli o'chirildi!");
