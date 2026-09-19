@@ -1,0 +1,30 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #F4F8F7;
+  --foreground: #002D28;
+  --brand-dark: #003933;
+  --brand-accent: #00BC55;
+  --brand-bg: #F4F8F7;
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+}
+
+/* Smooth card transitions and elevation effects */
+.brand-card-hover {
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.brand-card-hover:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px -5px rgba(0, 57, 51, 0.12), 0 8px 10px -6px rgba(0, 57, 51, 0.06);
+}
+
+.brand-card-hover:active {
+  transform: translateY(0);
+}

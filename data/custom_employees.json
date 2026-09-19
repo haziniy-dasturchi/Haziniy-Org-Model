@@ -1,0 +1,24 @@
+[
+  {
+    "id": "asoschi-test-emp",
+    "full_name": "Muhammad said Hasan",
+    "position_id": "pos-bosh-1",
+    "phone": null,
+    "photo_url": null,
+    "hired_at": null,
+    "personal_yqm": "Korxona strategiyasi, missiyasi va yuksalishi (Vaqtinchalik)",
+    "resume": "Ushbu profil Asoschi lavozimi uchun vaqtinchalik yaratilgan. Haqiqiy ma'lumotlar Admin panel orqali to'ldiriladi.",
+    "portfolio_links": []
+  },
+  {
+    "id": "menejer-test-emp",
+    "full_name": "Xoldarov Azizbek",
+    "position_id": "pos-bosh-2",
+    "phone": null,
+    "photo_url": null,
+    "hired_at": null,
+    "personal_yqm": "Operatsion boshqaruv va barcha bo'limlar integratsiyasi (Vaqtinchalik)",
+    "resume": "Ushbu profil Menejer lavozimi uchun vaqtinchalik yaratilgan. Haqiqiy ma'lumotlar Admin panel orqali to'ldiriladi.",
+    "portfolio_links": []
+  }
+]

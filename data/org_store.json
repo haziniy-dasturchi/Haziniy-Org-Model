@@ -1,0 +1,1896 @@
+{
+  "departments": [
+    {
+      "id": "dept-boshqaruv",
+      "name": "Boshqaruv",
+      "color_hex": "#0F172A",
+      "sort_order": 0,
+      "yqm_text": "Markaz strategiyasi, missiyasi va barcha bo'limlar integratsiyasi",
+      "created_at": "2026-09-19T09:56:41.497Z"
+    },
+    {
+      "id": "dept-moliya",
+      "name": "Moliya",
+      "color_hex": "#B45309",
+      "sort_order": 1,
+      "yqm_text": "KORXONANI KERAKLI VAQTDA YETARLI PUL MIQDORI BILAN TAMINLASH",
+      "created_at": "2026-09-19T09:56:41.497Z"
+    },
+    {
+      "id": "dept-marketing",
+      "name": "Marketing",
+      "color_hex": "#1D4ED8",
+      "sort_order": 2,
+      "yqm_text": "KORXONANI SIFATLI LIDLAR BILAN TA'MINLASH VA BOZORDA O'RNINI SAQLAB QOLISH",
+      "created_at": "2026-09-19T09:56:41.497Z"
+    },
+    {
+      "id": "dept-sotuv",
+      "name": "Sotuv",
+      "color_hex": "#C2410C",
+      "sort_order": 3,
+      "yqm_text": "KORXONADA SOTUVLARNI AMALGA OSHIRISH ORQALI DAROMADNI KO'PAYTIRISH",
+      "created_at": "2026-09-19T09:56:41.497Z"
+    },
+    {
+      "id": "dept-oquv",
+      "name": "O'quv",
+      "color_hex": "#047857",
+      "sort_order": 4,
+      "yqm_text": "MIJOZLARGA XIZMAT KO'RSATISH VA SARAFAN ORQALI MIJOZLAR SONINI YANADA OSHIRISH",
+      "created_at": "2026-09-19T09:56:41.497Z"
+    },
+    {
+      "id": "dept-hr",
+      "name": "HR",
+      "color_hex": "#6D28D9",
+      "sort_order": 5,
+      "yqm_text": "KORXONADA KADRLAR BILAN MUAMMO BO'LMASLIGINI TAMINLASH",
+      "created_at": "2026-09-19T09:56:41.497Z"
+    },
+    {
+      "id": "dept-texnik",
+      "name": "Texnik",
+      "color_hex": "#475569",
+      "sort_order": 6,
+      "yqm_text": "KORXONANI MIJOZ VA XODIMLAR UCHUN QULAY VA XAVFSIZ JOY BO'LISHINI TAMINLASH",
+      "created_at": "2026-09-19T09:56:41.497Z"
+    },
+    {
+      "id": "dept-yuridik",
+      "name": "Yuridik",
+      "color_hex": "#881337",
+      "sort_order": 7,
+      "yqm_text": "KORXONANI FOALIYATI YURIDIK JIXATDAN XAVFSIZ BO'LISHINI TAMINLASH",
+      "created_at": "2026-09-19T09:56:41.497Z"
+    }
+  ],
+  "positions": [
+    {
+      "id": "pos-bosh-1",
+      "department_id": "dept-boshqaruv",
+      "title": "ASOSCHI",
+      "yqm_text": "Korxona strategiyasi, missiyasi va yuksalishi",
+      "status": "mavjud",
+      "sort_order": 1,
+      "created_at": "2026-09-19T09:56:41.497Z",
+      "estimated_salary": 15000000
+    },
+    {
+      "id": "pos-bosh-2",
+      "department_id": "dept-boshqaruv",
+      "title": "MENEJER",
+      "yqm_text": "Operatsion boshqaruv va barcha bo'limlar integratsiyasi",
+      "status": "mavjud",
+      "sort_order": 2,
+      "created_at": "2026-09-19T09:56:41.497Z",
+      "estimated_salary": 10000000
+    },
+    {
+      "id": "pos-mol-1",
+      "department_id": "dept-moliya",
+      "title": "Bo'lim boshlig'i",
+      "yqm_text": "Moliya bo'limiga yuklatilgan vazifalarni har qanday holatda ham bajarilishini ta'minlash",
+      "status": "rejalashtirilgan",
+      "sort_order": 1,
+      "created_at": "2026-09-19T09:56:41.497Z",
+      "estimated_salary": 8000000
+    },
+    {
+      "id": "pos-mol-2",
+      "department_id": "dept-moliya",
+      "title": "Moliyachi",
+      "yqm_text": "Korxonada pul oqimini to'g'ri bo'lishini ta'minlash va eng kerakli bo'lgan sohaga pul sarflanishini ta'minlash",
+      "status": "rejalashtirilgan",
+      "sort_order": 2,
+      "created_at": "2026-09-19T09:56:41.497Z",
+      "estimated_salary": 6000000
+    },
+    {
+      "id": "pos-mol-3",
+      "department_id": "dept-moliya",
+      "title": "Buxgalter",
+      "yqm_text": "Koroxonadagi barcha pulga doir ishlar xisobotini jamlab borish",
+      "status": "mavjud",
+      "sort_order": 3,
+      "created_at": "2026-09-19T09:56:41.497Z",
+      "estimated_salary": 5000000
+    },
+    {
+      "id": "pos-mkt-1",
+      "department_id": "dept-marketing",
+      "title": "Bo'lim boshlig'i",
+      "yqm_text": "Marketing bo'limiga yuklatilgan vazifalarni har qanday holatda ham bajarilishini ta'minlash",
+      "status": "rejalashtirilgan",
+      "sort_order": 1,
+      "created_at": "2026-09-19T09:56:41.497Z",
+      "estimated_salary": 9000000
+    },
+    {
+      "id": "pos-mkt-2",
+      "department_id": "dept-marketing",
+      "title": "Marketolog",
+      "yqm_text": "Korxonani o'z vaqtida rejali ravishda lidlar bilan ta'minlash",
+      "status": "rejalashtirilgan",
+      "sort_order": 2,
+      "created_at": "2026-09-19T09:56:41.497Z",
+      "estimated_salary": 6000000,
+      "branch_id": null
+    },
+    {
+      "id": "pos-mkt-3",
+      "department_id": "dept-marketing",
+      "title": "SMM menejer",
+      "yqm_text": "Ijtimoiy tarmoqlarni yurgazish orqali murojaatlar sonini oshirish",
+      "status": "mavjud",
+      "sort_order": 3,
+      "created_at": "2026-09-19T09:56:41.497Z",
+      "estimated_salary": 4500000,
+      "branch_id": null
+    },
+    {
+      "id": "pos-mkt-4",
+      "department_id": "dept-marketing",
+      "title": "Dizayner",
+      "yqm_text": "Marketing uchun kerak bo'ladigan grafik dizaynlarni tayyorlash",
+      "status": "rejalashtirilgan",
+      "sort_order": 4,
+      "created_at": "2026-09-19T09:56:41.497Z",
+      "estimated_salary": 4500000
+    },
+    {
+      "id": "pos-mkt-5",
+      "department_id": "dept-marketing",
+      "title": "Video montajor",
+      "yqm_text": "Marketing uchun kerak bo'ladigan videolarni syomka va montaj bo'lishini ta'minlash",
+      "status": "rejalashtirilgan",
+      "sort_order": 5,
+      "created_at": "2026-09-19T09:56:41.497Z",
+      "estimated_salary": 4500000
+    },
+    {
+      "id": "pos-sotuv-1",
+      "department_id": "dept-sotuv",
+      "title": "Administrator",
+      "yqm_text": "1) Menyu olgan mijozlarni sinov darsga kelishini ta'minlash,\n2) Sinov darsiga kelgan mijozlarga sotuvni amalga oshirib to'lovni yig'ish,\n3) Tartib intizomni ta'minlash,\n4) Qaynoq lidlar o'z vaqtida javob berilishini ta'minlash,\n5) Qayta sotuvlar amalga oshirilishini ta'minlash",
+      "status": "rejalashtirilgan",
+      "sort_order": 1,
+      "created_at": "2026-09-19T09:56:41.497Z",
+      "estimated_salary": 4000000,
+      "branch_id": null
+    },
+    {
+      "id": "pos-sotuv-2",
+      "department_id": "dept-sotuv",
+      "title": "Sotuv bo'lim boshlig'i",
+      "yqm_text": "Sotuvlar o'z vaqtida reja asosida bo'lishini ta'minlash",
+      "status": "rejalashtirilgan",
+      "sort_order": 2,
+      "created_at": "2026-09-19T09:56:41.497Z",
+      "estimated_salary": 8000000
+    },
+    {
+      "id": "pos-sotuv-3",
+      "department_id": "dept-sotuv",
+      "title": "Sotuv menejeri",
+      "yqm_text": "Qayta sotuvlar amalga oshishini ta'minlash",
+      "status": "mavjud",
+      "sort_order": 3,
+      "created_at": "2026-09-19T09:56:41.497Z",
+      "estimated_salary": 4500000,
+      "branch_id": null
+    },
+    {
+      "id": "pos-sotuv-4",
+      "department_id": "dept-sotuv",
+      "title": "Kiruvchi admin",
+      "yqm_text": "Murojaat qilgan mijozlarni korxonaga sinov darsiga kelishlarini ta'minlash",
+      "status": "rejalashtirilgan",
+      "sort_order": 4,
+      "created_at": "2026-09-19T09:56:41.497Z",
+      "estimated_salary": 3500000
+    },
+    {
+      "id": "pos-sotuv-5",
+      "department_id": "dept-sotuv",
+      "title": "Chiquvchi admin",
+      "yqm_text": "Sinov darsiga kelgan mijozlarni to'lov qilishlari uchun taqdimot qilib sotuvni amalga oshirish",
+      "status": "rejalashtirilgan",
+      "sort_order": 5,
+      "created_at": "2026-09-19T09:56:41.497Z",
+      "estimated_salary": 4000000
+    },
+    {
+      "id": "pos-oquv-1",
+      "department_id": "dept-oquv",
+      "title": "Ustoz",
+      "yqm_text": "Korxonada belgilangan metodlar asosida mijozlar bilim olishini ta'minlash",
+      "status": "mavjud",
+      "sort_order": 1,
+      "created_at": "2026-09-19T09:56:41.497Z",
+      "estimated_salary": 5500000
+    },
+    {
+      "id": "pos-oquv-2",
+      "department_id": "dept-oquv",
+      "title": "Support",
+      "yqm_text": "Ustozga yordam berish uchun mijozlarni bilim olishiga ko'maklashish",
+      "status": "mavjud",
+      "sort_order": 2,
+      "created_at": "2026-09-19T09:56:41.497Z",
+      "estimated_salary": 3500000
+    },
+    {
+      "id": "pos-oquv-3",
+      "department_id": "dept-oquv",
+      "title": "Bo'lim boshlig'i",
+      "yqm_text": "O'quv bo'limiga yuklatilgan vazifalarni har qanday holatda ham bajarilishini ta'minlash",
+      "status": "rejalashtirilgan",
+      "sort_order": 3,
+      "created_at": "2026-09-19T09:56:41.497Z",
+      "estimated_salary": 8000000
+    },
+    {
+      "id": "pos-oquv-4",
+      "department_id": "dept-oquv",
+      "title": "Metodist",
+      "yqm_text": "Darsliklarda foydalanish uchun yangi metodlar tuzib chiqish va ularni amalda qo'llanishini ta'minlash",
+      "status": "rejalashtirilgan",
+      "sort_order": 4,
+      "created_at": "2026-09-19T09:56:41.497Z",
+      "estimated_salary": 6000000,
+      "branch_id": null
+    },
+    {
+      "id": "pos-oquv-5",
+      "department_id": "dept-oquv",
+      "title": "Katta ustoz",
+      "yqm_text": "Metodist tomonidan berilgan metodlarni korxonada joriy qilish va ustozlarni malakasini oshirishga ko'maklashish",
+      "status": "rejalashtirilgan",
+      "sort_order": 5,
+      "created_at": "2026-09-19T09:56:41.497Z",
+      "estimated_salary": 7000000
+    },
+    {
+      "id": "pos-oquv-6",
+      "department_id": "dept-oquv",
+      "title": "Assistent",
+      "yqm_text": "O'quv bo'limi uchun kerakli materiallarni tayyorlash",
+      "status": "rejalashtirilgan",
+      "sort_order": 6,
+      "created_at": "2026-09-19T09:56:41.497Z",
+      "estimated_salary": 3000000
+    },
+    {
+      "id": "pos-hr-1",
+      "department_id": "dept-hr",
+      "title": "Bo'lim boshlig'i",
+      "yqm_text": "HR bo'limiga yuklatilgan vazifalarni har qanday holatda ham bajarilishini ta'minlash",
+      "status": "rejalashtirilgan",
+      "sort_order": 1,
+      "created_at": "2026-09-19T09:56:41.497Z",
+      "estimated_salary": 7000000
+    },
+    {
+      "id": "pos-hr-2",
+      "department_id": "dept-hr",
+      "title": "HR menejer",
+      "yqm_text": "Korxona uchun kerakli bo'lgan kadrlarni topish , tarbiyalash va xodimlarni olib qolish",
+      "status": "mavjud",
+      "sort_order": 2,
+      "created_at": "2026-09-19T09:56:41.497Z",
+      "estimated_salary": 5000000,
+      "branch_id": null
+    },
+    {
+      "id": "pos-tex-1",
+      "department_id": "dept-texnik",
+      "title": "Bo'lim boshlig'i",
+      "yqm_text": "Texnik bo'limiga yuklatilgan vazifalarni har qanday holatda ham bajarilishini ta'minlash",
+      "status": "rejalashtirilgan",
+      "sort_order": 1,
+      "created_at": "2026-09-19T09:56:41.497Z",
+      "estimated_salary": 5000000
+    },
+    {
+      "id": "pos-tex-2",
+      "department_id": "dept-texnik",
+      "title": "Qorovul",
+      "yqm_text": "Korxona xavfsizligini taminlash",
+      "status": "mavjud",
+      "sort_order": 2,
+      "created_at": "2026-09-19T09:56:41.497Z",
+      "estimated_salary": 2500000
+    },
+    {
+      "id": "pos-tex-3",
+      "department_id": "dept-texnik",
+      "title": "Farrosh",
+      "yqm_text": "Korxona tozaligini taminlash",
+      "status": "mavjud",
+      "sort_order": 3,
+      "created_at": "2026-09-19T09:56:41.497Z",
+      "estimated_salary": 2000000,
+      "branch_id": null
+    },
+    {
+      "id": "pos-yur-1",
+      "department_id": "dept-yuridik",
+      "title": "Bo'lim boshlig'i",
+      "yqm_text": "Yuridik bo'limiga yuklatilgan vazifalarni har qanday holatda ham bajarilishini ta'minlash",
+      "status": "rejalashtirilgan",
+      "sort_order": 1,
+      "created_at": "2026-09-19T09:56:41.497Z",
+      "estimated_salary": 7000000
+    },
+    {
+      "id": "pos-yur-2",
+      "department_id": "dept-yuridik",
+      "title": "Yurist",
+      "yqm_text": "Korxonani yuridik jixatdan to'g'ri faoliyat olib borishi uchun barcha ishlarni bajarilishini taminlash va xat xujjatlar bilan bog'liq masalalarni bajarish",
+      "status": "rejalashtirilgan",
+      "sort_order": 2,
+      "created_at": "2026-09-19T09:56:41.497Z",
+      "estimated_salary": 5000000
+    }
+  ],
+  "employees": [
+    {
+      "id": "asoschi-test-emp",
+      "full_name": "Muhammad Said Hasan",
+      "phone": "+998889692313",
+      "personal_yqm": "Haziniy Ilm Maskani ta'lim va boshqaruv strategiyasi",
+      "resume": "Bosh rahbar va ta'lim maskani asoschisi.",
+      "portfolio_links": [],
+      "created_at": "2026-09-19T09:56:41.497Z",
+      "position_id": "pos-bosh-1",
+      "photo_url": "/uploads/emp_1789829674402_r743o3.png",
+      "hired_at": null
+    },
+    {
+      "id": "menejer-test-emp",
+      "position_id": "pos-bosh-2",
+      "full_name": "Xoldarov Azizbek",
+      "phone": null,
+      "photo_url": null,
+      "hired_at": null,
+      "personal_yqm": "Operatsion boshqaruv va barcha bo'limlar integratsiyasi (Vaqtinchalik)",
+      "resume": "Ushbu profil Menejer lavozimi uchun vaqtinchalik yaratilgan. Haqiqiy ma'lumotlar Admin panel orqali to'ldiriladi.",
+      "portfolio_links": [],
+      "created_at": "2026-09-19T09:56:41.497Z"
+    }
+  ],
+  "financeSnapshots": [
+    {
+      "id": "snap-1789818022415",
+      "snapshot_date": "2026-09-19",
+      "monthly_revenue": 100000000,
+      "monthly_expenses": 72000000,
+      "course_prices": {
+        "Standart kurs": 200000,
+        "Maxsus kurs": 250000
+      },
+      "max_teacher_load": 150,
+      "min_teacher_load": 4,
+      "main_branch_students": 420,
+      "xazina_branch_students": 108,
+      "notes": "Avgust oyi uchun snapshot",
+      "created_at": "2026-09-19T11:40:22.415Z",
+      "updated_at": "2026-09-19T12:23:47.006Z"
+    },
+    {
+      "id": "snap-1789815778904",
+      "snapshot_date": "2026-09-19",
+      "monthly_revenue": 113000000,
+      "monthly_expenses": 83000000,
+      "course_prices": {
+        "Standart kurs": 200000,
+        "Maxsus kurs": 250000
+      },
+      "max_teacher_load": 150,
+      "min_teacher_load": 5,
+      "main_branch_students": 437,
+      "xazina_branch_students": 116,
+      "notes": "Iyul oyi uchun snapshot",
+      "created_at": "2026-09-19T11:02:58.904Z",
+      "updated_at": "2026-09-19T12:22:03.604Z"
+    },
+    {
+      "id": "snap-1",
+      "snapshot_date": "2026-08-19",
+      "monthly_revenue": 104297000,
+      "monthly_expenses": 80000000,
+      "course_prices": {
+        "Standart kurs": 200000,
+        "Maxsus kurs": 250000
+      },
+      "max_teacher_load": 150,
+      "min_teacher_load": 4,
+      "main_branch_students": 455,
+      "xazina_branch_students": 116,
+      "notes": "Iyun oyi boshlang'ich snapshot (1-snapshot)",
+      "created_at": "2026-08-19T10:00:00.000Z",
+      "updated_at": "2026-09-19T12:20:19.962Z"
+    }
+  ],
+  "mission": "YUQORI DARAJALI XIZMAT KO’RSATISH ORQALI XALQIMIZ ORASIDA GO'ZAL XULQLI\nAQLLI TALABALAR YETISHIB CHIQISHI VA ILM YUKSAK DARAJAGA KO'TARILISHIGA O'Z HISSAMIZNI QO'SHISH",
+  "aiRecommendations": [
+    {
+      "id": "rec-1789823138584",
+      "created_at": "2026-09-19T13:05:38.584Z",
+      "recommendation_text": "Haziniy o'quv markazi hozirda 553 nafar o'quvchi bilan 4-bosqichda (4-bosqich: Filiallar tarmog'i va korporativ boshqaruv) faoliyat olib bormoqda hamda oylik sof foyda 30,000,000 so'mni tashkil qilmoqda.\n\nOylik daromad o'tgan davrga nisbatan +13% ga o'sib, barqaror ijobiy dinamika va strategik kengayish imkoniyatini ko'rsatmoqda.\n\nQuyidagi TOP-3 amaliy qadamlar tashkiliy xavflarni kamaytirish va tizimli o'sishni jadallashtirish uchun shakllantirildi. Bu hisob-kitob, yakuniy qarorni admin qabul qiladi.",
+      "based_on_snapshot_id": "snap-1789818022415",
+      "recommendations": [
+        {
+          "id": "rec-risk-workload-1789823138583",
+          "rule_type": "risk_workload",
+          "priority": 1,
+          "title": "Xavf: Ustozlar yuklamasida nomutanosiblik (145 ta o'quvchi farqi)",
+          "short_reason": "Eng band ustozda 150 ta, eng bo'sh faol ustozda esa 5 ta o'quvchi qayd etilgan (farq: 145 ta).",
+          "suggested_action": "rebalance",
+          "action_description": "Guruhlarni qayta taqsimlash yoki yuklamasi yuqori ustozga yordamchi biriktirish orqali o'quv sifatini tenglashtirish.",
+          "suggested_position": "Yordamchi ustoz / Support",
+          "related_risk": "Haddan tashqari yuklangan ustozda charchash (burnout) va dars sifatining keskin pasayishi.",
+          "trend_note": "Oylik tushum o'tgan davrga nisbatan +13% ga o'sdi (O'suvchi trend)."
+        },
+        {
+          "id": "rec-growth-marketolog",
+          "rule_type": "growth_missing_role",
+          "priority": 1,
+          "department_id": "dept-marketing",
+          "title": "O'sish: Marketing bo'limiga mutaxassis jalb qilish",
+          "short_reason": "Marketing bo'limida birorta ham faol xodim yo'q. Yangi o'quvchilar oqimi to'xtab qolish xavfi mavjud.",
+          "suggested_action": "hire",
+          "action_description": "Sotuv voronkasi va muntazam reklama oqimini yo'lga qo'yish uchun Marketolog / Targetolog qabul qilish.",
+          "suggested_position": "Targetolog / Raqamli marketolog",
+          "affordability": {
+            "is_affordable": true,
+            "average_net_profit": 27432333,
+            "worst_net_profit": 24297000,
+            "estimated_salary": 6000000,
+            "required_threshold": 7500000,
+            "deficit": 0
+          },
+          "value_reasoning": {
+            "conservative_min_students": 708,
+            "optimistic_max_students": 944,
+            "min_added_revenue": 159300000,
+            "max_added_revenue": 212400000,
+            "roi_multiple": "26.6",
+            "explanation": "Taxminiy maosh: 6,000,000 so'm (25% zaxira bilan talab: 7,500,000 so'm). Bo'sh sig'im bo'yicha konservativ taxmin: +708 ta o'quvchi (tushum: +159,300,000 so'm), optimistik taxmin: +944 ta o'quvchi (tushum: +212,400,000 so'm). ROI ~26.6x barobar."
+          },
+          "trend_note": "Oylik tushum o'tgan davrga nisbatan +13% ga o'sdi (O'suvchi trend).",
+          "stage_context": {
+            "stage": 4,
+            "stage_name": "4-bosqich: Filiallar tarmog'i va korporativ boshqaruv",
+            "student_count": 553,
+            "capacity_estimate": 1500,
+            "occupancy_rate_pct": 37
+          }
+        },
+        {
+          "id": "rec-growth-buxgalter",
+          "rule_type": "growth_missing_role",
+          "priority": 2,
+          "department_id": "dept-moliya",
+          "title": "Moliyaviy intizom: Buxgalter / Moliyachi qabul qilish",
+          "short_reason": "O'quvchilar soni 553 nafarga yetdi, biroq alohida buxgalter yo'q. Pul oqimi va hisob-kitoblar xavf ostida.",
+          "suggested_action": "hire",
+          "action_description": "Tushum, xarajatlar va qarzdorliklar auditini qat'iy nazoratga oluvchi buxgalter shtatini joriy qilish.",
+          "suggested_position": "Bosh buxgalter / Moliyachi",
+          "affordability": {
+            "is_affordable": true,
+            "average_net_profit": 27432333,
+            "worst_net_profit": 24297000,
+            "estimated_salary": 5000000,
+            "required_threshold": 6250000,
+            "deficit": 0
+          },
+          "value_reasoning": {
+            "conservative_min_students": 0,
+            "optimistic_max_students": 0,
+            "min_added_revenue": 5650000,
+            "max_added_revenue": 8475000,
+            "roi_multiple": "1.1",
+            "explanation": "Qarzdorliklarni kamaytirish va moliyaviy audit orqali oylik kamida ~5,650,000 so'm yo'qotishlarning oldi olinadi."
+          },
+          "trend_note": "Oylik tushum o'tgan davrga nisbatan +13% ga o'sdi (O'suvchi trend).",
+          "stage_context": {
+            "stage": 4,
+            "stage_name": "4-bosqich: Filiallar tarmog'i va korporativ boshqaruv",
+            "student_count": 553,
+            "capacity_estimate": 1500,
+            "occupancy_rate_pct": 37
+          }
+        }
+      ],
+      "structured_items": [
+        {
+          "id": "rec-risk-workload-1789823138583",
+          "rule_type": "risk_workload",
+          "priority": 1,
+          "title": "Xavf: Ustozlar yuklamasida nomutanosiblik (145 ta o'quvchi farqi)",
+          "short_reason": "Eng band ustozda 150 ta, eng bo'sh faol ustozda esa 5 ta o'quvchi qayd etilgan (farq: 145 ta).",
+          "suggested_action": "rebalance",
+          "action_description": "Guruhlarni qayta taqsimlash yoki yuklamasi yuqori ustozga yordamchi biriktirish orqali o'quv sifatini tenglashtirish.",
+          "suggested_position": "Yordamchi ustoz / Support",
+          "related_risk": "Haddan tashqari yuklangan ustozda charchash (burnout) va dars sifatining keskin pasayishi.",
+          "trend_note": "Oylik tushum o'tgan davrga nisbatan +13% ga o'sdi (O'suvchi trend)."
+        },
+        {
+          "id": "rec-growth-marketolog",
+          "rule_type": "growth_missing_role",
+          "priority": 1,
+          "department_id": "dept-marketing",
+          "title": "O'sish: Marketing bo'limiga mutaxassis jalb qilish",
+          "short_reason": "Marketing bo'limida birorta ham faol xodim yo'q. Yangi o'quvchilar oqimi to'xtab qolish xavfi mavjud.",
+          "suggested_action": "hire",
+          "action_description": "Sotuv voronkasi va muntazam reklama oqimini yo'lga qo'yish uchun Marketolog / Targetolog qabul qilish.",
+          "suggested_position": "Targetolog / Raqamli marketolog",
+          "affordability": {
+            "is_affordable": true,
+            "average_net_profit": 27432333,
+            "worst_net_profit": 24297000,
+            "estimated_salary": 6000000,
+            "required_threshold": 7500000,
+            "deficit": 0
+          },
+          "value_reasoning": {
+            "conservative_min_students": 708,
+            "optimistic_max_students": 944,
+            "min_added_revenue": 159300000,
+            "max_added_revenue": 212400000,
+            "roi_multiple": "26.6",
+            "explanation": "Taxminiy maosh: 6,000,000 so'm (25% zaxira bilan talab: 7,500,000 so'm). Bo'sh sig'im bo'yicha konservativ taxmin: +708 ta o'quvchi (tushum: +159,300,000 so'm), optimistik taxmin: +944 ta o'quvchi (tushum: +212,400,000 so'm). ROI ~26.6x barobar."
+          },
+          "trend_note": "Oylik tushum o'tgan davrga nisbatan +13% ga o'sdi (O'suvchi trend).",
+          "stage_context": {
+            "stage": 4,
+            "stage_name": "4-bosqich: Filiallar tarmog'i va korporativ boshqaruv",
+            "student_count": 553,
+            "capacity_estimate": 1500,
+            "occupancy_rate_pct": 37
+          }
+        },
+        {
+          "id": "rec-growth-buxgalter",
+          "rule_type": "growth_missing_role",
+          "priority": 2,
+          "department_id": "dept-moliya",
+          "title": "Moliyaviy intizom: Buxgalter / Moliyachi qabul qilish",
+          "short_reason": "O'quvchilar soni 553 nafarga yetdi, biroq alohida buxgalter yo'q. Pul oqimi va hisob-kitoblar xavf ostida.",
+          "suggested_action": "hire",
+          "action_description": "Tushum, xarajatlar va qarzdorliklar auditini qat'iy nazoratga oluvchi buxgalter shtatini joriy qilish.",
+          "suggested_position": "Bosh buxgalter / Moliyachi",
+          "affordability": {
+            "is_affordable": true,
+            "average_net_profit": 27432333,
+            "worst_net_profit": 24297000,
+            "estimated_salary": 5000000,
+            "required_threshold": 6250000,
+            "deficit": 0
+          },
+          "value_reasoning": {
+            "conservative_min_students": 0,
+            "optimistic_max_students": 0,
+            "min_added_revenue": 5650000,
+            "max_added_revenue": 8475000,
+            "roi_multiple": "1.1",
+            "explanation": "Qarzdorliklarni kamaytirish va moliyaviy audit orqali oylik kamida ~5,650,000 so'm yo'qotishlarning oldi olinadi."
+          },
+          "trend_note": "Oylik tushum o'tgan davrga nisbatan +13% ga o'sdi (O'suvchi trend).",
+          "stage_context": {
+            "stage": 4,
+            "stage_name": "4-bosqich: Filiallar tarmog'i va korporativ boshqaruv",
+            "student_count": 553,
+            "capacity_estimate": 1500,
+            "occupancy_rate_pct": 37
+          }
+        }
+      ]
+    },
+    {
+      "id": "rec-1789820645073",
+      "created_at": "2026-09-19T12:24:05.073Z",
+      "recommendation_text": "Haziniy o'quv markazi hozirda 553 nafar o'quvchi bilan 4-bosqichda (4-bosqich: Filiallar tarmog'i va korporativ boshqaruv) faoliyat olib bormoqda hamda oylik sof foyda 30,000,000 so'mni tashkil qilmoqda.\n\nOylik daromad o'tgan davrga nisbatan +13% ga o'sib, barqaror ijobiy dinamika va strategik kengayish imkoniyatini ko'rsatmoqda.\n\nQuyidagi TOP-3 amaliy qadamlar tashkiliy xavflarni kamaytirish va tizimli o'sishni jadallashtirish uchun shakllantirildi. Bu hisob-kitob, yakuniy qarorni admin qabul qiladi.",
+      "based_on_snapshot_id": "snap-1789818022415",
+      "recommendations": [
+        {
+          "id": "rec-risk-workload-1789820645073",
+          "rule_type": "risk_workload",
+          "priority": 1,
+          "title": "Xavf: Ustozlar yuklamasida nomutanosiblik (145 ta o'quvchi farqi)",
+          "short_reason": "Eng band ustozda 150 ta, eng bo'sh faol ustozda esa 5 ta o'quvchi qayd etilgan (farq: 145 ta).",
+          "suggested_action": "rebalance",
+          "action_description": "Guruhlarni qayta taqsimlash yoki yuklamasi yuqori ustozga yordamchi biriktirish orqali o'quv sifatini tenglashtirish.",
+          "suggested_position": "Yordamchi ustoz / Support",
+          "related_risk": "Haddan tashqari yuklangan ustozda charchash (burnout) va dars sifatining keskin pasayishi.",
+          "trend_note": "Oylik tushum o'tgan davrga nisbatan +13% ga o'sdi (O'suvchi trend)."
+        },
+        {
+          "id": "rec-growth-marketolog",
+          "rule_type": "growth_missing_role",
+          "priority": 1,
+          "department_id": "dept-marketing",
+          "title": "O'sish: Marketing bo'limiga mutaxassis jalb qilish",
+          "short_reason": "Marketing bo'limida birorta ham faol xodim yo'q. Yangi o'quvchilar oqimi to'xtab qolish xavfi mavjud.",
+          "suggested_action": "hire",
+          "action_description": "Sotuv voronkasi va muntazam reklama oqimini yo'lga qo'yish uchun Marketolog / Targetolog qabul qilish.",
+          "suggested_position": "Targetolog / Raqamli marketolog",
+          "affordability": {
+            "is_affordable": true,
+            "average_net_profit": 27432333,
+            "worst_net_profit": 24297000,
+            "estimated_salary": 6000000,
+            "required_threshold": 7500000,
+            "deficit": 0
+          },
+          "value_reasoning": {
+            "conservative_min_students": 708,
+            "optimistic_max_students": 944,
+            "min_added_revenue": 159300000,
+            "max_added_revenue": 212400000,
+            "roi_multiple": "26.6",
+            "explanation": "Taxminiy maosh: 6,000,000 so'm (25% zaxira bilan talab: 7,500,000 so'm). Bo'sh sig'im bo'yicha konservativ taxmin: +708 ta o'quvchi (tushum: +159,300,000 so'm), optimistik taxmin: +944 ta o'quvchi (tushum: +212,400,000 so'm). ROI ~26.6x barobar."
+          },
+          "trend_note": "Oylik tushum o'tgan davrga nisbatan +13% ga o'sdi (O'suvchi trend).",
+          "stage_context": {
+            "stage": 4,
+            "stage_name": "4-bosqich: Filiallar tarmog'i va korporativ boshqaruv",
+            "student_count": 553,
+            "capacity_estimate": 1500,
+            "occupancy_rate_pct": 37
+          }
+        },
+        {
+          "id": "rec-growth-buxgalter",
+          "rule_type": "growth_missing_role",
+          "priority": 2,
+          "department_id": "dept-moliya",
+          "title": "Moliyaviy intizom: Buxgalter / Moliyachi qabul qilish",
+          "short_reason": "O'quvchilar soni 553 nafarga yetdi, biroq alohida buxgalter yo'q. Pul oqimi va hisob-kitoblar xavf ostida.",
+          "suggested_action": "hire",
+          "action_description": "Tushum, xarajatlar va qarzdorliklar auditini qat'iy nazoratga oluvchi buxgalter shtatini joriy qilish.",
+          "suggested_position": "Bosh buxgalter / Moliyachi",
+          "affordability": {
+            "is_affordable": true,
+            "average_net_profit": 27432333,
+            "worst_net_profit": 24297000,
+            "estimated_salary": 5000000,
+            "required_threshold": 6250000,
+            "deficit": 0
+          },
+          "value_reasoning": {
+            "conservative_min_students": 0,
+            "optimistic_max_students": 0,
+            "min_added_revenue": 5650000,
+            "max_added_revenue": 8475000,
+            "roi_multiple": "1.1",
+            "explanation": "Qarzdorliklarni kamaytirish va moliyaviy audit orqali oylik kamida ~5,650,000 so'm yo'qotishlarning oldi olinadi."
+          },
+          "trend_note": "Oylik tushum o'tgan davrga nisbatan +13% ga o'sdi (O'suvchi trend).",
+          "stage_context": {
+            "stage": 4,
+            "stage_name": "4-bosqich: Filiallar tarmog'i va korporativ boshqaruv",
+            "student_count": 553,
+            "capacity_estimate": 1500,
+            "occupancy_rate_pct": 37
+          }
+        }
+      ],
+      "structured_items": [
+        {
+          "id": "rec-risk-workload-1789820645073",
+          "rule_type": "risk_workload",
+          "priority": 1,
+          "title": "Xavf: Ustozlar yuklamasida nomutanosiblik (145 ta o'quvchi farqi)",
+          "short_reason": "Eng band ustozda 150 ta, eng bo'sh faol ustozda esa 5 ta o'quvchi qayd etilgan (farq: 145 ta).",
+          "suggested_action": "rebalance",
+          "action_description": "Guruhlarni qayta taqsimlash yoki yuklamasi yuqori ustozga yordamchi biriktirish orqali o'quv sifatini tenglashtirish.",
+          "suggested_position": "Yordamchi ustoz / Support",
+          "related_risk": "Haddan tashqari yuklangan ustozda charchash (burnout) va dars sifatining keskin pasayishi.",
+          "trend_note": "Oylik tushum o'tgan davrga nisbatan +13% ga o'sdi (O'suvchi trend)."
+        },
+        {
+          "id": "rec-growth-marketolog",
+          "rule_type": "growth_missing_role",
+          "priority": 1,
+          "department_id": "dept-marketing",
+          "title": "O'sish: Marketing bo'limiga mutaxassis jalb qilish",
+          "short_reason": "Marketing bo'limida birorta ham faol xodim yo'q. Yangi o'quvchilar oqimi to'xtab qolish xavfi mavjud.",
+          "suggested_action": "hire",
+          "action_description": "Sotuv voronkasi va muntazam reklama oqimini yo'lga qo'yish uchun Marketolog / Targetolog qabul qilish.",
+          "suggested_position": "Targetolog / Raqamli marketolog",
+          "affordability": {
+            "is_affordable": true,
+            "average_net_profit": 27432333,
+            "worst_net_profit": 24297000,
+            "estimated_salary": 6000000,
+            "required_threshold": 7500000,
+            "deficit": 0
+          },
+          "value_reasoning": {
+            "conservative_min_students": 708,
+            "optimistic_max_students": 944,
+            "min_added_revenue": 159300000,
+            "max_added_revenue": 212400000,
+            "roi_multiple": "26.6",
+            "explanation": "Taxminiy maosh: 6,000,000 so'm (25% zaxira bilan talab: 7,500,000 so'm). Bo'sh sig'im bo'yicha konservativ taxmin: +708 ta o'quvchi (tushum: +159,300,000 so'm), optimistik taxmin: +944 ta o'quvchi (tushum: +212,400,000 so'm). ROI ~26.6x barobar."
+          },
+          "trend_note": "Oylik tushum o'tgan davrga nisbatan +13% ga o'sdi (O'suvchi trend).",
+          "stage_context": {
+            "stage": 4,
+            "stage_name": "4-bosqich: Filiallar tarmog'i va korporativ boshqaruv",
+            "student_count": 553,
+            "capacity_estimate": 1500,
+            "occupancy_rate_pct": 37
+          }
+        },
+        {
+          "id": "rec-growth-buxgalter",
+          "rule_type": "growth_missing_role",
+          "priority": 2,
+          "department_id": "dept-moliya",
+          "title": "Moliyaviy intizom: Buxgalter / Moliyachi qabul qilish",
+          "short_reason": "O'quvchilar soni 553 nafarga yetdi, biroq alohida buxgalter yo'q. Pul oqimi va hisob-kitoblar xavf ostida.",
+          "suggested_action": "hire",
+          "action_description": "Tushum, xarajatlar va qarzdorliklar auditini qat'iy nazoratga oluvchi buxgalter shtatini joriy qilish.",
+          "suggested_position": "Bosh buxgalter / Moliyachi",
+          "affordability": {
+            "is_affordable": true,
+            "average_net_profit": 27432333,
+            "worst_net_profit": 24297000,
+            "estimated_salary": 5000000,
+            "required_threshold": 6250000,
+            "deficit": 0
+          },
+          "value_reasoning": {
+            "conservative_min_students": 0,
+            "optimistic_max_students": 0,
+            "min_added_revenue": 5650000,
+            "max_added_revenue": 8475000,
+            "roi_multiple": "1.1",
+            "explanation": "Qarzdorliklarni kamaytirish va moliyaviy audit orqali oylik kamida ~5,650,000 so'm yo'qotishlarning oldi olinadi."
+          },
+          "trend_note": "Oylik tushum o'tgan davrga nisbatan +13% ga o'sdi (O'suvchi trend).",
+          "stage_context": {
+            "stage": 4,
+            "stage_name": "4-bosqich: Filiallar tarmog'i va korporativ boshqaruv",
+            "student_count": 553,
+            "capacity_estimate": 1500,
+            "occupancy_rate_pct": 37
+          }
+        }
+      ]
+    },
+    {
+      "id": "rec-1789818251160",
+      "created_at": "2026-09-19T11:44:11.160Z",
+      "recommendation_text": "Haziniy o'quv markazi hozirda 446 nafar o'quvchi bilan 4-bosqichda (4-bosqich: Filiallar tarmog'i va korporativ boshqaruv) faoliyat olib bormoqda hamda oylik sof foyda 190,000,000 so'mni tashkil qilmoqda.\n\nOylik daromad barqaror saqlanmoqda, bu esa mavjud jarayonlarni optimallashtirish va mustahkamlash uchun qulay imkoniyat yaratadi.\n\nQuyidagi TOP-3 amaliy qadamlar tashkiliy xavflarni kamaytirish va tizimli o'sishni jadallashtirish uchun shakllantirildi. Bu hisob-kitob, yakuniy qarorni admin qabul qiladi.",
+      "based_on_snapshot_id": "snap-1789818022415",
+      "recommendations": [
+        {
+          "id": "rec-growth-marketolog",
+          "rule_type": "growth_missing_role",
+          "priority": 2,
+          "department_id": "dept-marketing",
+          "title": "O'sish: Marketing bo'limiga mutaxassis jalb qilish",
+          "short_reason": "Marketing bo'limida birorta ham faol xodim yo'q. Yangi o'quvchilar oqimi to'xtab qolish xavfi mavjud.",
+          "suggested_action": "hire",
+          "action_description": "Sotuv voronkasi va muntazam reklama oqimini yo'lga qo'yish uchun Marketolog / Targetolog qabul qilish.",
+          "suggested_position": "Targetolog / Raqamli marketolog",
+          "affordability": {
+            "is_affordable": true,
+            "average_net_profit": 173333333,
+            "worst_net_profit": 140000000,
+            "estimated_salary": 6000000,
+            "required_threshold": 7500000,
+            "deficit": 0
+          },
+          "value_reasoning": {
+            "conservative_min_students": 780,
+            "optimistic_max_students": 1040,
+            "min_added_revenue": 175500000,
+            "max_added_revenue": 234000000,
+            "roi_multiple": "29.3",
+            "explanation": "Taxminiy maosh: 6,000,000 so'm (25% zaxira bilan talab: 7,500,000 so'm). Bo'sh sig'im bo'yicha konservativ taxmin: +780 ta o'quvchi (tushum: +175,500,000 so'm), optimistik taxmin: +1040 ta o'quvchi (tushum: +234,000,000 so'm). ROI ~29.3x barobar."
+          },
+          "trend_note": "Oylik tushum deyarli o'zgarishsiz (0%). Barqaror dinamika kuzatilmoqda.",
+          "stage_context": {
+            "stage": 4,
+            "stage_name": "4-bosqich: Filiallar tarmog'i va korporativ boshqaruv",
+            "student_count": 446,
+            "capacity_estimate": 1500,
+            "occupancy_rate_pct": 30
+          }
+        },
+        {
+          "id": "rec-growth-buxgalter",
+          "rule_type": "growth_missing_role",
+          "priority": 2,
+          "department_id": "dept-moliya",
+          "title": "Moliyaviy intizom: Buxgalter / Moliyachi qabul qilish",
+          "short_reason": "O'quvchilar soni 446 nafarga yetdi, biroq alohida buxgalter yo'q. Pul oqimi va hisob-kitoblar xavf ostida.",
+          "suggested_action": "hire",
+          "action_description": "Tushum, xarajatlar va qarzdorliklar auditini qat'iy nazoratga oluvchi buxgalter shtatini joriy qilish.",
+          "suggested_position": "Bosh buxgalter / Moliyachi",
+          "affordability": {
+            "is_affordable": true,
+            "average_net_profit": 173333333,
+            "worst_net_profit": 140000000,
+            "estimated_salary": 5000000,
+            "required_threshold": 6250000,
+            "deficit": 0
+          },
+          "value_reasoning": {
+            "conservative_min_students": 0,
+            "optimistic_max_students": 0,
+            "min_added_revenue": 21000000,
+            "max_added_revenue": 31500000,
+            "roi_multiple": "4.2",
+            "explanation": "Qarzdorliklarni kamaytirish va moliyaviy audit orqali oylik kamida ~21,000,000 so'm yo'qotishlarning oldi olinadi."
+          },
+          "trend_note": "Oylik tushum deyarli o'zgarishsiz (0%). Barqaror dinamika kuzatilmoqda.",
+          "stage_context": {
+            "stage": 4,
+            "stage_name": "4-bosqich: Filiallar tarmog'i va korporativ boshqaruv",
+            "student_count": 446,
+            "capacity_estimate": 1500,
+            "occupancy_rate_pct": 30
+          }
+        },
+        {
+          "id": "rec-growth-texnik-safety",
+          "rule_type": "growth_missing_role",
+          "priority": 3,
+          "department_id": "dept-texnik",
+          "title": "Texnik ta'minot: Bino tozaligi va xavfsizligini ta'minlash",
+          "short_reason": "446 nafar o'quvchi uchun binoning tozaligi, texnik jihozlari va xavfsizligini muntazam nazorat qiluvchi xodim zarur.",
+          "suggested_action": "hire",
+          "action_description": "Farrosh / Qorovul shtatlarini to'ldirish yoki texnik xizmatni autsorsing qilish.",
+          "suggested_position": "Texnik xodim / Farrosh",
+          "trend_note": "Oylik tushum deyarli o'zgarishsiz (0%). Barqaror dinamika kuzatilmoqda."
+        }
+      ],
+      "structured_items": [
+        {
+          "id": "rec-growth-marketolog",
+          "rule_type": "growth_missing_role",
+          "priority": 2,
+          "department_id": "dept-marketing",
+          "title": "O'sish: Marketing bo'limiga mutaxassis jalb qilish",
+          "short_reason": "Marketing bo'limida birorta ham faol xodim yo'q. Yangi o'quvchilar oqimi to'xtab qolish xavfi mavjud.",
+          "suggested_action": "hire",
+          "action_description": "Sotuv voronkasi va muntazam reklama oqimini yo'lga qo'yish uchun Marketolog / Targetolog qabul qilish.",
+          "suggested_position": "Targetolog / Raqamli marketolog",
+          "affordability": {
+            "is_affordable": true,
+            "average_net_profit": 173333333,
+            "worst_net_profit": 140000000,
+            "estimated_salary": 6000000,
+            "required_threshold": 7500000,
+            "deficit": 0
+          },
+          "value_reasoning": {
+            "conservative_min_students": 780,
+            "optimistic_max_students": 1040,
+            "min_added_revenue": 175500000,
+            "max_added_revenue": 234000000,
+            "roi_multiple": "29.3",
+            "explanation": "Taxminiy maosh: 6,000,000 so'm (25% zaxira bilan talab: 7,500,000 so'm). Bo'sh sig'im bo'yicha konservativ taxmin: +780 ta o'quvchi (tushum: +175,500,000 so'm), optimistik taxmin: +1040 ta o'quvchi (tushum: +234,000,000 so'm). ROI ~29.3x barobar."
+          },
+          "trend_note": "Oylik tushum deyarli o'zgarishsiz (0%). Barqaror dinamika kuzatilmoqda.",
+          "stage_context": {
+            "stage": 4,
+            "stage_name": "4-bosqich: Filiallar tarmog'i va korporativ boshqaruv",
+            "student_count": 446,
+            "capacity_estimate": 1500,
+            "occupancy_rate_pct": 30
+          }
+        },
+        {
+          "id": "rec-growth-buxgalter",
+          "rule_type": "growth_missing_role",
+          "priority": 2,
+          "department_id": "dept-moliya",
+          "title": "Moliyaviy intizom: Buxgalter / Moliyachi qabul qilish",
+          "short_reason": "O'quvchilar soni 446 nafarga yetdi, biroq alohida buxgalter yo'q. Pul oqimi va hisob-kitoblar xavf ostida.",
+          "suggested_action": "hire",
+          "action_description": "Tushum, xarajatlar va qarzdorliklar auditini qat'iy nazoratga oluvchi buxgalter shtatini joriy qilish.",
+          "suggested_position": "Bosh buxgalter / Moliyachi",
+          "affordability": {
+            "is_affordable": true,
+            "average_net_profit": 173333333,
+            "worst_net_profit": 140000000,
+            "estimated_salary": 5000000,
+            "required_threshold": 6250000,
+            "deficit": 0
+          },
+          "value_reasoning": {
+            "conservative_min_students": 0,
+            "optimistic_max_students": 0,
+            "min_added_revenue": 21000000,
+            "max_added_revenue": 31500000,
+            "roi_multiple": "4.2",
+            "explanation": "Qarzdorliklarni kamaytirish va moliyaviy audit orqali oylik kamida ~21,000,000 so'm yo'qotishlarning oldi olinadi."
+          },
+          "trend_note": "Oylik tushum deyarli o'zgarishsiz (0%). Barqaror dinamika kuzatilmoqda.",
+          "stage_context": {
+            "stage": 4,
+            "stage_name": "4-bosqich: Filiallar tarmog'i va korporativ boshqaruv",
+            "student_count": 446,
+            "capacity_estimate": 1500,
+            "occupancy_rate_pct": 30
+          }
+        },
+        {
+          "id": "rec-growth-texnik-safety",
+          "rule_type": "growth_missing_role",
+          "priority": 3,
+          "department_id": "dept-texnik",
+          "title": "Texnik ta'minot: Bino tozaligi va xavfsizligini ta'minlash",
+          "short_reason": "446 nafar o'quvchi uchun binoning tozaligi, texnik jihozlari va xavfsizligini muntazam nazorat qiluvchi xodim zarur.",
+          "suggested_action": "hire",
+          "action_description": "Farrosh / Qorovul shtatlarini to'ldirish yoki texnik xizmatni autsorsing qilish.",
+          "suggested_position": "Texnik xodim / Farrosh",
+          "trend_note": "Oylik tushum deyarli o'zgarishsiz (0%). Barqaror dinamika kuzatilmoqda."
+        }
+      ]
+    },
+    {
+      "id": "rec-1789815894984",
+      "created_at": "2026-09-19T11:04:54.984Z",
+      "recommendation_text": "Haziniy o'quv markazi hozirda 446 nafar o'quvchi bilan 4-bosqichda (4-bosqich: Filiallar tarmog'i va korporativ boshqaruv) faoliyat olib bormoqda hamda oylik sof foyda 190,000,000 so'mni tashkil qilmoqda.\n\nOylik daromad o'tgan davrga nisbatan +20% ga o'sib, barqaror ijobiy dinamika va strategik kengayish imkoniyatini ko'rsatmoqda.\n\nQuyidagi TOP-3 amaliy qadamlar tashkiliy xavflarni kamaytirish va tizimli o'sishni jadallashtirish uchun shakllantirildi. Bu hisob-kitob, yakuniy qarorni admin qabul qiladi.",
+      "based_on_snapshot_id": "snap-1789815778904",
+      "recommendations": [
+        {
+          "id": "rec-growth-marketolog",
+          "rule_type": "growth_missing_role",
+          "priority": 1,
+          "department_id": "dept-marketing",
+          "title": "O'sish: Marketing bo'limiga mutaxassis jalb qilish",
+          "short_reason": "Marketing bo'limida birorta ham faol xodim yo'q. Yangi o'quvchilar oqimi to'xtab qolish xavfi mavjud.",
+          "suggested_action": "hire",
+          "action_description": "Sotuv voronkasi va muntazam reklama oqimini yo'lga qo'yish uchun Marketolog / Targetolog qabul qilish.",
+          "suggested_position": "Targetolog / Raqamli marketolog",
+          "affordability": {
+            "is_affordable": true,
+            "average_net_profit": 165000000,
+            "worst_net_profit": 140000000,
+            "estimated_salary": 6000000,
+            "required_threshold": 7500000,
+            "deficit": 0
+          },
+          "value_reasoning": {
+            "conservative_min_students": 780,
+            "optimistic_max_students": 1040,
+            "min_added_revenue": 175500000,
+            "max_added_revenue": 234000000,
+            "roi_multiple": "29.3",
+            "explanation": "Taxminiy maosh: 6,000,000 so'm (25% zaxira bilan talab: 7,500,000 so'm). Bo'sh sig'im bo'yicha konservativ taxmin: +780 ta o'quvchi (tushum: +175,500,000 so'm), optimistik taxmin: +1040 ta o'quvchi (tushum: +234,000,000 so'm). ROI ~29.3x barobar."
+          },
+          "trend_note": "Oylik tushum o'tgan davrga nisbatan +20% ga o'sdi (O'suvchi trend).",
+          "stage_context": {
+            "stage": 4,
+            "stage_name": "4-bosqich: Filiallar tarmog'i va korporativ boshqaruv",
+            "student_count": 446,
+            "capacity_estimate": 1500,
+            "occupancy_rate_pct": 30
+          }
+        },
+        {
+          "id": "rec-growth-buxgalter",
+          "rule_type": "growth_missing_role",
+          "priority": 2,
+          "department_id": "dept-moliya",
+          "title": "Moliyaviy intizom: Buxgalter / Moliyachi qabul qilish",
+          "short_reason": "O'quvchilar soni 446 nafarga yetdi, biroq alohida buxgalter yo'q. Pul oqimi va hisob-kitoblar xavf ostida.",
+          "suggested_action": "hire",
+          "action_description": "Tushum, xarajatlar va qarzdorliklar auditini qat'iy nazoratga oluvchi buxgalter shtatini joriy qilish.",
+          "suggested_position": "Bosh buxgalter / Moliyachi",
+          "affordability": {
+            "is_affordable": true,
+            "average_net_profit": 165000000,
+            "worst_net_profit": 140000000,
+            "estimated_salary": 5000000,
+            "required_threshold": 6250000,
+            "deficit": 0
+          },
+          "value_reasoning": {
+            "conservative_min_students": 0,
+            "optimistic_max_students": 0,
+            "min_added_revenue": 21000000,
+            "max_added_revenue": 31500000,
+            "roi_multiple": "4.2",
+            "explanation": "Qarzdorliklarni kamaytirish va moliyaviy audit orqali oylik kamida ~21,000,000 so'm yo'qotishlarning oldi olinadi."
+          },
+          "trend_note": "Oylik tushum o'tgan davrga nisbatan +20% ga o'sdi (O'suvchi trend).",
+          "stage_context": {
+            "stage": 4,
+            "stage_name": "4-bosqich: Filiallar tarmog'i va korporativ boshqaruv",
+            "student_count": 446,
+            "capacity_estimate": 1500,
+            "occupancy_rate_pct": 30
+          }
+        },
+        {
+          "id": "rec-growth-texnik-safety",
+          "rule_type": "growth_missing_role",
+          "priority": 3,
+          "department_id": "dept-texnik",
+          "title": "Texnik ta'minot: Bino tozaligi va xavfsizligini ta'minlash",
+          "short_reason": "446 nafar o'quvchi uchun binoning tozaligi, texnik jihozlari va xavfsizligini muntazam nazorat qiluvchi xodim zarur.",
+          "suggested_action": "hire",
+          "action_description": "Farrosh / Qorovul shtatlarini to'ldirish yoki texnik xizmatni autsorsing qilish.",
+          "suggested_position": "Texnik xodim / Farrosh",
+          "trend_note": "Oylik tushum o'tgan davrga nisbatan +20% ga o'sdi (O'suvchi trend)."
+        }
+      ],
+      "structured_items": [
+        {
+          "id": "rec-growth-marketolog",
+          "rule_type": "growth_missing_role",
+          "priority": 1,
+          "department_id": "dept-marketing",
+          "title": "O'sish: Marketing bo'limiga mutaxassis jalb qilish",
+          "short_reason": "Marketing bo'limida birorta ham faol xodim yo'q. Yangi o'quvchilar oqimi to'xtab qolish xavfi mavjud.",
+          "suggested_action": "hire",
+          "action_description": "Sotuv voronkasi va muntazam reklama oqimini yo'lga qo'yish uchun Marketolog / Targetolog qabul qilish.",
+          "suggested_position": "Targetolog / Raqamli marketolog",
+          "affordability": {
+            "is_affordable": true,
+            "average_net_profit": 165000000,
+            "worst_net_profit": 140000000,
+            "estimated_salary": 6000000,
+            "required_threshold": 7500000,
+            "deficit": 0
+          },
+          "value_reasoning": {
+            "conservative_min_students": 780,
+            "optimistic_max_students": 1040,
+            "min_added_revenue": 175500000,
+            "max_added_revenue": 234000000,
+            "roi_multiple": "29.3",
+            "explanation": "Taxminiy maosh: 6,000,000 so'm (25% zaxira bilan talab: 7,500,000 so'm). Bo'sh sig'im bo'yicha konservativ taxmin: +780 ta o'quvchi (tushum: +175,500,000 so'm), optimistik taxmin: +1040 ta o'quvchi (tushum: +234,000,000 so'm). ROI ~29.3x barobar."
+          },
+          "trend_note": "Oylik tushum o'tgan davrga nisbatan +20% ga o'sdi (O'suvchi trend).",
+          "stage_context": {
+            "stage": 4,
+            "stage_name": "4-bosqich: Filiallar tarmog'i va korporativ boshqaruv",
+            "student_count": 446,
+            "capacity_estimate": 1500,
+            "occupancy_rate_pct": 30
+          }
+        },
+        {
+          "id": "rec-growth-buxgalter",
+          "rule_type": "growth_missing_role",
+          "priority": 2,
+          "department_id": "dept-moliya",
+          "title": "Moliyaviy intizom: Buxgalter / Moliyachi qabul qilish",
+          "short_reason": "O'quvchilar soni 446 nafarga yetdi, biroq alohida buxgalter yo'q. Pul oqimi va hisob-kitoblar xavf ostida.",
+          "suggested_action": "hire",
+          "action_description": "Tushum, xarajatlar va qarzdorliklar auditini qat'iy nazoratga oluvchi buxgalter shtatini joriy qilish.",
+          "suggested_position": "Bosh buxgalter / Moliyachi",
+          "affordability": {
+            "is_affordable": true,
+            "average_net_profit": 165000000,
+            "worst_net_profit": 140000000,
+            "estimated_salary": 5000000,
+            "required_threshold": 6250000,
+            "deficit": 0
+          },
+          "value_reasoning": {
+            "conservative_min_students": 0,
+            "optimistic_max_students": 0,
+            "min_added_revenue": 21000000,
+            "max_added_revenue": 31500000,
+            "roi_multiple": "4.2",
+            "explanation": "Qarzdorliklarni kamaytirish va moliyaviy audit orqali oylik kamida ~21,000,000 so'm yo'qotishlarning oldi olinadi."
+          },
+          "trend_note": "Oylik tushum o'tgan davrga nisbatan +20% ga o'sdi (O'suvchi trend).",
+          "stage_context": {
+            "stage": 4,
+            "stage_name": "4-bosqich: Filiallar tarmog'i va korporativ boshqaruv",
+            "student_count": 446,
+            "capacity_estimate": 1500,
+            "occupancy_rate_pct": 30
+          }
+        },
+        {
+          "id": "rec-growth-texnik-safety",
+          "rule_type": "growth_missing_role",
+          "priority": 3,
+          "department_id": "dept-texnik",
+          "title": "Texnik ta'minot: Bino tozaligi va xavfsizligini ta'minlash",
+          "short_reason": "446 nafar o'quvchi uchun binoning tozaligi, texnik jihozlari va xavfsizligini muntazam nazorat qiluvchi xodim zarur.",
+          "suggested_action": "hire",
+          "action_description": "Farrosh / Qorovul shtatlarini to'ldirish yoki texnik xizmatni autsorsing qilish.",
+          "suggested_position": "Texnik xodim / Farrosh",
+          "trend_note": "Oylik tushum o'tgan davrga nisbatan +20% ga o'sdi (O'suvchi trend)."
+        }
+      ]
+    },
+    {
+      "id": "rec-1789815892534",
+      "created_at": "2026-09-19T11:04:52.534Z",
+      "recommendation_text": "Haziniy o'quv markazi hozirda 446 nafar o'quvchi bilan 4-bosqichda (4-bosqich: Filiallar tarmog'i va korporativ boshqaruv) faoliyat olib bormoqda hamda oylik sof foyda 190,000,000 so'mni tashkil qilmoqda.\n\nOylik daromad o'tgan davrga nisbatan +20% ga o'sib, barqaror ijobiy dinamika va strategik kengayish imkoniyatini ko'rsatmoqda.\n\nQuyidagi TOP-3 amaliy qadamlar tashkiliy xavflarni kamaytirish va tizimli o'sishni jadallashtirish uchun shakllantirildi. Bu hisob-kitob, yakuniy qarorni admin qabul qiladi.",
+      "based_on_snapshot_id": "snap-1789815778904",
+      "recommendations": [
+        {
+          "id": "rec-growth-marketolog",
+          "rule_type": "growth_missing_role",
+          "priority": 1,
+          "department_id": "dept-marketing",
+          "title": "O'sish: Marketing bo'limiga mutaxassis jalb qilish",
+          "short_reason": "Marketing bo'limida birorta ham faol xodim yo'q. Yangi o'quvchilar oqimi to'xtab qolish xavfi mavjud.",
+          "suggested_action": "hire",
+          "action_description": "Sotuv voronkasi va muntazam reklama oqimini yo'lga qo'yish uchun Marketolog / Targetolog qabul qilish.",
+          "suggested_position": "Targetolog / Raqamli marketolog",
+          "affordability": {
+            "is_affordable": true,
+            "average_net_profit": 165000000,
+            "worst_net_profit": 140000000,
+            "estimated_salary": 6000000,
+            "required_threshold": 7500000,
+            "deficit": 0
+          },
+          "value_reasoning": {
+            "conservative_min_students": 780,
+            "optimistic_max_students": 1040,
+            "min_added_revenue": 175500000,
+            "max_added_revenue": 234000000,
+            "roi_multiple": "29.3",
+            "explanation": "Taxminiy maosh: 6,000,000 so'm (25% zaxira bilan talab: 7,500,000 so'm). Bo'sh sig'im bo'yicha konservativ taxmin: +780 ta o'quvchi (tushum: +175,500,000 so'm), optimistik taxmin: +1040 ta o'quvchi (tushum: +234,000,000 so'm). ROI ~29.3x barobar."
+          },
+          "trend_note": "Oylik tushum o'tgan davrga nisbatan +20% ga o'sdi (O'suvchi trend).",
+          "stage_context": {
+            "stage": 4,
+            "stage_name": "4-bosqich: Filiallar tarmog'i va korporativ boshqaruv",
+            "student_count": 446,
+            "capacity_estimate": 1500,
+            "occupancy_rate_pct": 30
+          }
+        },
+        {
+          "id": "rec-growth-buxgalter",
+          "rule_type": "growth_missing_role",
+          "priority": 2,
+          "department_id": "dept-moliya",
+          "title": "Moliyaviy intizom: Buxgalter / Moliyachi qabul qilish",
+          "short_reason": "O'quvchilar soni 446 nafarga yetdi, biroq alohida buxgalter yo'q. Pul oqimi va hisob-kitoblar xavf ostida.",
+          "suggested_action": "hire",
+          "action_description": "Tushum, xarajatlar va qarzdorliklar auditini qat'iy nazoratga oluvchi buxgalter shtatini joriy qilish.",
+          "suggested_position": "Bosh buxgalter / Moliyachi",
+          "affordability": {
+            "is_affordable": true,
+            "average_net_profit": 165000000,
+            "worst_net_profit": 140000000,
+            "estimated_salary": 5000000,
+            "required_threshold": 6250000,
+            "deficit": 0
+          },
+          "value_reasoning": {
+            "conservative_min_students": 0,
+            "optimistic_max_students": 0,
+            "min_added_revenue": 21000000,
+            "max_added_revenue": 31500000,
+            "roi_multiple": "4.2",
+            "explanation": "Qarzdorliklarni kamaytirish va moliyaviy audit orqali oylik kamida ~21,000,000 so'm yo'qotishlarning oldi olinadi."
+          },
+          "trend_note": "Oylik tushum o'tgan davrga nisbatan +20% ga o'sdi (O'suvchi trend).",
+          "stage_context": {
+            "stage": 4,
+            "stage_name": "4-bosqich: Filiallar tarmog'i va korporativ boshqaruv",
+            "student_count": 446,
+            "capacity_estimate": 1500,
+            "occupancy_rate_pct": 30
+          }
+        },
+        {
+          "id": "rec-growth-texnik-safety",
+          "rule_type": "growth_missing_role",
+          "priority": 3,
+          "department_id": "dept-texnik",
+          "title": "Texnik ta'minot: Bino tozaligi va xavfsizligini ta'minlash",
+          "short_reason": "446 nafar o'quvchi uchun binoning tozaligi, texnik jihozlari va xavfsizligini muntazam nazorat qiluvchi xodim zarur.",
+          "suggested_action": "hire",
+          "action_description": "Farrosh / Qorovul shtatlarini to'ldirish yoki texnik xizmatni autsorsing qilish.",
+          "suggested_position": "Texnik xodim / Farrosh",
+          "trend_note": "Oylik tushum o'tgan davrga nisbatan +20% ga o'sdi (O'suvchi trend)."
+        }
+      ],
+      "structured_items": [
+        {
+          "id": "rec-growth-marketolog",
+          "rule_type": "growth_missing_role",
+          "priority": 1,
+          "department_id": "dept-marketing",
+          "title": "O'sish: Marketing bo'limiga mutaxassis jalb qilish",
+          "short_reason": "Marketing bo'limida birorta ham faol xodim yo'q. Yangi o'quvchilar oqimi to'xtab qolish xavfi mavjud.",
+          "suggested_action": "hire",
+          "action_description": "Sotuv voronkasi va muntazam reklama oqimini yo'lga qo'yish uchun Marketolog / Targetolog qabul qilish.",
+          "suggested_position": "Targetolog / Raqamli marketolog",
+          "affordability": {
+            "is_affordable": true,
+            "average_net_profit": 165000000,
+            "worst_net_profit": 140000000,
+            "estimated_salary": 6000000,
+            "required_threshold": 7500000,
+            "deficit": 0
+          },
+          "value_reasoning": {
+            "conservative_min_students": 780,
+            "optimistic_max_students": 1040,
+            "min_added_revenue": 175500000,
+            "max_added_revenue": 234000000,
+            "roi_multiple": "29.3",
+            "explanation": "Taxminiy maosh: 6,000,000 so'm (25% zaxira bilan talab: 7,500,000 so'm). Bo'sh sig'im bo'yicha konservativ taxmin: +780 ta o'quvchi (tushum: +175,500,000 so'm), optimistik taxmin: +1040 ta o'quvchi (tushum: +234,000,000 so'm). ROI ~29.3x barobar."
+          },
+          "trend_note": "Oylik tushum o'tgan davrga nisbatan +20% ga o'sdi (O'suvchi trend).",
+          "stage_context": {
+            "stage": 4,
+            "stage_name": "4-bosqich: Filiallar tarmog'i va korporativ boshqaruv",
+            "student_count": 446,
+            "capacity_estimate": 1500,
+            "occupancy_rate_pct": 30
+          }
+        },
+        {
+          "id": "rec-growth-buxgalter",
+          "rule_type": "growth_missing_role",
+          "priority": 2,
+          "department_id": "dept-moliya",
+          "title": "Moliyaviy intizom: Buxgalter / Moliyachi qabul qilish",
+          "short_reason": "O'quvchilar soni 446 nafarga yetdi, biroq alohida buxgalter yo'q. Pul oqimi va hisob-kitoblar xavf ostida.",
+          "suggested_action": "hire",
+          "action_description": "Tushum, xarajatlar va qarzdorliklar auditini qat'iy nazoratga oluvchi buxgalter shtatini joriy qilish.",
+          "suggested_position": "Bosh buxgalter / Moliyachi",
+          "affordability": {
+            "is_affordable": true,
+            "average_net_profit": 165000000,
+            "worst_net_profit": 140000000,
+            "estimated_salary": 5000000,
+            "required_threshold": 6250000,
+            "deficit": 0
+          },
+          "value_reasoning": {
+            "conservative_min_students": 0,
+            "optimistic_max_students": 0,
+            "min_added_revenue": 21000000,
+            "max_added_revenue": 31500000,
+            "roi_multiple": "4.2",
+            "explanation": "Qarzdorliklarni kamaytirish va moliyaviy audit orqali oylik kamida ~21,000,000 so'm yo'qotishlarning oldi olinadi."
+          },
+          "trend_note": "Oylik tushum o'tgan davrga nisbatan +20% ga o'sdi (O'suvchi trend).",
+          "stage_context": {
+            "stage": 4,
+            "stage_name": "4-bosqich: Filiallar tarmog'i va korporativ boshqaruv",
+            "student_count": 446,
+            "capacity_estimate": 1500,
+            "occupancy_rate_pct": 30
+          }
+        },
+        {
+          "id": "rec-growth-texnik-safety",
+          "rule_type": "growth_missing_role",
+          "priority": 3,
+          "department_id": "dept-texnik",
+          "title": "Texnik ta'minot: Bino tozaligi va xavfsizligini ta'minlash",
+          "short_reason": "446 nafar o'quvchi uchun binoning tozaligi, texnik jihozlari va xavfsizligini muntazam nazorat qiluvchi xodim zarur.",
+          "suggested_action": "hire",
+          "action_description": "Farrosh / Qorovul shtatlarini to'ldirish yoki texnik xizmatni autsorsing qilish.",
+          "suggested_position": "Texnik xodim / Farrosh",
+          "trend_note": "Oylik tushum o'tgan davrga nisbatan +20% ga o'sdi (O'suvchi trend)."
+        }
+      ]
+    },
+    {
+      "id": "rec-1789815875567",
+      "created_at": "2026-09-19T11:04:35.567Z",
+      "recommendation_text": "Haziniy o'quv markazi hozirda 446 nafar o'quvchi bilan 4-bosqichda (4-bosqich: Filiallar tarmog'i va korporativ boshqaruv) faoliyat olib bormoqda hamda oylik sof foyda 190,000,000 so'mni tashkil qilmoqda.\n\nOylik daromad o'tgan davrga nisbatan +20% ga o'sib, barqaror ijobiy dinamika va strategik kengayish imkoniyatini ko'rsatmoqda.\n\nQuyidagi TOP-3 amaliy qadamlar tashkiliy xavflarni kamaytirish va tizimli o'sishni jadallashtirish uchun shakllantirildi. Bu hisob-kitob, yakuniy qarorni admin qabul qiladi.",
+      "based_on_snapshot_id": "snap-1789815778904",
+      "recommendations": [
+        {
+          "id": "rec-growth-marketolog",
+          "rule_type": "growth_missing_role",
+          "priority": 1,
+          "department_id": "dept-marketing",
+          "title": "O'sish: Marketing bo'limiga mutaxassis jalb qilish",
+          "short_reason": "Marketing bo'limida birorta ham faol xodim yo'q. Yangi o'quvchilar oqimi to'xtab qolish xavfi mavjud.",
+          "suggested_action": "hire",
+          "action_description": "Sotuv voronkasi va muntazam reklama oqimini yo'lga qo'yish uchun Marketolog / Targetolog qabul qilish.",
+          "suggested_position": "Targetolog / Raqamli marketolog",
+          "affordability": {
+            "is_affordable": true,
+            "average_net_profit": 165000000,
+            "worst_net_profit": 140000000,
+            "estimated_salary": 6000000,
+            "required_threshold": 7500000,
+            "deficit": 0
+          },
+          "value_reasoning": {
+            "conservative_min_students": 780,
+            "optimistic_max_students": 1040,
+            "min_added_revenue": 175500000,
+            "max_added_revenue": 234000000,
+            "roi_multiple": "29.3",
+            "explanation": "Taxminiy maosh: 6,000,000 so'm (25% zaxira bilan talab: 7,500,000 so'm). Bo'sh sig'im bo'yicha konservativ taxmin: +780 ta o'quvchi (tushum: +175,500,000 so'm), optimistik taxmin: +1040 ta o'quvchi (tushum: +234,000,000 so'm). ROI ~29.3x barobar."
+          },
+          "trend_note": "Oylik tushum o'tgan davrga nisbatan +20% ga o'sdi (O'suvchi trend).",
+          "stage_context": {
+            "stage": 4,
+            "stage_name": "4-bosqich: Filiallar tarmog'i va korporativ boshqaruv",
+            "student_count": 446,
+            "capacity_estimate": 1500,
+            "occupancy_rate_pct": 30
+          }
+        },
+        {
+          "id": "rec-growth-buxgalter",
+          "rule_type": "growth_missing_role",
+          "priority": 2,
+          "department_id": "dept-moliya",
+          "title": "Moliyaviy intizom: Buxgalter / Moliyachi qabul qilish",
+          "short_reason": "O'quvchilar soni 446 nafarga yetdi, biroq alohida buxgalter yo'q. Pul oqimi va hisob-kitoblar xavf ostida.",
+          "suggested_action": "hire",
+          "action_description": "Tushum, xarajatlar va qarzdorliklar auditini qat'iy nazoratga oluvchi buxgalter shtatini joriy qilish.",
+          "suggested_position": "Bosh buxgalter / Moliyachi",
+          "affordability": {
+            "is_affordable": true,
+            "average_net_profit": 165000000,
+            "worst_net_profit": 140000000,
+            "estimated_salary": 5000000,
+            "required_threshold": 6250000,
+            "deficit": 0
+          },
+          "value_reasoning": {
+            "conservative_min_students": 0,
+            "optimistic_max_students": 0,
+            "min_added_revenue": 21000000,
+            "max_added_revenue": 31500000,
+            "roi_multiple": "4.2",
+            "explanation": "Qarzdorliklarni kamaytirish va moliyaviy audit orqali oylik kamida ~21,000,000 so'm yo'qotishlarning oldi olinadi."
+          },
+          "trend_note": "Oylik tushum o'tgan davrga nisbatan +20% ga o'sdi (O'suvchi trend).",
+          "stage_context": {
+            "stage": 4,
+            "stage_name": "4-bosqich: Filiallar tarmog'i va korporativ boshqaruv",
+            "student_count": 446,
+            "capacity_estimate": 1500,
+            "occupancy_rate_pct": 30
+          }
+        },
+        {
+          "id": "rec-growth-texnik-safety",
+          "rule_type": "growth_missing_role",
+          "priority": 3,
+          "department_id": "dept-texnik",
+          "title": "Texnik ta'minot: Bino tozaligi va xavfsizligini ta'minlash",
+          "short_reason": "446 nafar o'quvchi uchun binoning tozaligi, texnik jihozlari va xavfsizligini muntazam nazorat qiluvchi xodim zarur.",
+          "suggested_action": "hire",
+          "action_description": "Farrosh / Qorovul shtatlarini to'ldirish yoki texnik xizmatni autsorsing qilish.",
+          "suggested_position": "Texnik xodim / Farrosh",
+          "trend_note": "Oylik tushum o'tgan davrga nisbatan +20% ga o'sdi (O'suvchi trend)."
+        }
+      ],
+      "structured_items": [
+        {
+          "id": "rec-growth-marketolog",
+          "rule_type": "growth_missing_role",
+          "priority": 1,
+          "department_id": "dept-marketing",
+          "title": "O'sish: Marketing bo'limiga mutaxassis jalb qilish",
+          "short_reason": "Marketing bo'limida birorta ham faol xodim yo'q. Yangi o'quvchilar oqimi to'xtab qolish xavfi mavjud.",
+          "suggested_action": "hire",
+          "action_description": "Sotuv voronkasi va muntazam reklama oqimini yo'lga qo'yish uchun Marketolog / Targetolog qabul qilish.",
+          "suggested_position": "Targetolog / Raqamli marketolog",
+          "affordability": {
+            "is_affordable": true,
+            "average_net_profit": 165000000,
+            "worst_net_profit": 140000000,
+            "estimated_salary": 6000000,
+            "required_threshold": 7500000,
+            "deficit": 0
+          },
+          "value_reasoning": {
+            "conservative_min_students": 780,
+            "optimistic_max_students": 1040,
+            "min_added_revenue": 175500000,
+            "max_added_revenue": 234000000,
+            "roi_multiple": "29.3",
+            "explanation": "Taxminiy maosh: 6,000,000 so'm (25% zaxira bilan talab: 7,500,000 so'm). Bo'sh sig'im bo'yicha konservativ taxmin: +780 ta o'quvchi (tushum: +175,500,000 so'm), optimistik taxmin: +1040 ta o'quvchi (tushum: +234,000,000 so'm). ROI ~29.3x barobar."
+          },
+          "trend_note": "Oylik tushum o'tgan davrga nisbatan +20% ga o'sdi (O'suvchi trend).",
+          "stage_context": {
+            "stage": 4,
+            "stage_name": "4-bosqich: Filiallar tarmog'i va korporativ boshqaruv",
+            "student_count": 446,
+            "capacity_estimate": 1500,
+            "occupancy_rate_pct": 30
+          }
+        },
+        {
+          "id": "rec-growth-buxgalter",
+          "rule_type": "growth_missing_role",
+          "priority": 2,
+          "department_id": "dept-moliya",
+          "title": "Moliyaviy intizom: Buxgalter / Moliyachi qabul qilish",
+          "short_reason": "O'quvchilar soni 446 nafarga yetdi, biroq alohida buxgalter yo'q. Pul oqimi va hisob-kitoblar xavf ostida.",
+          "suggested_action": "hire",
+          "action_description": "Tushum, xarajatlar va qarzdorliklar auditini qat'iy nazoratga oluvchi buxgalter shtatini joriy qilish.",
+          "suggested_position": "Bosh buxgalter / Moliyachi",
+          "affordability": {
+            "is_affordable": true,
+            "average_net_profit": 165000000,
+            "worst_net_profit": 140000000,
+            "estimated_salary": 5000000,
+            "required_threshold": 6250000,
+            "deficit": 0
+          },
+          "value_reasoning": {
+            "conservative_min_students": 0,
+            "optimistic_max_students": 0,
+            "min_added_revenue": 21000000,
+            "max_added_revenue": 31500000,
+            "roi_multiple": "4.2",
+            "explanation": "Qarzdorliklarni kamaytirish va moliyaviy audit orqali oylik kamida ~21,000,000 so'm yo'qotishlarning oldi olinadi."
+          },
+          "trend_note": "Oylik tushum o'tgan davrga nisbatan +20% ga o'sdi (O'suvchi trend).",
+          "stage_context": {
+            "stage": 4,
+            "stage_name": "4-bosqich: Filiallar tarmog'i va korporativ boshqaruv",
+            "student_count": 446,
+            "capacity_estimate": 1500,
+            "occupancy_rate_pct": 30
+          }
+        },
+        {
+          "id": "rec-growth-texnik-safety",
+          "rule_type": "growth_missing_role",
+          "priority": 3,
+          "department_id": "dept-texnik",
+          "title": "Texnik ta'minot: Bino tozaligi va xavfsizligini ta'minlash",
+          "short_reason": "446 nafar o'quvchi uchun binoning tozaligi, texnik jihozlari va xavfsizligini muntazam nazorat qiluvchi xodim zarur.",
+          "suggested_action": "hire",
+          "action_description": "Farrosh / Qorovul shtatlarini to'ldirish yoki texnik xizmatni autsorsing qilish.",
+          "suggested_position": "Texnik xodim / Farrosh",
+          "trend_note": "Oylik tushum o'tgan davrga nisbatan +20% ga o'sdi (O'suvchi trend)."
+        }
+      ]
+    },
+    {
+      "id": "rec-1789815778915",
+      "created_at": "2026-09-19T11:02:58.915Z",
+      "recommendation_text": "Haziniy o'quv markazi hozirda 446 nafar o'quvchi bilan 4-bosqichda (4-bosqich: Filiallar tarmog'i va korporativ boshqaruv) faoliyat olib bormoqda hamda oylik sof foyda 190,000,000 so'mni tashkil qilmoqda.\n\nOylik daromad o'tgan davrga nisbatan +20% ga o'sib, barqaror ijobiy dinamika va strategik kengayish imkoniyatini ko'rsatmoqda.\n\nQuyidagi TOP-3 amaliy qadamlar tashkiliy xavflarni kamaytirish va tizimli o'sishni jadallashtirish uchun shakllantirildi. Bu hisob-kitob, yakuniy qarorni admin qabul qiladi.",
+      "based_on_snapshot_id": "snap-1789815778904",
+      "recommendations": [
+        {
+          "id": "rec-growth-marketolog",
+          "rule_type": "growth_missing_role",
+          "priority": 1,
+          "department_id": "dept-marketing",
+          "title": "O'sish: Marketing bo'limiga mutaxassis jalb qilish",
+          "short_reason": "Marketing bo'limida birorta ham faol xodim yo'q. Yangi o'quvchilar oqimi to'xtab qolish xavfi mavjud.",
+          "suggested_action": "hire",
+          "action_description": "Sotuv voronkasi va muntazam reklama oqimini yo'lga qo'yish uchun Marketolog / Targetolog qabul qilish.",
+          "suggested_position": "Targetolog / Raqamli marketolog",
+          "affordability": {
+            "is_affordable": true,
+            "average_net_profit": 165000000,
+            "worst_net_profit": 140000000,
+            "estimated_salary": 6000000,
+            "required_threshold": 7500000,
+            "deficit": 0
+          },
+          "value_reasoning": {
+            "conservative_min_students": 780,
+            "optimistic_max_students": 1040,
+            "min_added_revenue": 175500000,
+            "max_added_revenue": 234000000,
+            "roi_multiple": "29.3",
+            "explanation": "Taxminiy maosh: 6,000,000 so'm (25% zaxira bilan talab: 7,500,000 so'm). Bo'sh sig'im bo'yicha konservativ taxmin: +780 ta o'quvchi (tushum: +175,500,000 so'm), optimistik taxmin: +1040 ta o'quvchi (tushum: +234,000,000 so'm). ROI ~29.3x barobar."
+          },
+          "trend_note": "Oylik tushum o'tgan davrga nisbatan +20% ga o'sdi (O'suvchi trend).",
+          "stage_context": {
+            "stage": 4,
+            "stage_name": "4-bosqich: Filiallar tarmog'i va korporativ boshqaruv",
+            "student_count": 446,
+            "capacity_estimate": 1500,
+            "occupancy_rate_pct": 30
+          }
+        },
+        {
+          "id": "rec-growth-buxgalter",
+          "rule_type": "growth_missing_role",
+          "priority": 2,
+          "department_id": "dept-moliya",
+          "title": "Moliyaviy intizom: Buxgalter / Moliyachi qabul qilish",
+          "short_reason": "O'quvchilar soni 446 nafarga yetdi, biroq alohida buxgalter yo'q. Pul oqimi va hisob-kitoblar xavf ostida.",
+          "suggested_action": "hire",
+          "action_description": "Tushum, xarajatlar va qarzdorliklar auditini qat'iy nazoratga oluvchi buxgalter shtatini joriy qilish.",
+          "suggested_position": "Bosh buxgalter / Moliyachi",
+          "affordability": {
+            "is_affordable": true,
+            "average_net_profit": 165000000,
+            "worst_net_profit": 140000000,
+            "estimated_salary": 5000000,
+            "required_threshold": 6250000,
+            "deficit": 0
+          },
+          "value_reasoning": {
+            "conservative_min_students": 0,
+            "optimistic_max_students": 0,
+            "min_added_revenue": 21000000,
+            "max_added_revenue": 31500000,
+            "roi_multiple": "4.2",
+            "explanation": "Qarzdorliklarni kamaytirish va moliyaviy audit orqali oylik kamida ~21,000,000 so'm yo'qotishlarning oldi olinadi."
+          },
+          "trend_note": "Oylik tushum o'tgan davrga nisbatan +20% ga o'sdi (O'suvchi trend).",
+          "stage_context": {
+            "stage": 4,
+            "stage_name": "4-bosqich: Filiallar tarmog'i va korporativ boshqaruv",
+            "student_count": 446,
+            "capacity_estimate": 1500,
+            "occupancy_rate_pct": 30
+          }
+        },
+        {
+          "id": "rec-growth-texnik-safety",
+          "rule_type": "growth_missing_role",
+          "priority": 3,
+          "department_id": "dept-texnik",
+          "title": "Texnik ta'minot: Bino tozaligi va xavfsizligini ta'minlash",
+          "short_reason": "446 nafar o'quvchi uchun binoning tozaligi, texnik jihozlari va xavfsizligini muntazam nazorat qiluvchi xodim zarur.",
+          "suggested_action": "hire",
+          "action_description": "Farrosh / Qorovul shtatlarini to'ldirish yoki texnik xizmatni autsorsing qilish.",
+          "suggested_position": "Texnik xodim / Farrosh",
+          "trend_note": "Oylik tushum o'tgan davrga nisbatan +20% ga o'sdi (O'suvchi trend)."
+        }
+      ],
+      "structured_items": [
+        {
+          "id": "rec-growth-marketolog",
+          "rule_type": "growth_missing_role",
+          "priority": 1,
+          "department_id": "dept-marketing",
+          "title": "O'sish: Marketing bo'limiga mutaxassis jalb qilish",
+          "short_reason": "Marketing bo'limida birorta ham faol xodim yo'q. Yangi o'quvchilar oqimi to'xtab qolish xavfi mavjud.",
+          "suggested_action": "hire",
+          "action_description": "Sotuv voronkasi va muntazam reklama oqimini yo'lga qo'yish uchun Marketolog / Targetolog qabul qilish.",
+          "suggested_position": "Targetolog / Raqamli marketolog",
+          "affordability": {
+            "is_affordable": true,
+            "average_net_profit": 165000000,
+            "worst_net_profit": 140000000,
+            "estimated_salary": 6000000,
+            "required_threshold": 7500000,
+            "deficit": 0
+          },
+          "value_reasoning": {
+            "conservative_min_students": 780,
+            "optimistic_max_students": 1040,
+            "min_added_revenue": 175500000,
+            "max_added_revenue": 234000000,
+            "roi_multiple": "29.3",
+            "explanation": "Taxminiy maosh: 6,000,000 so'm (25% zaxira bilan talab: 7,500,000 so'm). Bo'sh sig'im bo'yicha konservativ taxmin: +780 ta o'quvchi (tushum: +175,500,000 so'm), optimistik taxmin: +1040 ta o'quvchi (tushum: +234,000,000 so'm). ROI ~29.3x barobar."
+          },
+          "trend_note": "Oylik tushum o'tgan davrga nisbatan +20% ga o'sdi (O'suvchi trend).",
+          "stage_context": {
+            "stage": 4,
+            "stage_name": "4-bosqich: Filiallar tarmog'i va korporativ boshqaruv",
+            "student_count": 446,
+            "capacity_estimate": 1500,
+            "occupancy_rate_pct": 30
+          }
+        },
+        {
+          "id": "rec-growth-buxgalter",
+          "rule_type": "growth_missing_role",
+          "priority": 2,
+          "department_id": "dept-moliya",
+          "title": "Moliyaviy intizom: Buxgalter / Moliyachi qabul qilish",
+          "short_reason": "O'quvchilar soni 446 nafarga yetdi, biroq alohida buxgalter yo'q. Pul oqimi va hisob-kitoblar xavf ostida.",
+          "suggested_action": "hire",
+          "action_description": "Tushum, xarajatlar va qarzdorliklar auditini qat'iy nazoratga oluvchi buxgalter shtatini joriy qilish.",
+          "suggested_position": "Bosh buxgalter / Moliyachi",
+          "affordability": {
+            "is_affordable": true,
+            "average_net_profit": 165000000,
+            "worst_net_profit": 140000000,
+            "estimated_salary": 5000000,
+            "required_threshold": 6250000,
+            "deficit": 0
+          },
+          "value_reasoning": {
+            "conservative_min_students": 0,
+            "optimistic_max_students": 0,
+            "min_added_revenue": 21000000,
+            "max_added_revenue": 31500000,
+            "roi_multiple": "4.2",
+            "explanation": "Qarzdorliklarni kamaytirish va moliyaviy audit orqali oylik kamida ~21,000,000 so'm yo'qotishlarning oldi olinadi."
+          },
+          "trend_note": "Oylik tushum o'tgan davrga nisbatan +20% ga o'sdi (O'suvchi trend).",
+          "stage_context": {
+            "stage": 4,
+            "stage_name": "4-bosqich: Filiallar tarmog'i va korporativ boshqaruv",
+            "student_count": 446,
+            "capacity_estimate": 1500,
+            "occupancy_rate_pct": 30
+          }
+        },
+        {
+          "id": "rec-growth-texnik-safety",
+          "rule_type": "growth_missing_role",
+          "priority": 3,
+          "department_id": "dept-texnik",
+          "title": "Texnik ta'minot: Bino tozaligi va xavfsizligini ta'minlash",
+          "short_reason": "446 nafar o'quvchi uchun binoning tozaligi, texnik jihozlari va xavfsizligini muntazam nazorat qiluvchi xodim zarur.",
+          "suggested_action": "hire",
+          "action_description": "Farrosh / Qorovul shtatlarini to'ldirish yoki texnik xizmatni autsorsing qilish.",
+          "suggested_position": "Texnik xodim / Farrosh",
+          "trend_note": "Oylik tushum o'tgan davrga nisbatan +20% ga o'sdi (O'suvchi trend)."
+        }
+      ]
+    },
+    {
+      "id": "rec-1789815766868",
+      "created_at": "2026-09-19T11:02:46.868Z",
+      "recommendation_text": "Haziniy o'quv markazi hozirda 446 nafar o'quvchi bilan 4-bosqichda (4-bosqich: Filiallar tarmog'i va korporativ boshqaruv) faoliyat olib bormoqda hamda oylik sof foyda 140,000,000 so'mni tashkil qilmoqda.\n\nTrend aniqlash uchun hali yetarli moliyaviy tarix mavjud emas (cheklangan tarix), shu sababli barcha tashkiliy o'zgarishlar ehtiyotkorlik bilan rejalashtirilmoqda.\n\nQuyidagi TOP-3 amaliy qadamlar tashkiliy xavflarni kamaytirish va tizimli o'sishni jadallashtirish uchun shakllantirildi. Bu hisob-kitob, yakuniy qarorni admin qabul qiladi.",
+      "based_on_snapshot_id": "snap-1",
+      "recommendations": [
+        {
+          "id": "rec-risk-workload-1789815766815",
+          "rule_type": "risk_workload",
+          "priority": 2,
+          "title": "Xavf: Ustozlar yuklamasida nomutanosiblik (64 ta o'quvchi farqi)",
+          "short_reason": "Eng band ustozda 92 ta, eng bo'sh faol ustozda esa 28 ta o'quvchi qayd etilgan (farq: 64 ta).",
+          "suggested_action": "rebalance",
+          "action_description": "Guruhlarni qayta taqsimlash yoki yuklamasi yuqori ustozga yordamchi biriktirish orqali o'quv sifatini tenglashtirish.",
+          "suggested_position": "Yordamchi ustoz / Support",
+          "related_risk": "Haddan tashqari yuklangan ustozda charchash (burnout) va dars sifatining keskin pasayishi.",
+          "trend_note": "Trend aniqlash uchun hali yetarli moliyaviy tarix yo'q (cheklangan tarix)."
+        },
+        {
+          "id": "rec-growth-marketolog",
+          "rule_type": "growth_missing_role",
+          "priority": 2,
+          "department_id": "dept-marketing",
+          "title": "O'sish: Marketing bo'limiga mutaxassis jalb qilish",
+          "short_reason": "Marketing bo'limida birorta ham faol xodim yo'q. Yangi o'quvchilar oqimi to'xtab qolish xavfi mavjud.",
+          "suggested_action": "hire",
+          "action_description": "Sotuv voronkasi va muntazam reklama oqimini yo'lga qo'yish uchun Marketolog / Targetolog qabul qilish.",
+          "suggested_position": "Targetolog / Raqamli marketolog",
+          "affordability": {
+            "is_affordable": true,
+            "average_net_profit": 140000000,
+            "worst_net_profit": 140000000,
+            "estimated_salary": 6000000,
+            "required_threshold": 7500000,
+            "deficit": 0
+          },
+          "value_reasoning": {
+            "conservative_min_students": 780,
+            "optimistic_max_students": 1040,
+            "min_added_revenue": 175500000,
+            "max_added_revenue": 234000000,
+            "roi_multiple": "29.3",
+            "explanation": "Taxminiy maosh: 6,000,000 so'm (25% zaxira bilan talab: 7,500,000 so'm). Bo'sh sig'im bo'yicha konservativ taxmin: +780 ta o'quvchi (tushum: +175,500,000 so'm), optimistik taxmin: +1040 ta o'quvchi (tushum: +234,000,000 so'm). ROI ~29.3x barobar."
+          },
+          "trend_note": "Trend aniqlash uchun hali yetarli moliyaviy tarix yo'q (cheklangan tarix).",
+          "stage_context": {
+            "stage": 4,
+            "stage_name": "4-bosqich: Filiallar tarmog'i va korporativ boshqaruv",
+            "student_count": 446,
+            "capacity_estimate": 1500,
+            "occupancy_rate_pct": 30
+          }
+        },
+        {
+          "id": "rec-growth-buxgalter",
+          "rule_type": "growth_missing_role",
+          "priority": 2,
+          "department_id": "dept-moliya",
+          "title": "Moliyaviy intizom: Buxgalter / Moliyachi qabul qilish",
+          "short_reason": "O'quvchilar soni 446 nafarga yetdi, biroq alohida buxgalter yo'q. Pul oqimi va hisob-kitoblar xavf ostida.",
+          "suggested_action": "hire",
+          "action_description": "Tushum, xarajatlar va qarzdorliklar auditini qat'iy nazoratga oluvchi buxgalter shtatini joriy qilish.",
+          "suggested_position": "Bosh buxgalter / Moliyachi",
+          "affordability": {
+            "is_affordable": true,
+            "average_net_profit": 140000000,
+            "worst_net_profit": 140000000,
+            "estimated_salary": 5000000,
+            "required_threshold": 6250000,
+            "deficit": 0
+          },
+          "value_reasoning": {
+            "conservative_min_students": 0,
+            "optimistic_max_students": 0,
+            "min_added_revenue": 17500000,
+            "max_added_revenue": 26250000,
+            "roi_multiple": "3.5",
+            "explanation": "Qarzdorliklarni kamaytirish va moliyaviy audit orqali oylik kamida ~17,500,000 so'm yo'qotishlarning oldi olinadi."
+          },
+          "trend_note": "Trend aniqlash uchun hali yetarli moliyaviy tarix yo'q (cheklangan tarix).",
+          "stage_context": {
+            "stage": 4,
+            "stage_name": "4-bosqich: Filiallar tarmog'i va korporativ boshqaruv",
+            "student_count": 446,
+            "capacity_estimate": 1500,
+            "occupancy_rate_pct": 30
+          }
+        }
+      ],
+      "structured_items": [
+        {
+          "id": "rec-risk-workload-1789815766815",
+          "rule_type": "risk_workload",
+          "priority": 2,
+          "title": "Xavf: Ustozlar yuklamasida nomutanosiblik (64 ta o'quvchi farqi)",
+          "short_reason": "Eng band ustozda 92 ta, eng bo'sh faol ustozda esa 28 ta o'quvchi qayd etilgan (farq: 64 ta).",
+          "suggested_action": "rebalance",
+          "action_description": "Guruhlarni qayta taqsimlash yoki yuklamasi yuqori ustozga yordamchi biriktirish orqali o'quv sifatini tenglashtirish.",
+          "suggested_position": "Yordamchi ustoz / Support",
+          "related_risk": "Haddan tashqari yuklangan ustozda charchash (burnout) va dars sifatining keskin pasayishi.",
+          "trend_note": "Trend aniqlash uchun hali yetarli moliyaviy tarix yo'q (cheklangan tarix)."
+        },
+        {
+          "id": "rec-growth-marketolog",
+          "rule_type": "growth_missing_role",
+          "priority": 2,
+          "department_id": "dept-marketing",
+          "title": "O'sish: Marketing bo'limiga mutaxassis jalb qilish",
+          "short_reason": "Marketing bo'limida birorta ham faol xodim yo'q. Yangi o'quvchilar oqimi to'xtab qolish xavfi mavjud.",
+          "suggested_action": "hire",
+          "action_description": "Sotuv voronkasi va muntazam reklama oqimini yo'lga qo'yish uchun Marketolog / Targetolog qabul qilish.",
+          "suggested_position": "Targetolog / Raqamli marketolog",
+          "affordability": {
+            "is_affordable": true,
+            "average_net_profit": 140000000,
+            "worst_net_profit": 140000000,
+            "estimated_salary": 6000000,
+            "required_threshold": 7500000,
+            "deficit": 0
+          },
+          "value_reasoning": {
+            "conservative_min_students": 780,
+            "optimistic_max_students": 1040,
+            "min_added_revenue": 175500000,
+            "max_added_revenue": 234000000,
+            "roi_multiple": "29.3",
+            "explanation": "Taxminiy maosh: 6,000,000 so'm (25% zaxira bilan talab: 7,500,000 so'm). Bo'sh sig'im bo'yicha konservativ taxmin: +780 ta o'quvchi (tushum: +175,500,000 so'm), optimistik taxmin: +1040 ta o'quvchi (tushum: +234,000,000 so'm). ROI ~29.3x barobar."
+          },
+          "trend_note": "Trend aniqlash uchun hali yetarli moliyaviy tarix yo'q (cheklangan tarix).",
+          "stage_context": {
+            "stage": 4,
+            "stage_name": "4-bosqich: Filiallar tarmog'i va korporativ boshqaruv",
+            "student_count": 446,
+            "capacity_estimate": 1500,
+            "occupancy_rate_pct": 30
+          }
+        },
+        {
+          "id": "rec-growth-buxgalter",
+          "rule_type": "growth_missing_role",
+          "priority": 2,
+          "department_id": "dept-moliya",
+          "title": "Moliyaviy intizom: Buxgalter / Moliyachi qabul qilish",
+          "short_reason": "O'quvchilar soni 446 nafarga yetdi, biroq alohida buxgalter yo'q. Pul oqimi va hisob-kitoblar xavf ostida.",
+          "suggested_action": "hire",
+          "action_description": "Tushum, xarajatlar va qarzdorliklar auditini qat'iy nazoratga oluvchi buxgalter shtatini joriy qilish.",
+          "suggested_position": "Bosh buxgalter / Moliyachi",
+          "affordability": {
+            "is_affordable": true,
+            "average_net_profit": 140000000,
+            "worst_net_profit": 140000000,
+            "estimated_salary": 5000000,
+            "required_threshold": 6250000,
+            "deficit": 0
+          },
+          "value_reasoning": {
+            "conservative_min_students": 0,
+            "optimistic_max_students": 0,
+            "min_added_revenue": 17500000,
+            "max_added_revenue": 26250000,
+            "roi_multiple": "3.5",
+            "explanation": "Qarzdorliklarni kamaytirish va moliyaviy audit orqali oylik kamida ~17,500,000 so'm yo'qotishlarning oldi olinadi."
+          },
+          "trend_note": "Trend aniqlash uchun hali yetarli moliyaviy tarix yo'q (cheklangan tarix).",
+          "stage_context": {
+            "stage": 4,
+            "stage_name": "4-bosqich: Filiallar tarmog'i va korporativ boshqaruv",
+            "student_count": 446,
+            "capacity_estimate": 1500,
+            "occupancy_rate_pct": 30
+          }
+        }
+      ]
+    }
+  ],
+  "branches": [
+    {
+      "id": "branch-1",
+      "name": "Asosiy filial",
+      "student_count": 420,
+      "room_count": 6,
+      "capacity_estimate": 960,
+      "created_at": "2026-09-19T11:00:51.916Z"
+    },
+    {
+      "id": "branch-2",
+      "name": "Xazina filial",
+      "student_count": 108,
+      "room_count": 2,
+      "capacity_estimate": 320,
+      "created_at": "2026-09-19T11:00:51.916Z"
+    }
+  ],
+  "orgAnalysis": {
+    "id": "analysis-deterministic-03a9cf3d92bf304e65fe87b4330cd0e8",
+    "structure_hash": "03a9cf3d92bf304e65fe87b4330cd0e8",
+    "recommendations": [
+      {
+        "id": "rec-overlap-farrosh",
+        "priority": 1,
+        "title": "Tozalovchi (Farrosh) lavozimini joriy etish",
+        "text": "Admin ham tozalov ishlarini qilmoqda va hamma mijozlarga qaramoqda, bu holat mijozga xizmat sifatini tushurib yuboradi, shuning uchun ayni vaqtda bitta tozalovchi olishingiz kerak.",
+        "theory_basis": "face_overlap",
+        "suggested_position_id": null,
+        "suggested_position_title": "Farrosh",
+        "target_department_id": null,
+        "target_department_name": "Texnik",
+        "is_new_suggested_role": true,
+        "is_resolved": false
+      },
+      {
+        "id": "rec-span-filial-menejeri",
+        "priority": 2,
+        "title": "Filial menejerlari va sifat nazorati",
+        "text": "Filiallar ko'paymoqda, org strukturani kengaytirish kerak, endi har bir filial uchun menejer oling va asosiy filial menejeringizni ular ustidan rahbar qilib sifat nazorati xodimiga aylantiring!",
+        "theory_basis": "span_of_control",
+        "suggested_position_id": null,
+        "suggested_position_title": "Filial menejeri",
+        "target_department_id": null,
+        "target_department_name": "Boshqaruv",
+        "is_new_suggested_role": true,
+        "is_resolved": false
+      },
+      {
+        "id": "rec-target-pos-oquv-4",
+        "priority": 3,
+        "title": "Metodist lavozimini ochish",
+        "text": "O'quv bo'limida ta'lim sifatini doimiy tekshirish uchun metodist lavozimi kerak, bu sarafan orqali o'quvchilar sonini barqaror oshirishga xizmat qiladi.",
+        "theory_basis": "vysotskiy",
+        "suggested_position_id": "pos-oquv-4",
+        "suggested_position_title": "Metodist",
+        "target_department_id": "dept-oquv",
+        "target_department_name": "O'quv",
+        "is_new_suggested_role": false,
+        "is_resolved": false
+      }
+    ],
+    "generated_at": "2026-09-19T17:12:56.380Z",
+    "is_resolved": false
+  }
+}
