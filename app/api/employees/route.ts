@@ -1,9 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 import { checkAdminSession } from "@/lib/adminAuth";
-import { getEmployees, saveEmployee } from "@/lib/dataStore";
+import { getEmployees, saveEmployee, ensureStoreSyncedFromSupabase, syncCurrentStoreToCloud } from "@/lib/dataStore";
 
 export async function GET() {
   try {
+    await ensureStoreSyncedFromSupabase();
     const employees = getEmployees();
     return NextResponse.json({ employees });
   } catch (err: any) {
@@ -43,6 +44,8 @@ export async function POST(request: NextRequest) {
       resume: resume ? resume.trim() : null,
       portfolio_links: Array.isArray(portfolio_links) ? portfolio_links : [],
     });
+
+    await syncCurrentStoreToCloud();
 
     return NextResponse.json({ success: true, employee: emp }, { status: 201 });
   } catch (err: any) {

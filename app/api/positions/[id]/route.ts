@@ -1,11 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
 import { checkAdminSession } from "@/lib/adminAuth";
-import { savePosition, deletePosition, getPositionById } from "@/lib/dataStore";
+import { savePosition, deletePosition, getPositionById, ensureStoreSyncedFromSupabase, syncCurrentStoreToCloud } from "@/lib/dataStore";
 
 export async function GET(
   request: NextRequest,
   { params }: { params: { id: string } }
 ) {
+  await ensureStoreSyncedFromSupabase();
   const pos = getPositionById(params.id);
   if (!pos) return NextResponse.json({ error: "Lavozim topilmadi" }, { status: 404 });
   return NextResponse.json({ position: pos });
@@ -32,6 +33,8 @@ export async function PUT(
       sort_order,
     });
 
+    await syncCurrentStoreToCloud();
+
     return NextResponse.json({ success: true, position: pos });
   } catch (err: any) {
     return NextResponse.json({ error: err.message }, { status: 500 });
@@ -48,6 +51,7 @@ export async function DELETE(
     }
 
     deletePosition(params.id);
+    await syncCurrentStoreToCloud();
     return NextResponse.json({ success: true });
   } catch (err: any) {
     return NextResponse.json({ error: err.message }, { status: 500 });

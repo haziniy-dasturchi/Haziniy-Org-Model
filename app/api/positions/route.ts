@@ -1,9 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 import { checkAdminSession } from "@/lib/adminAuth";
-import { getPositions, savePosition } from "@/lib/dataStore";
+import { getPositions, savePosition, ensureStoreSyncedFromSupabase, syncCurrentStoreToCloud } from "@/lib/dataStore";
 
 export async function GET() {
   try {
+    await ensureStoreSyncedFromSupabase();
     const positions = getPositions();
     return NextResponse.json({ positions });
   } catch (err: any) {
@@ -31,6 +32,8 @@ export async function POST(request: NextRequest) {
       status: status === "rejalashtirilgan" ? "rejalashtirilgan" : "mavjud",
       sort_order: typeof sort_order === "number" ? sort_order : 0,
     });
+
+    await syncCurrentStoreToCloud();
 
     return NextResponse.json({ success: true, position: pos }, { status: 201 });
   } catch (err: any) {

@@ -1,8 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 import { checkAdminSession } from "@/lib/adminAuth";
-import { getMission, saveMission } from "@/lib/dataStore";
+import { getMission, saveMission, ensureStoreSyncedFromSupabase, syncCurrentStoreToCloud } from "@/lib/dataStore";
 
 export async function GET() {
+  await ensureStoreSyncedFromSupabase();
   const mission = getMission();
   return NextResponse.json({ mission });
 }
@@ -21,6 +22,7 @@ export async function POST(request: NextRequest) {
     }
 
     const saved = saveMission(mission);
+    await syncCurrentStoreToCloud();
     return NextResponse.json({ success: true, mission: saved });
   } catch (err: any) {
     return NextResponse.json({ error: err.message }, { status: 500 });

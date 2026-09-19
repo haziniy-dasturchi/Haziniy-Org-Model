@@ -1,9 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { checkAdminSession } from '@/lib/adminAuth';
-import { getLatestOrgAIAnalysis, resolveOrgRecommendation, updateOrgRecommendation, getFullOrgStructure } from '@/lib/dataStore';
+import { getLatestOrgAIAnalysis, resolveOrgRecommendation, updateOrgRecommendation, getFullOrgStructure, ensureStoreSyncedFromSupabase, syncCurrentStoreToCloud } from '@/lib/dataStore';
 
 export async function GET(request: NextRequest) {
   try {
+    await ensureStoreSyncedFromSupabase();
     const { searchParams } = new URL(request.url);
     const force = searchParams.get('force') === 'true';
     const analysis = await getLatestOrgAIAnalysis(force);
@@ -24,6 +25,7 @@ export async function POST(request: NextRequest) {
     }
 
     const analysis = await getLatestOrgAIAnalysis(true);
+    await syncCurrentStoreToCloud();
 
     return NextResponse.json(
       {
@@ -56,6 +58,7 @@ export async function PATCH(request: NextRequest) {
       return NextResponse.json({ error: 'Tavsiya topilmadi' }, { status: 404 });
     }
 
+    await syncCurrentStoreToCloud();
     const fullDepts = getFullOrgStructure();
 
     return NextResponse.json({
@@ -86,6 +89,7 @@ export async function PUT(request: NextRequest) {
     }
 
     const updated = await updateOrgRecommendation(item_id, updates);
+    await syncCurrentStoreToCloud();
 
     return NextResponse.json({
       success: true,

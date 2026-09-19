@@ -3,12 +3,13 @@ import { OrgChart } from "@/components/org/OrgChart";
 import { AIRecommendation } from "@/components/org/AIRecommendation";
 import { MissionCarousel } from "@/components/org/MissionCarousel";
 import { Sparkles } from "lucide-react";
-import { getFullOrgStructure, getMission, getLatestOrgAIAnalysis } from "@/lib/dataStore";
+import { getFullOrgStructure, getMission, getLatestOrgAIAnalysis, ensureStoreSyncedFromSupabase } from "@/lib/dataStore";
 import { checkAdminSession } from "@/lib/adminAuth";
 
 export const dynamic = "force-dynamic";
 
 export default async function HomePage() {
+  await ensureStoreSyncedFromSupabase();
   const departmentsWithData = getFullOrgStructure();
   const mainMission = getMission();
   const aiRecommendation = await getLatestOrgAIAnalysis();

@@ -1,11 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
 import { checkAdminSession } from "@/lib/adminAuth";
-import { saveDepartment, deleteDepartment, getDepartmentById } from "@/lib/dataStore";
+import { saveDepartment, deleteDepartment, getDepartmentById, ensureStoreSyncedFromSupabase, syncCurrentStoreToCloud } from "@/lib/dataStore";
 
 export async function GET(
   request: NextRequest,
   { params }: { params: { id: string } }
 ) {
+  await ensureStoreSyncedFromSupabase();
   const dept = getDepartmentById(params.id);
   if (!dept) return NextResponse.json({ error: "Bo'lim topilmadi" }, { status: 404 });
   return NextResponse.json({ department: dept });
@@ -31,6 +32,8 @@ export async function PUT(
       yqm_text,
     });
 
+    await syncCurrentStoreToCloud();
+
     return NextResponse.json({ success: true, department: dept });
   } catch (err: any) {
     return NextResponse.json({ error: err.message }, { status: 500 });
@@ -47,6 +50,7 @@ export async function DELETE(
     }
 
     deleteDepartment(params.id);
+    await syncCurrentStoreToCloud();
     return NextResponse.json({ success: true });
   } catch (err: any) {
     return NextResponse.json({ error: err.message }, { status: 500 });

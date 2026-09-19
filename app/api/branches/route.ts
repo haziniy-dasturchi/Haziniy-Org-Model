@@ -1,9 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 import { checkAdminSession } from "@/lib/adminAuth";
-import { getBranches, saveBranch, deleteBranch } from "@/lib/dataStore";
+import { getBranches, saveBranch, deleteBranch, ensureStoreSyncedFromSupabase, syncCurrentStoreToCloud } from "@/lib/dataStore";
 
 export async function GET() {
   try {
+    await ensureStoreSyncedFromSupabase();
     const branches = getBranches();
     return NextResponse.json({ branches });
   } catch (err: any) {
@@ -19,6 +20,7 @@ export async function POST(request: NextRequest) {
 
     const body = await request.json();
     const branch = saveBranch(body);
+    await syncCurrentStoreToCloud();
     return NextResponse.json({ success: true, branch }, { status: 201 });
   } catch (err: any) {
     return NextResponse.json({ error: err.message }, { status: 500 });
@@ -33,6 +35,7 @@ export async function PUT(request: NextRequest) {
 
     const body = await request.json();
     const branch = saveBranch(body);
+    await syncCurrentStoreToCloud();
     return NextResponse.json({ success: true, branch });
   } catch (err: any) {
     return NextResponse.json({ error: err.message }, { status: 500 });
@@ -52,6 +55,7 @@ export async function DELETE(request: NextRequest) {
     }
 
     deleteBranch(id);
+    await syncCurrentStoreToCloud();
     return NextResponse.json({ success: true });
   } catch (err: any) {
     return NextResponse.json({ error: err.message }, { status: 500 });

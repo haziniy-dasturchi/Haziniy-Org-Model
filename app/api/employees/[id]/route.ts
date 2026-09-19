@@ -1,12 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
 import { checkAdminSession } from "@/lib/adminAuth";
-import { getEmployeeById, saveEmployee, deleteEmployee } from "@/lib/dataStore";
+import { getEmployeeById, saveEmployee, deleteEmployee, ensureStoreSyncedFromSupabase, syncCurrentStoreToCloud } from "@/lib/dataStore";
 
 export async function GET(
   request: NextRequest,
   { params }: { params: { id: string } }
 ) {
   try {
+    await ensureStoreSyncedFromSupabase();
     const emp = getEmployeeById(params.id);
     if (!emp) {
       return NextResponse.json({ error: "Xodim topilmadi" }, { status: 404 });
@@ -50,6 +51,8 @@ export async function PUT(
       portfolio_links,
     });
 
+    await syncCurrentStoreToCloud();
+
     return NextResponse.json({ success: true, employee: emp });
   } catch (err: any) {
     return NextResponse.json({ error: err.message }, { status: 500 });
@@ -66,6 +69,7 @@ export async function DELETE(
     }
 
     deleteEmployee(params.id);
+    await syncCurrentStoreToCloud();
     return NextResponse.json({ success: true });
   } catch (err: any) {
     return NextResponse.json({ error: err.message }, { status: 500 });

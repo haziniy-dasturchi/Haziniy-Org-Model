@@ -8,6 +8,14 @@ import {
   HAZINIY_MAIN_MISSION,
 } from "./defaultOrgData";
 import { analyzeOrgStructureWithGemini } from "./geminiOrgAgent";
+import {
+  fetchStoreSnapshotFromSupabase,
+  pushStoreSnapshotToSupabase,
+} from "./supabaseSync";
+
+let memoryStoreCache: OrgStoreSchema | null = null;
+let lastSyncTimestamp = 0;
+const SYNC_TTL_MS = 10000; // 10s TTL for serverless edge caching
 
 const isVercel = Boolean(process.env.VERCEL);
 const localDataDir = path.join(process.cwd(), "data");
@@ -104,7 +112,37 @@ function getInitialStore(): OrgStoreSchema {
   };
 }
 
+export async function ensureStoreSyncedFromSupabase(): Promise<OrgStoreSchema> {
+  const now = Date.now();
+  if (memoryStoreCache && now - lastSyncTimestamp < SYNC_TTL_MS) {
+    return memoryStoreCache;
+  }
+
+  try {
+    const cloudSnapshot = await fetchStoreSnapshotFromSupabase();
+    if (cloudSnapshot && Array.isArray(cloudSnapshot.departments) && cloudSnapshot.departments.length > 0) {
+      memoryStoreCache = cloudSnapshot;
+      lastSyncTimestamp = now;
+      try {
+        ensureDataDir();
+        fs.writeFileSync(storeFilePath, JSON.stringify(cloudSnapshot, null, 2), "utf8");
+      } catch {}
+      return cloudSnapshot;
+    }
+  } catch (err) {
+    console.warn("Could not sync store from Supabase:", err);
+  }
+
+  const fallback = readStore();
+  memoryStoreCache = fallback;
+  return fallback;
+}
+
 export function readStore(): OrgStoreSchema {
+  if (memoryStoreCache && Array.isArray(memoryStoreCache.departments)) {
+    return memoryStoreCache;
+  }
+
   ensureDataDir();
   try {
     // 1. On Vercel: initialize /tmp/org_store.json from bundled local file if not present yet
@@ -128,6 +166,8 @@ export function readStore(): OrgStoreSchema {
         if (!Array.isArray(parsed.branches)) {
           parsed.branches = DEFAULT_BRANCHES;
         }
+        memoryStoreCache = parsed;
+        lastSyncTimestamp = Date.now();
         return parsed;
       }
     }
@@ -141,12 +181,41 @@ export function readStore(): OrgStoreSchema {
 }
 
 export function writeStore(store: OrgStoreSchema) {
+  memoryStoreCache = store;
+  lastSyncTimestamp = Date.now();
   ensureDataDir();
   try {
     fs.writeFileSync(storeFilePath, JSON.stringify(store, null, 2), "utf8");
   } catch (err) {
     console.error("Error writing org_store.json:", err);
   }
+
+  // Fire-and-forget background push to Supabase Cloud
+  pushStoreSnapshotToSupabase(store).catch((pushErr) => {
+    console.error("Background push to Supabase failed:", pushErr);
+  });
+}
+
+export async function writeStoreAsync(store: OrgStoreSchema): Promise<void> {
+  memoryStoreCache = store;
+  lastSyncTimestamp = Date.now();
+  ensureDataDir();
+  try {
+    fs.writeFileSync(storeFilePath, JSON.stringify(store, null, 2), "utf8");
+  } catch (err) {
+    console.error("Error writing org_store.json:", err);
+  }
+
+  try {
+    await pushStoreSnapshotToSupabase(store);
+  } catch (pushErr) {
+    console.error("writeStoreAsync to Supabase failed:", pushErr);
+  }
+}
+
+export async function syncCurrentStoreToCloud(): Promise<boolean> {
+  const store = readStore();
+  return await pushStoreSnapshotToSupabase(store);
 }
 
 // ==========================================

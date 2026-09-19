@@ -2,7 +2,7 @@ import React from "react";
 import Link from "next/link";
 import { cookies } from "next/headers";
 import { EmployeeProfileView } from "@/components/employee/EmployeeProfileView";
-import { getEmployeeById, getPositions } from "@/lib/dataStore";
+import { getEmployeeById, getPositions, ensureStoreSyncedFromSupabase } from "@/lib/dataStore";
 import { UserX, ArrowLeft } from "lucide-react";
 
 interface PageProps {
@@ -26,6 +26,7 @@ function checkIsAdmin(): boolean {
 }
 
 export default async function EmployeePage({ params }: PageProps) {
+  await ensureStoreSyncedFromSupabase();
   const isAdmin = checkIsAdmin();
   const employeeData = getEmployeeById(params.id);
   const allPositions = getPositions();

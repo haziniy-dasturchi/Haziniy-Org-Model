@@ -9,6 +9,7 @@ import {
   getEmployees,
   getBranches,
   getMission,
+  ensureStoreSyncedFromSupabase,
 } from "@/lib/dataStore";
 
 export const dynamic = "force-dynamic";
@@ -30,6 +31,7 @@ export default async function AdminPage() {
     redirect("/login?redirect=/admin");
   }
 
+  await ensureStoreSyncedFromSupabase();
   const departments = getDepartments();
   const positions = getPositions();
   const employees = getEmployees();

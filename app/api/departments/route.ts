@@ -1,9 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 import { checkAdminSession } from "@/lib/adminAuth";
-import { getDepartments, saveDepartment } from "@/lib/dataStore";
+import { getDepartments, saveDepartment, ensureStoreSyncedFromSupabase, syncCurrentStoreToCloud } from "@/lib/dataStore";
 
 export async function GET() {
   try {
+    await ensureStoreSyncedFromSupabase();
     const departments = getDepartments();
     return NextResponse.json({ departments });
   } catch (err: any) {
@@ -30,6 +31,8 @@ export async function POST(request: NextRequest) {
       sort_order: typeof sort_order === "number" ? sort_order : 0,
       yqm_text: yqm_text ? yqm_text.trim() : null,
     });
+
+    await syncCurrentStoreToCloud();
 
     return NextResponse.json({ success: true, department: dept }, { status: 201 });
   } catch (err: any) {
