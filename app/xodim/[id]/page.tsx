@@ -12,6 +12,8 @@ interface PageProps {
 }
 
 export const dynamic = "force-dynamic";
+export const revalidate = 0;
+export const fetchCache = "force-no-store";
 
 function checkIsAdmin(): boolean {
   const cookieStore = cookies();
@@ -26,7 +28,7 @@ function checkIsAdmin(): boolean {
 }
 
 export default async function EmployeePage({ params }: PageProps) {
-  await ensureStoreSyncedFromSupabase();
+  await ensureStoreSyncedFromSupabase(true);
   const isAdmin = checkIsAdmin();
   const employeeData = getEmployeeById(params.id);
   const allPositions = getPositions();

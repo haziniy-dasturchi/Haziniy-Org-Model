@@ -28,6 +28,7 @@ interface EditEmployeeModalProps {
   positions: (Position & { department?: Department })[];
   isOpen: boolean;
   onClose: () => void;
+  onSaved?: (employee: any) => void;
 }
 
 export function EditEmployeeModal({
@@ -35,6 +36,7 @@ export function EditEmployeeModal({
   positions,
   isOpen,
   onClose,
+  onSaved,
 }: EditEmployeeModalProps) {
   const router = useRouter();
 
@@ -56,6 +58,25 @@ export function EditEmployeeModal({
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
+
+  React.useEffect(() => {
+    if (isOpen) {
+      setFullName(employee.full_name || "");
+      setPositionId(employee.position_id || "");
+      setPhone(employee.phone || "");
+      setPhotoUrl(employee.photo_url || "");
+      setHiredAt(employee.hired_at ? employee.hired_at.split("T")[0] : "");
+      setPersonalYqm(employee.personal_yqm || "");
+      setResume(employee.resume || "");
+      setPortfolioLinks(
+        employee.portfolio_links && employee.portfolio_links.length > 0
+          ? [...employee.portfolio_links]
+          : [""]
+      );
+      setError(null);
+      setSuccess(false);
+    }
+  }, [isOpen, employee]);
 
   if (!isOpen) return null;
 
@@ -109,10 +130,13 @@ export function EditEmployeeModal({
       }
 
       setSuccess(true);
+      if (onSaved && data.employee) {
+        onSaved(data.employee);
+      }
       setTimeout(() => {
         router.refresh();
         onClose();
-      }, 700);
+      }, 500);
     } catch (err: any) {
       setError(err.message || "Saqlashda xatolik yuz berdi");
     } finally {

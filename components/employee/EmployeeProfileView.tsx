@@ -34,11 +34,16 @@ function getInitials(name: string): string {
 }
 
 export function EmployeeProfileView({
-  employee,
+  employee: initialEmployee,
   positions,
   isAdmin,
 }: EmployeeProfileViewProps) {
+  const [employee, setEmployee] = useState(initialEmployee);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+
+  React.useEffect(() => {
+    setEmployee(initialEmployee);
+  }, [initialEmployee]);
 
   const position = employee.position;
   const department = position?.department;
@@ -210,17 +215,21 @@ export function EmployeeProfileView({
           </div>
 
           {/* Rezyume / Bio (Formatted Multi-line Text) */}
-          {employee.resume && (
-            <div className="mt-6 pt-6 border-t border-emerald-900/10 space-y-3">
-              <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-emerald-900/60">
-                <FileText className="w-4 h-4 text-brand-accent" />
-                <span>Rezyume va Tarjimai Hol</span>
-              </div>
-              <div className="p-5 rounded-2xl bg-emerald-50/30 border border-emerald-900/10 text-xs sm:text-sm text-slate-700 leading-relaxed whitespace-pre-line">
-                {employee.resume}
-              </div>
+          <div className="mt-6 pt-6 border-t border-emerald-900/10 space-y-3">
+            <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-emerald-900/60">
+              <FileText className="w-4 h-4 text-brand-accent" />
+              <span>Rezyume / Tarjimai Hol (Bio)</span>
             </div>
-          )}
+            {employee.resume || (employee as any).bio ? (
+              <div className="p-5 rounded-2xl bg-emerald-50/30 border border-emerald-900/10 text-xs sm:text-sm text-slate-700 leading-relaxed whitespace-pre-line">
+                {employee.resume || (employee as any).bio}
+              </div>
+            ) : (
+              <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200/80 text-xs sm:text-sm text-slate-400 italic">
+                Ushbu xodim haqida rezyume yoki bio ma&apos;lumotlari kiritilmagan.
+              </div>
+            )}
+          </div>
 
           {/* Portfolio & Documents External Links */}
           {employee.portfolio_links && employee.portfolio_links.length > 0 && (
@@ -259,6 +268,10 @@ export function EmployeeProfileView({
           positions={positions}
           isOpen={isEditModalOpen}
           onClose={() => setIsEditModalOpen(false)}
+          onSaved={(updated) => {
+            const pos = positions.find((p) => p.id === updated.position_id) || employee.position;
+            setEmployee({ ...updated, position: pos });
+          }}
         />
       )}
     </div>

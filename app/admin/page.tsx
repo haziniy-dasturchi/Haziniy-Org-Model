@@ -13,6 +13,8 @@ import {
 } from "@/lib/dataStore";
 
 export const dynamic = "force-dynamic";
+export const revalidate = 0;
+export const fetchCache = "force-no-store";
 
 function checkAdmin() {
   const cookieStore = cookies();
@@ -31,7 +33,7 @@ export default async function AdminPage() {
     redirect("/login?redirect=/admin");
   }
 
-  await ensureStoreSyncedFromSupabase();
+  await ensureStoreSyncedFromSupabase(true);
   const departments = getDepartments();
   const positions = getPositions();
   const employees = getEmployees();

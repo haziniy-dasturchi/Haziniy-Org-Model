@@ -189,12 +189,16 @@ export function InteractiveTreeCanvas({ departments, mode }: InteractiveTreeCanv
     employees: allBoshqaruvPositions.length > 1 ? allBoshqaruvPositions[1]?.employees || [] : [],
   };
 
+  const allEmployees = departments.flatMap((d) => (d.positions || []).flatMap((p) => p.employees || []));
+
   const asoschiEmp =
     (asoschiPos.employees && asoschiPos.employees.length > 0 ? asoschiPos.employees[0] : null) ||
+    allEmployees.find((e) => e.position_id === asoschiPos.id || e.id === "asoschi-test-emp") ||
     DEFAULT_TEST_EMPLOYEES[0];
 
   const menejerEmp =
     (menejerPos.employees && menejerPos.employees.length > 0 ? menejerPos.employees[0] : null) ||
+    allEmployees.find((e) => e.position_id === menejerPos.id || e.id === "menejer-test-emp") ||
     DEFAULT_TEST_EMPLOYEES[1];
 
   // Zoom Controls

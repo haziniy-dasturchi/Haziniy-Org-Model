@@ -114,12 +114,12 @@ export function EmployeeModal({
       await onSave({
         id: employee?.id,
         full_name: fullName.trim(),
-        position_id: positionId || undefined,
-        phone: phone.trim() || undefined,
-        photo_url: photoUrl.trim() || undefined,
-        hired_at: hiredAt || undefined,
-        personal_yqm: personalYqm.trim() || undefined,
-        resume: resume.trim() || undefined,
+        position_id: positionId || null,
+        phone: phone.trim() || null,
+        photo_url: photoUrl.trim() || null,
+        hired_at: hiredAt || null,
+        personal_yqm: personalYqm.trim() || null,
+        resume: resume.trim() || null,
         portfolio_links: portfolioLinks,
       });
       onClose();

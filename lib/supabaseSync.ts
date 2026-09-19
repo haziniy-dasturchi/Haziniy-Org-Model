@@ -22,6 +22,15 @@ export function getSyncSupabaseClient(forceFallback = false) {
   try {
     return createClient(url, key, {
       auth: { persistSession: false, autoRefreshToken: false },
+      global: {
+        fetch: (input: RequestInfo | URL, init?: RequestInit) => {
+          return fetch(input, {
+            ...init,
+            cache: "no-store",
+            next: { revalidate: 0 },
+          } as RequestInit);
+        },
+      },
     });
   } catch (err: any) {
     lastSupabaseSyncError = "Client creation failed: " + err.message;

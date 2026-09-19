@@ -13,7 +13,7 @@
       "name": "Moliya",
       "color_hex": "#B45309",
       "sort_order": 1,
-      "yqm_text": "KORXONANI KERAKLI VAQTDA YETARLI PUL MIQDORI BILAN TAMINLASH",
+      "yqm_text": "KORXONANI KERAKLI VAQTDA YETARLI PUL MIQDORI BILAN TAMINLASH KERAK",
       "created_at": "2026-09-19T09:56:41.497Z"
     },
     {
@@ -142,10 +142,9 @@
       "department_id": "dept-marketing",
       "title": "SMM menejer",
       "yqm_text": "Ijtimoiy tarmoqlarni yurgazish orqali murojaatlar sonini oshirish",
-      "status": "mavjud",
+      "status": "rejalashtirilgan",
       "sort_order": 3,
       "created_at": "2026-09-19T09:56:41.497Z",
-      "estimated_salary": 4500000,
       "branch_id": null
     },
     {
@@ -296,10 +295,9 @@
       "department_id": "dept-hr",
       "title": "HR menejer",
       "yqm_text": "Korxona uchun kerakli bo'lgan kadrlarni topish , tarbiyalash va xodimlarni olib qolish",
-      "status": "mavjud",
+      "status": "rejalashtirilgan",
       "sort_order": 2,
       "created_at": "2026-09-19T09:56:41.497Z",
-      "estimated_salary": 5000000,
       "branch_id": null
     },
     {
@@ -1847,8 +1845,8 @@
     }
   ],
   "orgAnalysis": {
-    "id": "analysis-deterministic-03a9cf3d92bf304e65fe87b4330cd0e8",
-    "structure_hash": "03a9cf3d92bf304e65fe87b4330cd0e8",
+    "id": "analysis-deterministic-696389eae5eca8766f7eb872f0fe46a3",
+    "structure_hash": "696389eae5eca8766f7eb872f0fe46a3",
     "recommendations": [
       {
         "id": "rec-overlap-farrosh",
@@ -1864,33 +1862,33 @@
         "is_resolved": false
       },
       {
-        "id": "rec-span-filial-menejeri",
+        "id": "rec-span-pos-mkt-3",
         "priority": 2,
         "title": "Filial menejerlari va sifat nazorati",
         "text": "Filiallar ko'paymoqda, org strukturani kengaytirish kerak, endi har bir filial uchun menejer oling va asosiy filial menejeringizni ular ustidan rahbar qilib sifat nazorati xodimiga aylantiring!",
         "theory_basis": "span_of_control",
-        "suggested_position_id": null,
+        "suggested_position_id": "pos-mkt-3",
         "suggested_position_title": "Filial menejeri",
-        "target_department_id": null,
+        "target_department_id": "dept-marketing",
         "target_department_name": "Boshqaruv",
-        "is_new_suggested_role": true,
+        "is_new_suggested_role": false,
         "is_resolved": false
       },
       {
-        "id": "rec-target-pos-oquv-4",
+        "id": "rec-target-pos-hr-2",
         "priority": 3,
-        "title": "Metodist lavozimini ochish",
-        "text": "O'quv bo'limida ta'lim sifatini doimiy tekshirish uchun metodist lavozimi kerak, bu sarafan orqali o'quvchilar sonini barqaror oshirishga xizmat qiladi.",
-        "theory_basis": "vysotskiy",
-        "suggested_position_id": "pos-oquv-4",
-        "suggested_position_title": "Metodist",
-        "target_department_id": "dept-oquv",
-        "target_department_name": "O'quv",
+        "title": "HR menejer lavozimini ochish",
+        "text": "Tashkilot kengayishi bilan kadrlarni tanlash va o'qitish zarurati paydo bo'lmoqda, shuning uchun HR menejer lavozimini ochish kerak.",
+        "theory_basis": "span_of_control",
+        "suggested_position_id": "pos-hr-2",
+        "suggested_position_title": "HR menejer",
+        "target_department_id": "dept-hr",
+        "target_department_name": "HR",
         "is_new_suggested_role": false,
         "is_resolved": false
       }
     ],
-    "generated_at": "2026-09-19T17:12:56.380Z",
+    "generated_at": "2026-09-19T19:17:29.281Z",
     "is_resolved": false
   }
 }

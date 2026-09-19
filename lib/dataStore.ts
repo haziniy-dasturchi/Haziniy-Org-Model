@@ -15,7 +15,7 @@ import {
 
 let memoryStoreCache: OrgStoreSchema | null = null;
 let lastSyncTimestamp = 0;
-const SYNC_TTL_MS = 10000; // 10s TTL for serverless edge caching
+const SYNC_TTL_MS = 1000; // 1s TTL for serverless edge caching
 
 const isVercel = Boolean(process.env.VERCEL);
 const localDataDir = path.join(process.cwd(), "data");
@@ -61,7 +61,7 @@ function ensureDataDir() {
       fs.mkdirSync(dataDir, { recursive: true });
     }
   } catch (err) {
-    console.warn("Could not ensure data directory:", err);
+    console.error("Error creating data directory:", err);
   }
 }
 
@@ -75,7 +75,7 @@ function getInitialStore(): OrgStoreSchema {
     created_at: d.created_at || new Date().toISOString(),
   }));
 
-  const positions: Position[] = DEFAULT_SHEETS_DEPARTMENTS.flatMap((d) =>
+  const positions: (Position & { department_id?: string; branch_id?: string | null })[] = DEFAULT_SHEETS_DEPARTMENTS.flatMap((d) =>
     d.positions.map((p) => ({
       id: p.id,
       department_id: d.id,
@@ -112,7 +112,7 @@ function getInitialStore(): OrgStoreSchema {
   };
 }
 
-export async function ensureStoreSyncedFromSupabase(force = false): Promise<OrgStoreSchema> {
+export async function ensureStoreSyncedFromSupabase(force = true): Promise<OrgStoreSchema> {
   const now = Date.now();
   if (!force && memoryStoreCache && now - lastSyncTimestamp < SYNC_TTL_MS) {
     return memoryStoreCache;
@@ -272,7 +272,6 @@ export function saveDepartment(data: Partial<Department>): Department {
     store.departments.push(updatedDept);
   }
 
-  delete store.orgAnalysis;
   writeStore(store);
   return updatedDept;
 }
@@ -280,7 +279,6 @@ export function saveDepartment(data: Partial<Department>): Department {
 export function deleteDepartment(id: string): boolean {
   const store = readStore();
   store.departments = store.departments.filter((d) => d.id !== id);
-  delete store.orgAnalysis;
   writeStore(store);
   return true;
 }
@@ -360,7 +358,6 @@ export function savePosition(data: Partial<Position>): Position {
     store.positions.push(updatedPos);
   }
 
-  delete store.orgAnalysis;
   writeStore(store);
   return updatedPos;
 }
@@ -368,7 +365,6 @@ export function savePosition(data: Partial<Position>): Position {
 export function deletePosition(id: string): boolean {
   const store = readStore();
   store.positions = store.positions.filter((p) => p.id !== id);
-  delete store.orgAnalysis;
   writeStore(store);
   return true;
 }
@@ -422,46 +418,60 @@ export function saveEmployee(data: Partial<Employee>): Employee {
     const idx = store.employees.findIndex((e) => e.id === data.id);
     if (idx >= 0) {
       const current = store.employees[idx];
+      const incomingResume =
+        data.resume !== undefined
+          ? (data.resume ? data.resume.trim() : null)
+          : ((data as any).bio !== undefined
+              ? ((data as any).bio ? (data as any).bio.trim() : null)
+              : current.resume);
+
+      const incomingYqm =
+        data.personal_yqm !== undefined
+          ? (data.personal_yqm ? data.personal_yqm.trim() : null)
+          : current.personal_yqm;
+
       updatedEmp = {
         ...current,
         ...data,
         full_name: (data.full_name || current.full_name).trim(),
         position_id: data.position_id !== undefined ? (data.position_id || null) : current.position_id,
-        phone: data.phone !== undefined ? (data.phone || null) : current.phone,
-        photo_url: data.photo_url !== undefined ? (data.photo_url || null) : current.photo_url,
+        phone: data.phone !== undefined ? (data.phone ? data.phone.trim() : null) : current.phone,
+        photo_url: data.photo_url !== undefined ? (data.photo_url ? data.photo_url.trim() : null) : current.photo_url,
         hired_at: data.hired_at !== undefined ? (data.hired_at || null) : current.hired_at,
-        personal_yqm: data.personal_yqm !== undefined ? (data.personal_yqm || null) : current.personal_yqm,
-        resume: data.resume !== undefined ? (data.resume || null) : current.resume,
+        personal_yqm: incomingYqm,
+        resume: incomingResume,
         portfolio_links: Array.isArray(data.portfolio_links)
           ? data.portfolio_links
           : current.portfolio_links || [],
       };
       store.employees[idx] = updatedEmp;
     } else {
+      const newResume = data.resume ? data.resume.trim() : ((data as any).bio ? (data as any).bio.trim() : null);
       updatedEmp = {
         id: data.id,
         position_id: data.position_id || null,
         full_name: (data.full_name || "Yangi xodim").trim(),
-        phone: data.phone || null,
-        photo_url: data.photo_url || null,
+        phone: data.phone ? data.phone.trim() : null,
+        photo_url: data.photo_url ? data.photo_url.trim() : null,
         hired_at: data.hired_at || null,
-        personal_yqm: data.personal_yqm || null,
-        resume: data.resume || null,
+        personal_yqm: data.personal_yqm ? data.personal_yqm.trim() : null,
+        resume: newResume,
         portfolio_links: Array.isArray(data.portfolio_links) ? data.portfolio_links : [],
         created_at: new Date().toISOString(),
       };
       store.employees.push(updatedEmp);
     }
   } else {
+    const newResume = data.resume ? data.resume.trim() : ((data as any).bio ? (data as any).bio.trim() : null);
     updatedEmp = {
       id: "emp-" + Date.now(),
       position_id: data.position_id || null,
       full_name: (data.full_name || "Yangi xodim").trim(),
-      phone: data.phone || null,
-      photo_url: data.photo_url || null,
+      phone: data.phone ? data.phone.trim() : null,
+      photo_url: data.photo_url ? data.photo_url.trim() : null,
       hired_at: data.hired_at || null,
-      personal_yqm: data.personal_yqm || null,
-      resume: data.resume || null,
+      personal_yqm: data.personal_yqm ? data.personal_yqm.trim() : null,
+      resume: newResume,
       portfolio_links: Array.isArray(data.portfolio_links) ? data.portfolio_links : [],
       created_at: new Date().toISOString(),
     };
@@ -476,7 +486,6 @@ export function saveEmployee(data: Partial<Employee>): Employee {
     }
   }
 
-  delete store.orgAnalysis;
   writeStore(store);
   return updatedEmp;
 }
@@ -484,7 +493,6 @@ export function saveEmployee(data: Partial<Employee>): Employee {
 export function deleteEmployee(id: string): boolean {
   const store = readStore();
   store.employees = store.employees.filter((e) => e.id !== id);
-  delete store.orgAnalysis;
   writeStore(store);
   return true;
 }
@@ -552,7 +560,6 @@ export function saveBranch(data: Partial<Branch>): Branch {
     store.branches.push(updatedBranch);
   }
 
-  delete store.orgAnalysis;
   writeStore(store);
   return updatedBranch;
 }
@@ -561,7 +568,6 @@ export function deleteBranch(id: string): boolean {
   const store = readStore();
   if (Array.isArray(store.branches)) {
     store.branches = store.branches.filter((b) => b.id !== id);
-    delete store.orgAnalysis;
     writeStore(store);
   }
   return true;
@@ -667,11 +673,10 @@ export async function getLatestOrgAIAnalysis(forceRefresh: boolean = false): Pro
 
   const currentHash = getOrgStructureHash(departments, positions, employees, branches);
 
-  // Return saved store.orgAnalysis ONLY IF forceRefresh is false AND structure_hash matches the current state
+  // Return saved store.orgAnalysis if present and not force-refreshing
   if (
     !forceRefresh &&
     store.orgAnalysis &&
-    store.orgAnalysis.structure_hash === currentHash &&
     Array.isArray(store.orgAnalysis.recommendations) &&
     store.orgAnalysis.recommendations.length > 0
   ) {
@@ -679,7 +684,7 @@ export async function getLatestOrgAIAnalysis(forceRefresh: boolean = false): Pro
   }
 
   const fullDepartments = getFullOrgStructure();
-  const analysis = await analyzeOrgStructureWithGemini({
+  const freshAnalysis = await analyzeOrgStructureWithGemini({
     departments: fullDepartments,
     positions,
     employees,
@@ -687,9 +692,26 @@ export async function getLatestOrgAIAnalysis(forceRefresh: boolean = false): Pro
     structureHash: currentHash,
   });
 
-  store.orgAnalysis = analysis;
+  // Merge with existing resolved recommendations
+  if (store.orgAnalysis && Array.isArray(store.orgAnalysis.recommendations)) {
+    const existingResolved = store.orgAnalysis.recommendations.filter((r) => r.is_resolved);
+    for (const prev of existingResolved) {
+      const matchIdx = freshAnalysis.recommendations.findIndex(
+        (r) => r.id === prev.id || (prev.suggested_position_title && r.suggested_position_title === prev.suggested_position_title)
+      );
+      if (matchIdx >= 0) {
+        freshAnalysis.recommendations[matchIdx] = {
+          ...freshAnalysis.recommendations[matchIdx],
+          ...prev,
+          is_resolved: true,
+        };
+      }
+    }
+  }
+
+  store.orgAnalysis = freshAnalysis;
   writeStore(store);
-  return analysis;
+  return freshAnalysis;
 }
 
 export async function resolveOrgRecommendation(
@@ -769,23 +791,16 @@ export async function resolveOrgRecommendation(
     }
   }
 
-  // Lavozim mavjud holatga o'tgan yangilangan tuzilma bo'yicha to'liq yangi Top-3 tavsiyalar avtomatik hisoblanadi!
-  const fullDepartments = getFullOrgStructure();
   const branches = store.branches || DEFAULT_BRANCHES;
   const currentHash = getOrgStructureHash(store.departments, store.positions, store.employees, branches);
 
-  const freshAnalysis = await analyzeOrgStructureWithGemini({
-    departments: fullDepartments,
-    positions: store.positions,
-    employees: store.employees,
-    branches,
-    structureHash: currentHash,
-  });
+  if (store.orgAnalysis) {
+    store.orgAnalysis.structure_hash = currentHash;
+    store.orgAnalysis.is_resolved = store.orgAnalysis.recommendations.every((r) => r.is_resolved);
+  }
 
-  store.orgAnalysis = freshAnalysis;
   writeStore(store);
-
-  return { analysis: freshAnalysis, affectedPosition };
+  return { analysis: store.orgAnalysis, affectedPosition };
 }
 
 export async function updateOrgRecommendation(
