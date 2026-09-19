@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { checkAdminSession } from "@/lib/adminAuth";
 import { getPositions, savePosition, ensureStoreSyncedFromSupabase, syncCurrentStoreToCloud } from "@/lib/dataStore";
-import { fetchStoreSnapshotFromSupabase } from "@/lib/supabaseSync";
+import { fetchStoreSnapshotFromSupabase, lastSupabaseSyncError } from "@/lib/supabaseSync";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -26,6 +26,7 @@ export async function GET() {
         cloudDeptsCount: cloudSnapshot?.departments?.length || 0,
         cloudPositionsCount: cloudSnapshot?.positions?.length || 0,
         smmStatus: smm?.status,
+        lastSyncError: lastSupabaseSyncError,
       },
     }, { headers: NO_CACHE_HEADERS });
   } catch (err: any) {
