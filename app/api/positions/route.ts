@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { checkAdminSession } from "@/lib/adminAuth";
 import { getPositions, savePosition, ensureStoreSyncedFromSupabase, syncCurrentStoreToCloud } from "@/lib/dataStore";
+import { fetchStoreSnapshotFromSupabase } from "@/lib/supabaseSync";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -14,9 +15,19 @@ const NO_CACHE_HEADERS = {
 
 export async function GET() {
   try {
+    const cloudSnapshot = await fetchStoreSnapshotFromSupabase();
     await ensureStoreSyncedFromSupabase(true);
     const positions = getPositions();
-    return NextResponse.json({ positions }, { headers: NO_CACHE_HEADERS });
+    const smm = positions.find((p) => p.id === "pos-mkt-3");
+    return NextResponse.json({
+      positions,
+      _debug: {
+        hasCloudSnapshot: Boolean(cloudSnapshot),
+        cloudDeptsCount: cloudSnapshot?.departments?.length || 0,
+        cloudPositionsCount: cloudSnapshot?.positions?.length || 0,
+        smmStatus: smm?.status,
+      },
+    }, { headers: NO_CACHE_HEADERS });
   } catch (err: any) {
     return NextResponse.json({ error: err.message }, { status: 500, headers: NO_CACHE_HEADERS });
   }
