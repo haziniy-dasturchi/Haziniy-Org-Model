@@ -4,13 +4,37 @@
  * yielding high-resolution images of ~150-250KB that upload in milliseconds
  * and persist smoothly in Supabase.
  */
+/**
+ * Checks whether a URL, data URI or filename represents a PDF document.
+ */
+export function isPdf(url?: string | null): boolean {
+  if (!url) return false;
+  const lower = url.toLowerCase();
+  return (
+    lower.startsWith("data:application/pdf") ||
+    lower.endsWith(".pdf") ||
+    lower.includes(".pdf?") ||
+    lower.includes("/pdf") ||
+    lower.includes("application/pdf")
+  );
+}
+
 export async function compressImageFile(
   file: File,
   maxDimension = 1200,
   quality = 0.85
 ): Promise<File> {
-  // If not an image or SVG/GIF, return as-is
-  if (!file.type.startsWith("image/") || file.type === "image/svg+xml" || file.type === "image/gif") {
+  // If PDF, non-image, SVG or GIF, return file as-is without canvas compression
+  const isPdfFile =
+    file.type === "application/pdf" ||
+    file.name.toLowerCase().endsWith(".pdf");
+
+  if (
+    isPdfFile ||
+    !file.type.startsWith("image/") ||
+    file.type === "image/svg+xml" ||
+    file.type === "image/gif"
+  ) {
     return file;
   }
 

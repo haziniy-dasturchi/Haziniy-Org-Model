@@ -20,7 +20,16 @@ export async function POST(request: NextRequest) {
 
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);
-    const mimeType = file.type || "image/jpeg";
+    
+    let mimeType = file.type;
+    const lowerName = (file.name || "").toLowerCase();
+    if (!mimeType || mimeType === "application/octet-stream") {
+      if (lowerName.endsWith(".pdf")) mimeType = "application/pdf";
+      else if (lowerName.endsWith(".png")) mimeType = "image/png";
+      else if (lowerName.endsWith(".webp")) mimeType = "image/webp";
+      else mimeType = "image/jpeg";
+    }
+
     const base64Data = buffer.toString("base64");
     const dataUrl = `data:${mimeType};base64,${base64Data}`;
 
@@ -31,7 +40,7 @@ export async function POST(request: NextRequest) {
       if (!fs.existsSync(uploadsDir)) {
         fs.mkdirSync(uploadsDir, { recursive: true });
       }
-      const ext = path.extname(file.name) || ".jpg";
+      const ext = path.extname(file.name) || (mimeType === "application/pdf" ? ".pdf" : ".jpg");
       const fileName = `emp_${Date.now()}_${Math.random().toString(36).substring(2, 8)}${ext}`;
       const filePath = path.join(uploadsDir, fileName);
       fs.writeFileSync(filePath, buffer);

@@ -1,9 +1,9 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
-import { X, User, Upload, Plus, Trash2, Save, Image as ImageIcon, Award, Loader2 } from "lucide-react";
+import { X, User, Upload, Plus, Trash2, Save, Image as ImageIcon, Award, Loader2, FileText } from "lucide-react";
 import { Employee, Position, Department, CertificateItem } from "@/types";
-import { compressImageFile } from "@/lib/imageUtils";
+import { compressImageFile, isPdf } from "@/lib/imageUtils";
 
 interface EmployeeModalProps {
   isOpen: boolean;
@@ -385,7 +385,7 @@ export function EmployeeModal({
                 ) : (
                   <>
                     <Plus className="w-3.5 h-3.5" />
-                    <span>Sertifikat qo&apos;shish</span>
+                    <span>Sertifikat qo&apos;shish (Rasm/PDF)</span>
                   </>
                 )}
               </button>
@@ -393,7 +393,7 @@ export function EmployeeModal({
               <input
                 ref={certFileInputRef}
                 type="file"
-                accept="image/*"
+                accept="image/*,application/pdf,.pdf"
                 onChange={handleCertificateUpload}
                 className="hidden"
               />
@@ -401,7 +401,7 @@ export function EmployeeModal({
 
             {certificates.length === 0 ? (
               <div className="p-4 rounded-2xl border border-dashed border-slate-200 text-center text-xs text-slate-400 bg-slate-50/50">
-                Ushbu xodim uchun sertifikatlar yuklanmagan. Yuqoridagi tugma orqali rasm yuklashingiz mumkin.
+                Ushbu xodim uchun sertifikatlar yuklanmagan. Yuqoridagi tugma orqali rasm yoki PDF yuklashingiz mumkin.
               </div>
             ) : (
               <div className="space-y-2.5 max-h-56 overflow-y-auto pr-1">
@@ -410,12 +410,19 @@ export function EmployeeModal({
                     key={cert.id}
                     className="flex items-center gap-3 p-2.5 rounded-2xl border border-slate-200 bg-slate-50/70 hover:bg-slate-50 transition"
                   >
-                    {/* Thumbnail preview */}
-                    <img
-                      src={cert.image_url}
-                      alt={cert.title}
-                      className="w-12 h-12 rounded-xl object-cover border border-slate-200 bg-white shrink-0"
-                    />
+                    {/* Thumbnail preview: Image or PDF Badge */}
+                    {isPdf(cert.image_url) ? (
+                      <div className="w-12 h-12 rounded-xl bg-rose-50 border border-rose-200 flex flex-col items-center justify-center text-rose-600 shrink-0 font-bold text-[10px] shadow-2xs">
+                        <FileText className="w-5 h-5 text-rose-500" />
+                        <span>PDF</span>
+                      </div>
+                    ) : (
+                      <img
+                        src={cert.image_url}
+                        alt={cert.title}
+                        className="w-12 h-12 rounded-xl object-cover border border-slate-200 bg-white shrink-0"
+                      />
+                    )}
 
                     {/* Inputs */}
                     <div className="flex-1 min-w-0 grid grid-cols-1 sm:grid-cols-2 gap-2">
