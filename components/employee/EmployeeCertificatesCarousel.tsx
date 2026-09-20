@@ -11,7 +11,6 @@ import {
   X,
   Calendar,
   ExternalLink,
-  Sparkles,
   FileText,
   Download,
   Eye,
@@ -139,9 +138,8 @@ export function EmployeeCertificatesCarousel({
                 />
 
                 {/* Top Ribbon Tag */}
-                <div className="absolute top-3 left-3 bg-brand-dark/90 backdrop-blur-md text-amber-300 border border-amber-400/40 text-[10px] font-bold px-2.5 py-1 rounded-xl shadow-xs flex items-center gap-1 z-10">
-                  <Sparkles className="w-3 h-3 text-amber-400" />
-                  <span>Tasdiqlangan PDF</span>
+                <div className="absolute top-3 left-3 bg-brand-dark/90 backdrop-blur-md text-amber-300 border border-amber-400/40 text-[10px] font-bold px-3 py-1 rounded-xl shadow-xs z-10">
+                  <span>Tasdiqlangan</span>
                 </div>
 
                 {/* Big PDF Document Card Presentation */}
@@ -188,8 +186,7 @@ export function EmployeeCertificatesCarousel({
                 </div>
 
                 {/* Top Ribbon Tag */}
-                <div className="absolute top-3 left-3 bg-brand-dark/85 backdrop-blur-md text-amber-300 border border-amber-400/40 text-[10px] font-bold px-2.5 py-1 rounded-xl shadow-xs flex items-center gap-1">
-                  <Sparkles className="w-3 h-3 text-amber-400" />
+                <div className="absolute top-3 left-3 bg-brand-dark/85 backdrop-blur-md text-amber-300 border border-amber-400/40 text-[10px] font-bold px-3 py-1 rounded-xl shadow-xs">
                   <span>Tasdiqlangan</span>
                 </div>
               </div>
