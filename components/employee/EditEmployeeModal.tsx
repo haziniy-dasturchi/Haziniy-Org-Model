@@ -1,8 +1,9 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
-import { Employee, Position, Department } from "@/types";
+import { Employee, Position, Department, CertificateItem } from "@/types";
+import { compressImageFile } from "@/lib/imageUtils";
 import {
   X,
   Save,
@@ -19,6 +20,7 @@ import {
   FileText,
   Link as LinkIcon,
   Image as ImageIcon,
+  Upload,
 } from "lucide-react";
 
 interface EditEmployeeModalProps {
@@ -54,12 +56,20 @@ export function EditEmployeeModal({
       ? [...employee.portfolio_links]
       : [""]
   );
+  const [certificates, setCertificates] = useState<CertificateItem[]>(
+    Array.isArray(employee.certificates) ? [...employee.certificates] : []
+  );
 
+  const [isUploadingPhoto, setIsUploadingPhoto] = useState(false);
+  const [isUploadingCert, setIsUploadingCert] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
 
-  React.useEffect(() => {
+  const photoInputRef = useRef<HTMLInputElement>(null);
+  const certFileInputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
     if (isOpen) {
       setFullName(employee.full_name || "");
       setPositionId(employee.position_id || "");
@@ -73,12 +83,95 @@ export function EditEmployeeModal({
           ? [...employee.portfolio_links]
           : [""]
       );
+      setCertificates(Array.isArray(employee.certificates) ? [...employee.certificates] : []);
       setError(null);
       setSuccess(false);
     }
   }, [isOpen, employee]);
 
   if (!isOpen) return null;
+
+  const handlePhotoUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    try {
+      setIsUploadingPhoto(true);
+      setError(null);
+
+      const compressed = await compressImageFile(file);
+      const formData = new FormData();
+      formData.append("file", compressed);
+
+      const res = await fetch("/api/upload", {
+        method: "POST",
+        body: formData,
+      });
+
+      const data = await res.json();
+      if (!res.ok || data.error) {
+        throw new Error(data.error || "Surat yuklashda xatolik");
+      }
+
+      setPhotoUrl(data.url);
+    } catch (err: any) {
+      setError(err.message || "Surat yuklab bo'lmadi");
+    } finally {
+      setIsUploadingPhoto(false);
+      if (photoInputRef.current) photoInputRef.current.value = "";
+    }
+  };
+
+  const handleCertificateUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    try {
+      setIsUploadingCert(true);
+      setError(null);
+
+      const compressed = await compressImageFile(file);
+      const formData = new FormData();
+      formData.append("file", compressed);
+
+      const res = await fetch("/api/upload", {
+        method: "POST",
+        body: formData,
+      });
+
+      const data = await res.json();
+      if (!res.ok || data.error) {
+        throw new Error(data.error || "Sertifikat yuklashda xatolik");
+      }
+
+      const defaultTitle =
+        file.name.replace(/\.[^/.]+$/, "").replace(/[-_]/g, " ").trim() || "Sertifikat";
+
+      const newCert: CertificateItem = {
+        id: "cert-" + Date.now(),
+        title: defaultTitle,
+        image_url: data.url,
+        issued_date: "",
+      };
+
+      setCertificates((prev) => [...prev, newCert]);
+      if (certFileInputRef.current) certFileInputRef.current.value = "";
+    } catch (err: any) {
+      setError(err.message || "Sertifikat yuklab bo'lmadi");
+    } finally {
+      setIsUploadingCert(false);
+    }
+  };
+
+  const handleRemoveCert = (id: string) => {
+    setCertificates((prev) => prev.filter((c) => c.id !== id));
+  };
+
+  const handleCertChange = (id: string, field: "title" | "issued_date", val: string) => {
+    setCertificates((prev) =>
+      prev.map((c) => (c.id === id ? { ...c, [field]: val } : c))
+    );
+  };
 
   const handleAddLink = () => {
     setPortfolioLinks([...portfolioLinks, ""]);
@@ -120,6 +213,7 @@ export function EditEmployeeModal({
           personal_yqm: personalYqm.trim() || null,
           resume: resume.trim() || null,
           portfolio_links: cleanLinks,
+          certificates,
         }),
       });
 
@@ -188,6 +282,65 @@ export function EditEmployeeModal({
             </div>
           )}
 
+          {/* Avatar Upload Section */}
+          <div className="p-4 rounded-2xl bg-emerald-50/30 border border-emerald-900/10 flex items-center gap-4">
+            <div className="relative shrink-0">
+              {photoUrl ? (
+                <img
+                  src={photoUrl}
+                  alt={fullName || "Xodim"}
+                  className="w-16 h-16 rounded-2xl object-cover border-2 border-white shadow-md bg-white ring-1 ring-emerald-900/10"
+                />
+              ) : (
+                <div className="w-16 h-16 rounded-2xl bg-slate-100 border-2 border-white shadow-inner flex items-center justify-center text-slate-400">
+                  <ImageIcon className="w-6 h-6" />
+                </div>
+              )}
+            </div>
+
+            <div className="flex-1 min-w-0">
+              <span className="block text-xs font-bold text-brand-dark mb-1">Xodim fotosurati</span>
+              <p className="text-[11px] text-slate-500 mb-2">Qurilmadan rasm tanlang yoki URL kiriting</p>
+
+              <div className="flex items-center gap-2 flex-wrap">
+                <input
+                  type="file"
+                  ref={photoInputRef}
+                  onChange={handlePhotoUpload}
+                  accept="image/*"
+                  className="hidden"
+                />
+                <button
+                  type="button"
+                  onClick={() => photoInputRef.current?.click()}
+                  disabled={isUploadingPhoto}
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white border border-emerald-900/15 hover:bg-emerald-50 text-xs font-bold text-brand-dark shadow-2xs transition cursor-pointer disabled:opacity-50"
+                >
+                  {isUploadingPhoto ? (
+                    <>
+                      <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                      <span>Yuklanmoqda...</span>
+                    </>
+                  ) : (
+                    <>
+                      <Upload className="w-3.5 h-3.5 text-brand-accent" />
+                      <span>Fayl tanlash</span>
+                    </>
+                  )}
+                </button>
+                {photoUrl && (
+                  <button
+                    type="button"
+                    onClick={() => setPhotoUrl("")}
+                    className="text-xs text-rose-600 hover:underline cursor-pointer"
+                  >
+                    O&apos;chirish
+                  </button>
+                )}
+              </div>
+            </div>
+          </div>
+
           {/* 1. Full Name */}
           <div>
             <label className="block text-xs font-bold text-slate-700 mb-1">
@@ -253,21 +406,7 @@ export function EditEmployeeModal({
             </div>
           </div>
 
-          {/* 4. Photo URL */}
-          <div>
-            <label className="block text-xs font-bold text-slate-700 mb-1">
-              Surat havolasi (Photo URL)
-            </label>
-            <input
-              type="url"
-              value={photoUrl}
-              onChange={(e) => setPhotoUrl(e.target.value)}
-              placeholder="https://example.com/photo.jpg"
-              className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 bg-white text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-brand-accent/30 focus:border-brand-accent"
-            />
-          </div>
-
-          {/* 5. Shaxsiy YQM */}
+          {/* 4. Shaxsiy YQM */}
           <div>
             <label className="block text-xs font-bold text-slate-700 mb-1 flex items-center gap-1.5">
               <Award className="w-3.5 h-3.5 text-amber-600" />
@@ -282,7 +421,7 @@ export function EditEmployeeModal({
             />
           </div>
 
-          {/* 6. Rezyume / Bio */}
+          {/* 5. Rezyume / Bio */}
           <div>
             <label className="block text-xs font-bold text-slate-700 mb-1 flex items-center gap-1.5">
               <FileText className="w-3.5 h-3.5 text-slate-500" />
@@ -297,8 +436,95 @@ export function EditEmployeeModal({
             />
           </div>
 
+          {/* 6. Sertifikatlar va Diplomlar */}
+          <div className="pt-2 border-t border-emerald-900/10">
+            <div className="flex items-center justify-between mb-2">
+              <label className="text-xs font-bold text-brand-dark flex items-center gap-1.5">
+                <Award className="w-3.5 h-3.5 text-amber-500" />
+                <span>Sertifikatlar va Diplomlar ({certificates.length})</span>
+              </label>
+
+              <button
+                type="button"
+                onClick={() => certFileInputRef.current?.click()}
+                disabled={isUploadingCert}
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-50 hover:bg-amber-100 text-amber-900 border border-amber-200 text-xs font-bold transition active:scale-95 cursor-pointer disabled:opacity-50"
+              >
+                {isUploadingCert ? (
+                  <>
+                    <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                    <span>Yuklanmoqda...</span>
+                  </>
+                ) : (
+                  <>
+                    <Plus className="w-3.5 h-3.5" />
+                    <span>Sertifikat qo&apos;shish</span>
+                  </>
+                )}
+              </button>
+
+              <input
+                ref={certFileInputRef}
+                type="file"
+                accept="image/*"
+                onChange={handleCertificateUpload}
+                className="hidden"
+              />
+            </div>
+
+            {certificates.length === 0 ? (
+              <div className="p-4 rounded-2xl border border-dashed border-slate-200 text-center text-xs text-slate-400 bg-slate-50/50">
+                Ushbu xodim uchun sertifikatlar yuklanmagan. Yuqoridagi tugma orqali rasm yuklashingiz mumkin.
+              </div>
+            ) : (
+              <div className="space-y-2.5 max-h-56 overflow-y-auto pr-1">
+                {certificates.map((cert) => (
+                  <div
+                    key={cert.id}
+                    className="flex items-center gap-3 p-2.5 rounded-2xl border border-slate-200 bg-slate-50/70 hover:bg-slate-50 transition"
+                  >
+                    {/* Thumbnail preview */}
+                    <img
+                      src={cert.image_url}
+                      alt={cert.title}
+                      className="w-12 h-12 rounded-xl object-cover border border-slate-200 bg-white shrink-0 shadow-2xs"
+                    />
+
+                    {/* Inputs */}
+                    <div className="flex-1 min-w-0 grid grid-cols-1 sm:grid-cols-2 gap-2">
+                      <input
+                        type="text"
+                        value={cert.title}
+                        onChange={(e) => handleCertChange(cert.id, "title", e.target.value)}
+                        placeholder="Sertifikat nomi..."
+                        className="px-3 py-1.5 rounded-xl border border-slate-200 bg-white text-xs font-medium text-slate-800 outline-none focus:border-brand-accent transition"
+                      />
+                      <input
+                        type="text"
+                        value={cert.issued_date || ""}
+                        onChange={(e) => handleCertChange(cert.id, "issued_date", e.target.value)}
+                        placeholder="Berilgan sana (masalan: 2024)..."
+                        className="px-3 py-1.5 rounded-xl border border-slate-200 bg-white text-xs font-medium text-slate-800 outline-none focus:border-brand-accent transition"
+                      />
+                    </div>
+
+                    {/* Remove button */}
+                    <button
+                      type="button"
+                      onClick={() => handleRemoveCert(cert.id)}
+                      className="p-2 rounded-xl text-rose-500 hover:bg-rose-50 transition shrink-0 cursor-pointer"
+                      title="O'chirish"
+                    >
+                      <Trash2 className="w-4 h-4" />
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+
           {/* 7. Portfolio Links */}
-          <div>
+          <div className="pt-2 border-t border-emerald-900/10">
             <div className="flex items-center justify-between mb-2">
               <label className="block text-xs font-bold text-slate-700 flex items-center gap-1.5">
                 <LinkIcon className="w-3.5 h-3.5 text-slate-500" />
@@ -307,7 +533,7 @@ export function EditEmployeeModal({
               <button
                 type="button"
                 onClick={handleAddLink}
-                className="inline-flex items-center gap-1 text-[11px] font-bold text-brand-accent hover:underline"
+                className="inline-flex items-center gap-1 text-[11px] font-bold text-brand-accent hover:underline cursor-pointer"
               >
                 <Plus className="w-3 h-3" /> Havola qo&apos;shish
               </button>
@@ -327,7 +553,7 @@ export function EditEmployeeModal({
                     <button
                       type="button"
                       onClick={() => handleRemoveLink(idx)}
-                      className="p-2 text-rose-400 hover:text-rose-600 hover:bg-rose-50 rounded-xl transition"
+                      className="p-2 text-rose-400 hover:text-rose-600 hover:bg-rose-50 rounded-xl transition cursor-pointer"
                     >
                       <Trash2 className="w-4 h-4" />
                     </button>

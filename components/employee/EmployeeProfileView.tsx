@@ -17,6 +17,7 @@ import {
 } from "lucide-react";
 import { Employee, Position, Department } from "@/types";
 import { EditEmployeeModal } from "./EditEmployeeModal";
+import { EmployeeCertificatesCarousel } from "./EmployeeCertificatesCarousel";
 
 interface EmployeeProfileViewProps {
   employee: Employee & {
@@ -230,6 +231,12 @@ export function EmployeeProfileView({
               </div>
             )}
           </div>
+
+          {/* Sertifikatlar va Diplomlar Karuseli */}
+          <EmployeeCertificatesCarousel
+            certificates={employee.certificates}
+            employeeName={employee.full_name}
+          />
 
           {/* Portfolio & Documents External Links */}
           {employee.portfolio_links && employee.portfolio_links.length > 0 && (

@@ -38,6 +38,7 @@ export async function POST(request: NextRequest) {
       personal_yqm,
       resume,
       portfolio_links,
+      certificates,
     } = body;
 
     if (!full_name || !full_name.trim()) {
@@ -55,6 +56,7 @@ export async function POST(request: NextRequest) {
       personal_yqm: personal_yqm ? personal_yqm.trim() : null,
       resume: resume ? resume.trim() : null,
       portfolio_links: Array.isArray(portfolio_links) ? portfolio_links : [],
+      certificates: Array.isArray(certificates) ? certificates : [],
     });
 
     await syncCurrentStoreToCloud();

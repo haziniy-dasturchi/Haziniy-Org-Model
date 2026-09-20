@@ -443,6 +443,9 @@ export function saveEmployee(data: Partial<Employee>): Employee {
         portfolio_links: Array.isArray(data.portfolio_links)
           ? data.portfolio_links
           : current.portfolio_links || [],
+        certificates: Array.isArray(data.certificates)
+          ? data.certificates
+          : current.certificates || [],
       };
       store.employees[idx] = updatedEmp;
     } else {
@@ -457,6 +460,7 @@ export function saveEmployee(data: Partial<Employee>): Employee {
         personal_yqm: data.personal_yqm ? data.personal_yqm.trim() : null,
         resume: newResume,
         portfolio_links: Array.isArray(data.portfolio_links) ? data.portfolio_links : [],
+        certificates: Array.isArray(data.certificates) ? data.certificates : [],
         created_at: new Date().toISOString(),
       };
       store.employees.push(updatedEmp);
@@ -473,6 +477,7 @@ export function saveEmployee(data: Partial<Employee>): Employee {
       personal_yqm: data.personal_yqm ? data.personal_yqm.trim() : null,
       resume: newResume,
       portfolio_links: Array.isArray(data.portfolio_links) ? data.portfolio_links : [],
+      certificates: Array.isArray(data.certificates) ? data.certificates : [],
       created_at: new Date().toISOString(),
     };
     store.employees.push(updatedEmp);

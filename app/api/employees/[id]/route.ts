@@ -47,6 +47,7 @@ export async function PUT(
       personal_yqm,
       resume,
       portfolio_links,
+      certificates,
     } = body;
 
     await ensureStoreSyncedFromSupabase(true);
@@ -61,6 +62,7 @@ export async function PUT(
       personal_yqm,
       resume,
       portfolio_links,
+      certificates,
     });
 
     await syncCurrentStoreToCloud();

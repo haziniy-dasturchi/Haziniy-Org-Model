@@ -1,8 +1,9 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
-import { X, User, Upload, Plus, Trash2, Save, Image as ImageIcon } from "lucide-react";
-import { Employee, Position, Department } from "@/types";
+import { X, User, Upload, Plus, Trash2, Save, Image as ImageIcon, Award, Loader2 } from "lucide-react";
+import { Employee, Position, Department, CertificateItem } from "@/types";
+import { compressImageFile } from "@/lib/imageUtils";
 
 interface EmployeeModalProps {
   isOpen: boolean;
@@ -28,12 +29,15 @@ export function EmployeeModal({
   const [resume, setResume] = useState("");
   const [portfolioLinks, setPortfolioLinks] = useState<string[]>([]);
   const [newLink, setNewLink] = useState("");
+  const [certificates, setCertificates] = useState<CertificateItem[]>([]);
 
   const [isUploading, setIsUploading] = useState(false);
+  const [isUploadingCert, setIsUploadingCert] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const certFileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     if (employee) {
@@ -45,6 +49,7 @@ export function EmployeeModal({
       setPersonalYqm(employee.personal_yqm || "");
       setResume(employee.resume || "");
       setPortfolioLinks(Array.isArray(employee.portfolio_links) ? employee.portfolio_links : []);
+      setCertificates(Array.isArray(employee.certificates) ? [...employee.certificates] : []);
     } else {
       setFullName("");
       setPositionId(positions[0]?.id || "");
@@ -54,6 +59,7 @@ export function EmployeeModal({
       setPersonalYqm("");
       setResume("");
       setPortfolioLinks([]);
+      setCertificates([]);
     }
     setNewLink("");
     setError(null);
@@ -69,8 +75,9 @@ export function EmployeeModal({
       setIsUploading(true);
       setError(null);
 
+      const compressed = await compressImageFile(file);
       const formData = new FormData();
-      formData.append("file", file);
+      formData.append("file", compressed);
 
       const res = await fetch("/api/upload", {
         method: "POST",
@@ -88,6 +95,57 @@ export function EmployeeModal({
     } finally {
       setIsUploading(false);
     }
+  };
+
+  const handleCertificateUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    try {
+      setIsUploadingCert(true);
+      setError(null);
+
+      const compressed = await compressImageFile(file);
+      const formData = new FormData();
+      formData.append("file", compressed);
+
+      const res = await fetch("/api/upload", {
+        method: "POST",
+        body: formData,
+      });
+
+      const data = await res.json();
+      if (!res.ok || data.error) {
+        throw new Error(data.error || "Sertifikat yuklashda xatolik");
+      }
+
+      const defaultTitle =
+        file.name.replace(/\.[^/.]+$/, "").replace(/[-_]/g, " ").trim() || "Sertifikat";
+
+      const newCert: CertificateItem = {
+        id: "cert-" + Date.now(),
+        title: defaultTitle,
+        image_url: data.url,
+        issued_date: "",
+      };
+
+      setCertificates((prev) => [...prev, newCert]);
+      if (certFileInputRef.current) certFileInputRef.current.value = "";
+    } catch (err: any) {
+      setError(err.message || "Sertifikat yuklab bo'lmadi");
+    } finally {
+      setIsUploadingCert(false);
+    }
+  };
+
+  const handleRemoveCert = (id: string) => {
+    setCertificates((prev) => prev.filter((c) => c.id !== id));
+  };
+
+  const handleCertChange = (id: string, field: "title" | "issued_date", val: string) => {
+    setCertificates((prev) =>
+      prev.map((c) => (c.id === id ? { ...c, [field]: val } : c))
+    );
   };
 
   const handleAddLink = () => {
@@ -121,6 +179,7 @@ export function EmployeeModal({
         personal_yqm: personalYqm.trim() || null,
         resume: resume.trim() || null,
         portfolio_links: portfolioLinks,
+        certificates,
       });
       onClose();
     } catch (err: any) {
@@ -302,6 +361,93 @@ export function EmployeeModal({
               placeholder="Xodimning tajribasi, yutuqlari va o'quv faoliyati haqida..."
               className="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:border-brand-accent focus:ring-2 focus:ring-blue-100 text-xs sm:text-sm font-medium text-slate-800 outline-none transition leading-relaxed resize-none"
             />
+          </div>
+
+          {/* Sertifikatlar va Diplomlar */}
+          <div className="pt-2">
+            <div className="flex items-center justify-between mb-2">
+              <label className="text-xs font-bold text-slate-700 uppercase tracking-wider flex items-center gap-1.5">
+                <Award className="w-3.5 h-3.5 text-amber-500" />
+                <span>Sertifikatlar va Diplomlar ({certificates.length})</span>
+              </label>
+
+              <button
+                type="button"
+                onClick={() => certFileInputRef.current?.click()}
+                disabled={isUploadingCert}
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-50 hover:bg-amber-100 text-amber-900 border border-amber-200 text-xs font-bold transition active:scale-95 cursor-pointer disabled:opacity-50"
+              >
+                {isUploadingCert ? (
+                  <>
+                    <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                    <span>Yuklanmoqda...</span>
+                  </>
+                ) : (
+                  <>
+                    <Plus className="w-3.5 h-3.5" />
+                    <span>Sertifikat qo&apos;shish</span>
+                  </>
+                )}
+              </button>
+
+              <input
+                ref={certFileInputRef}
+                type="file"
+                accept="image/*"
+                onChange={handleCertificateUpload}
+                className="hidden"
+              />
+            </div>
+
+            {certificates.length === 0 ? (
+              <div className="p-4 rounded-2xl border border-dashed border-slate-200 text-center text-xs text-slate-400 bg-slate-50/50">
+                Ushbu xodim uchun sertifikatlar yuklanmagan. Yuqoridagi tugma orqali rasm yuklashingiz mumkin.
+              </div>
+            ) : (
+              <div className="space-y-2.5 max-h-56 overflow-y-auto pr-1">
+                {certificates.map((cert) => (
+                  <div
+                    key={cert.id}
+                    className="flex items-center gap-3 p-2.5 rounded-2xl border border-slate-200 bg-slate-50/70 hover:bg-slate-50 transition"
+                  >
+                    {/* Thumbnail preview */}
+                    <img
+                      src={cert.image_url}
+                      alt={cert.title}
+                      className="w-12 h-12 rounded-xl object-cover border border-slate-200 bg-white shrink-0"
+                    />
+
+                    {/* Inputs */}
+                    <div className="flex-1 min-w-0 grid grid-cols-1 sm:grid-cols-2 gap-2">
+                      <input
+                        type="text"
+                        value={cert.title}
+                        onChange={(e) => handleCertChange(cert.id, "title", e.target.value)}
+                        placeholder="Sertifikat nomi..."
+                        className="px-3 py-1.5 rounded-xl border border-slate-200 bg-white text-xs font-medium text-slate-800 outline-none focus:border-brand-accent transition"
+                      />
+                      <input
+                        type="text"
+                        value={cert.issued_date || ""}
+                        onChange={(e) => handleCertChange(cert.id, "issued_date", e.target.value)}
+                        placeholder="Berilgan sanasi (masalan: 2024)..."
+                        className="px-3 py-1.5 rounded-xl border border-slate-200 bg-white text-xs font-medium text-slate-800 outline-none focus:border-brand-accent transition"
+                      />
+                    </div>
+
+                    {/* Remove button */}
+                    <button
+                      type="button"
+                      onClick={() => handleRemoveCert(cert.id)}
+                      className="p-2 rounded-xl text-rose-500 hover:bg-rose-50 transition shrink-0"
+                      title="O'chirish"
+                    >
+                      <Trash2 className="w-4 h-4" />
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
 
           {/* Portfolio havolalari */}

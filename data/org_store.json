@@ -13,7 +13,7 @@
       "name": "Moliya",
       "color_hex": "#B45309",
       "sort_order": 1,
-      "yqm_text": "KORXONANI KERAKLI VAQTDA YETARLI PUL MIQDORI BILAN TAMINLASH KERAK",
+      "yqm_text": "KORXONANI KERAKLI VAQTDA YETARLI PUL MIQDORI BILAN TAMINLASH",
       "created_at": "2026-09-19T09:56:41.497Z"
     },
     {
@@ -295,7 +295,7 @@
       "department_id": "dept-hr",
       "title": "HR menejer",
       "yqm_text": "Korxona uchun kerakli bo'lgan kadrlarni topish , tarbiyalash va xodimlarni olib qolish",
-      "status": "rejalashtirilgan",
+      "status": "mavjud",
       "sort_order": 2,
       "created_at": "2026-09-19T09:56:41.497Z",
       "branch_id": null
@@ -315,10 +315,10 @@
       "department_id": "dept-texnik",
       "title": "Qorovul",
       "yqm_text": "Korxona xavfsizligini taminlash",
-      "status": "mavjud",
+      "status": "rejalashtirilgan",
       "sort_order": 2,
       "created_at": "2026-09-19T09:56:41.497Z",
-      "estimated_salary": 2500000
+      "branch_id": null
     },
     {
       "id": "pos-tex-3",
@@ -358,12 +358,12 @@
       "full_name": "Muhammad Said Hasan",
       "phone": "+998889692313",
       "personal_yqm": "Haziniy Ilm Maskani ta'lim va boshqaruv strategiyasi",
-      "resume": "Bosh rahbar va ta'lim maskani asoschisi.",
+      "resume": "Bosh rahbar va ta'lim maskani asoschisi.\n\n- Arab tili ustoz\n- Hidoya madrasasini tamomlagan",
       "portfolio_links": [],
       "created_at": "2026-09-19T09:56:41.497Z",
       "position_id": "pos-bosh-1",
-      "photo_url": "/uploads/emp_1789829674402_r743o3.png",
-      "hired_at": null
+      "photo_url": null,
+      "hired_at": "2025-01-01"
     },
     {
       "id": "menejer-test-emp",
@@ -372,8 +372,8 @@
       "phone": null,
       "photo_url": null,
       "hired_at": null,
-      "personal_yqm": "Operatsion boshqaruv va barcha bo'limlar integratsiyasi (Vaqtinchalik)",
-      "resume": "Ushbu profil Menejer lavozimi uchun vaqtinchalik yaratilgan. Haqiqiy ma'lumotlar Admin panel orqali to'ldiriladi.",
+      "personal_yqm": "Barcha bo'limlar o'rtasida uzviy integratsiyani ta'minlash",
+      "resume": "Xoldarov Azizbek — Bosh operatsion menejer. 5 yillik tajribaga ega.",
       "portfolio_links": [],
       "created_at": "2026-09-19T09:56:41.497Z"
     }
@@ -1845,21 +1845,22 @@
     }
   ],
   "orgAnalysis": {
-    "id": "analysis-deterministic-696389eae5eca8766f7eb872f0fe46a3",
-    "structure_hash": "696389eae5eca8766f7eb872f0fe46a3",
+    "id": "analysis-deterministic-412eb08cf1fd6d3e76e750e307b5c82c",
+    "structure_hash": "412eb08cf1fd6d3e76e750e307b5c82c",
     "recommendations": [
       {
         "id": "rec-overlap-farrosh",
         "priority": 1,
-        "title": "Tozalovchi (Farrosh) lavozimini joriy etish",
-        "text": "Admin ham tozalov ishlarini qilmoqda va hamma mijozlarga qaramoqda, bu holat mijozga xizmat sifatini tushurib yuboradi, shuning uchun ayni vaqtda bitta tozalovchi olishingiz kerak.",
+        "title": "Aasistent",
+        "text": "Adminning operatsion yuklamasini kamaytirish uchun tozalovchi olish shart.",
         "theory_basis": "face_overlap",
-        "suggested_position_id": null,
-        "suggested_position_title": "Farrosh",
-        "target_department_id": null,
-        "target_department_name": "Texnik",
+        "suggested_position_id": "pos-oquv-6",
+        "suggested_position_title": "Assistent",
+        "target_department_id": "dept-oquv",
+        "target_department_name": "O'quv",
         "is_new_suggested_role": true,
-        "is_resolved": false
+        "is_resolved": false,
+        "is_custom": true
       },
       {
         "id": "rec-span-pos-mkt-3",
@@ -1875,20 +1876,20 @@
         "is_resolved": false
       },
       {
-        "id": "rec-target-pos-hr-2",
+        "id": "rec-target-pos-oquv-4",
         "priority": 3,
-        "title": "HR menejer lavozimini ochish",
-        "text": "Tashkilot kengayishi bilan kadrlarni tanlash va o'qitish zarurati paydo bo'lmoqda, shuning uchun HR menejer lavozimini ochish kerak.",
-        "theory_basis": "span_of_control",
-        "suggested_position_id": "pos-hr-2",
-        "suggested_position_title": "HR menejer",
-        "target_department_id": "dept-hr",
-        "target_department_name": "HR",
+        "title": "Metodist lavozimini ochish",
+        "text": "O'quv bo'limida ta'lim sifatini doimiy tekshirish uchun metodist lavozimi kerak, bu sarafan orqali o'quvchilar sonini barqaror oshirishga xizmat qiladi.",
+        "theory_basis": "vysotskiy",
+        "suggested_position_id": "pos-oquv-4",
+        "suggested_position_title": "Metodist",
+        "target_department_id": "dept-oquv",
+        "target_department_name": "O'quv",
         "is_new_suggested_role": false,
         "is_resolved": false
       }
     ],
-    "generated_at": "2026-09-19T19:17:29.281Z",
+    "generated_at": "2026-09-19T19:57:33.531Z",
     "is_resolved": false
   }
 }

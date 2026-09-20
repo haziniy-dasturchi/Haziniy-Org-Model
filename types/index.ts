@@ -47,6 +47,13 @@ export interface Position {
   employees?: Employee[];
 }
 
+export interface CertificateItem {
+  id: string;
+  title: string;
+  image_url: string;
+  issued_date?: string | null;
+}
+
 export interface Employee {
   id: string;
   position_id: string | null;
@@ -57,6 +64,7 @@ export interface Employee {
   resume: string | null;
   portfolio_links: string[];
   personal_yqm: string | null;
+  certificates?: CertificateItem[];
   created_at: string;
   // Bog'langan lavozim (join qilinganda)
   position?: Position;
