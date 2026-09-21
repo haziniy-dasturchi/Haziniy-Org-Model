@@ -77,7 +77,7 @@ export function EmployeesTab({
     }
 
     showToast(isEdit ? "Xodim ma'lumotlari muvaffaqiyatli yangilandi!" : "Yangi xodim muvaffaqiyatli qo'shildi!");
-    await onRefresh();
+    onRefresh().catch(console.error);
   };
 
   const handleDelete = async () => {
@@ -100,7 +100,7 @@ export function EmployeesTab({
 
       showToast("Xodim muvaffaqiyatli o'chirildi!");
       setDeleteTarget(null);
-      await onRefresh();
+      onRefresh().catch(console.error);
     } catch (err: any) {
       showToast(err.message, "error");
     } finally {

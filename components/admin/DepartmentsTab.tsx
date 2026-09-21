@@ -66,7 +66,7 @@ export function DepartmentsTab({
     }
 
     showToast(isEdit ? "Bo'lim muvaffaqiyatli yangilandi!" : "Yangi bo'lim muvaffaqiyatli qo'shildi!");
-    await onRefresh();
+    onRefresh().catch(console.error);
   };
 
   const handleDelete = async () => {
@@ -89,7 +89,7 @@ export function DepartmentsTab({
 
       showToast("Bo'lim muvaffaqiyatli o'chirildi!");
       setDeleteTarget(null);
-      await onRefresh();
+      onRefresh().catch(console.error);
     } catch (err: any) {
       showToast(err.message, "error");
     } finally {

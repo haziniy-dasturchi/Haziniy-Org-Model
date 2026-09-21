@@ -62,7 +62,7 @@ export function FinanceTab({ snapshots, onRefresh }: FinanceTabProps) {
       }
 
       showToast("Moliya snapshoti o'chirildi!");
-      await onRefresh();
+      onRefresh().catch(console.error);
     } catch (err: any) {
       alert(err.message || "O'chirishda xatolik yuz berdi");
     } finally {
@@ -86,7 +86,7 @@ export function FinanceTab({ snapshots, onRefresh }: FinanceTabProps) {
     }
 
     showToast(isEdit ? "Moliya snapshoti muvaffaqiyatli yangilandi!" : "Yangi moliya snapshoti muvaffaqiyatli saqlandi!");
-    await onRefresh();
+    onRefresh().catch(console.error);
   };
 
   const latestSnapshot = snapshots[0] || null;

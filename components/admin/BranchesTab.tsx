@@ -55,7 +55,7 @@ export function BranchesTab({
       }
 
       showToast("Filial muvaffaqiyatli o'chirildi!");
-      await onRefresh();
+      onRefresh().catch(console.error);
     } catch (err: any) {
       alert(err.message || "O'chirishda xatolik yuz berdi");
     } finally {
@@ -85,7 +85,7 @@ export function BranchesTab({
     }
 
     showToast(isEdit ? "Filial muvaffaqiyatli yangilandi!" : "Yangi filial muvaffaqiyatli qo'shildi!");
-    await onRefresh();
+    onRefresh().catch(console.error);
   };
 
   const totalStudents = branches.reduce((sum, b) => sum + (Number(b.student_count) || 0), 0);
