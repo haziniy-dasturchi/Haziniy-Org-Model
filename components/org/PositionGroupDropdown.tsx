@@ -169,7 +169,7 @@ export function PositionGroupDropdown({
           type="button"
           onClick={() => setIsOpen(!isOpen)}
           aria-expanded={isOpen}
-          className="flex items-center justify-between w-full min-w-0 rounded-xl p-2 shadow-xs transition-all duration-200 hover:scale-[1.01] hover:brightness-105 active:scale-[0.99] cursor-pointer text-left select-none"
+          className="flex items-center justify-between w-full min-w-0 rounded-xl px-2 py-2 shadow-xs transition-all duration-200 hover:scale-[1.01] hover:brightness-105 active:scale-[0.99] cursor-pointer text-left select-none"
           style={{
             backgroundColor: color,
             boxShadow: `0 3px 10px -2px ${color}40`,
@@ -177,22 +177,22 @@ export function PositionGroupDropdown({
         >
           {/* Multi-user Avatar Icon */}
           <div className="relative flex-shrink-0">
-            <div className="flex h-7 w-7 sm:h-7.5 sm:w-7.5 items-center justify-center rounded-full bg-white/20 backdrop-blur-sm border border-white/40 text-white shadow-2xs">
-              <Users className="h-3.5 w-3.5" />
+            <div className="flex h-6 w-6 sm:h-6.5 sm:w-6.5 items-center justify-center rounded-full bg-white/20 backdrop-blur-sm border border-white/40 text-white shadow-2xs">
+              <Users className="h-3 w-3" />
             </div>
           </div>
 
-          {/* Lavozim nomi va soni */}
-          <div className="ml-2 min-w-0 flex-1 text-left text-white">
-            <p className="text-[11px] sm:text-[11.5px] font-black uppercase tracking-wider leading-tight break-words">
+          {/* Lavozim nomi va soni (bir qatorda to'liq sig'ishi uchun) */}
+          <div className="ml-1.5 min-w-0 flex-1 text-left text-white">
+            <p className="text-[10px] sm:text-[10.5px] font-black uppercase tracking-tight leading-none whitespace-nowrap">
               {position.title} ({employees.length})
             </p>
           </div>
 
           {/* O'ng tomondagi ochish/yopish strelkasi */}
-          <div className="w-5 h-5 rounded-full bg-white/20 flex items-center justify-center text-white flex-shrink-0 ml-1">
+          <div className="w-4.5 h-4.5 rounded-full bg-white/20 flex items-center justify-center text-white flex-shrink-0 ml-1">
             <ChevronDown
-              className={`w-3.5 h-3.5 transition-transform duration-200 ${
+              className={`w-3 h-3 transition-transform duration-200 ${
                 isOpen ? "rotate-180" : ""
               }`}
             />
