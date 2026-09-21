@@ -113,34 +113,9 @@ function getInitialStore(): OrgStoreSchema {
 }
 
 export async function ensureStoreSyncedFromSupabase(force = false): Promise<OrgStoreSchema> {
-  // If memoryStoreCache is not yet initialized (e.g. cold start), load from local/tmp disk in 0.1ms
-  if (!memoryStoreCache) {
-    memoryStoreCache = readStore();
-  }
-
   const now = Date.now();
-  if (!force && memoryStoreCache && now - lastSyncTimestamp < SYNC_TTL_MS) {
-    return memoryStoreCache;
-  }
-
-  // Stale-While-Revalidate: Return current memory/disk store IMMEDIATELY in 0ms!
-  // and revalidate from Supabase in the background!
-  if (!force && memoryStoreCache && Array.isArray(memoryStoreCache.departments) && memoryStoreCache.departments.length > 0) {
-    (async () => {
-      try {
-        const cloudSnapshot = await fetchStoreSnapshotFromSupabase();
-        if (cloudSnapshot && Array.isArray(cloudSnapshot.departments) && cloudSnapshot.departments.length > 0) {
-          memoryStoreCache = cloudSnapshot;
-          lastSyncTimestamp = Date.now();
-          try {
-            ensureDataDir();
-            fs.writeFileSync(storeFilePath, JSON.stringify(cloudSnapshot, null, 2), "utf8");
-          } catch {}
-        }
-      } catch (bgErr) {
-        console.warn("Background revalidate failed:", bgErr);
-      }
-    })();
+  // If memoryStoreCache was synced from Supabase within SYNC_TTL_MS and not forced, return it instantly
+  if (!force && memoryStoreCache && lastSyncTimestamp > 0 && now - lastSyncTimestamp < SYNC_TTL_MS) {
     return memoryStoreCache;
   }
 
@@ -148,7 +123,7 @@ export async function ensureStoreSyncedFromSupabase(force = false): Promise<OrgS
     const cloudSnapshot = await fetchStoreSnapshotFromSupabase();
     if (cloudSnapshot && Array.isArray(cloudSnapshot.departments) && cloudSnapshot.departments.length > 0) {
       memoryStoreCache = cloudSnapshot;
-      lastSyncTimestamp = now;
+      lastSyncTimestamp = Date.now();
       try {
         ensureDataDir();
         fs.writeFileSync(storeFilePath, JSON.stringify(cloudSnapshot, null, 2), "utf8");
@@ -159,9 +134,11 @@ export async function ensureStoreSyncedFromSupabase(force = false): Promise<OrgS
     console.warn("Could not sync store from Supabase:", err);
   }
 
-  const fallback = readStore();
-  memoryStoreCache = fallback;
-  return fallback;
+  // Fallback to local/tmp disk if Supabase is unreachable or empty
+  if (!memoryStoreCache) {
+    memoryStoreCache = readStore();
+  }
+  return memoryStoreCache;
 }
 
 export function readStore(): OrgStoreSchema {
@@ -193,7 +170,6 @@ export function readStore(): OrgStoreSchema {
           parsed.branches = DEFAULT_BRANCHES;
         }
         memoryStoreCache = parsed;
-        lastSyncTimestamp = Date.now();
         return parsed;
       }
     }
