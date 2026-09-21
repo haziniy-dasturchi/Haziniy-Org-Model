@@ -71,6 +71,18 @@ export interface Employee {
   position?: Position;
 }
 
+export function isTeachingOrSupportRole(positionTitle?: string | null): boolean {
+  if (!positionTitle) return false;
+  const t = positionTitle.toLowerCase();
+  return (
+    t.includes("ustoz") ||
+    t.includes("support") ||
+    t.includes("o'qituvchi") ||
+    t.includes("muallim")
+  );
+}
+
+
 // ==================== YANGI TUZILMAVIY AI TAVSIYA TURLARI ====================
 
 export type TheoryBasisType =

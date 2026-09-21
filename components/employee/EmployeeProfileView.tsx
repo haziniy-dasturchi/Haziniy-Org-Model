@@ -15,7 +15,7 @@ import {
   Shield,
   UserCheck,
 } from "lucide-react";
-import { Employee, Position, Department } from "@/types";
+import { Employee, Position, Department, isTeachingOrSupportRole } from "@/types";
 import { EditEmployeeModal } from "./EditEmployeeModal";
 import { EmployeeCertificatesCarousel } from "./EmployeeCertificatesCarousel";
 
@@ -49,6 +49,7 @@ export function EmployeeProfileView({
   const position = employee.position;
   const department = position?.department;
   const deptColor = department?.color_hex || "#00BC55";
+  const isTeacherOrSupport = isTeachingOrSupportRole(position?.title);
 
   function formatUzDate(dateStr: string | null | undefined): string | null {
     if (!dateStr) return null;
@@ -151,7 +152,7 @@ export function EmployeeProfileView({
                 </span>
               )}
 
-              {employee.subject && (
+              {isTeacherOrSupport && employee.subject && (
                 <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-amber-50 text-amber-900 text-xs font-bold border border-amber-200 shadow-2xs">
                   <Award className="w-3.5 h-3.5 text-amber-600" />
                   Fani: {employee.subject}
@@ -166,7 +167,11 @@ export function EmployeeProfileView({
               {employee.full_name}
             </h1>
             <p className="text-sm font-semibold text-emerald-800/80 uppercase tracking-wider text-xs">
-              {position ? (employee.subject ? `${position.title} • ${employee.subject}` : position.title) : "Lavozim belgilanmagan"}
+              {position
+                ? isTeacherOrSupport && employee.subject
+                  ? `${position.title} • ${employee.subject}`
+                  : position.title
+                : "Lavozim belgilanmagan"}
             </p>
 
             <div className="flex flex-wrap items-center gap-3 pt-2 text-xs text-slate-600">

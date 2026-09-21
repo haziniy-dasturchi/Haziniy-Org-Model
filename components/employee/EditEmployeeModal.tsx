@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
-import { Employee, Position, Department, CertificateItem } from "@/types";
+import { Employee, Position, Department, CertificateItem, isTeachingOrSupportRole } from "@/types";
 import { compressImageFile, isPdf } from "@/lib/imageUtils";
 import {
   X,
@@ -43,6 +43,7 @@ export function EditEmployeeModal({
   const router = useRouter();
 
   const [fullName, setFullName] = useState(employee.full_name || "");
+
   const [positionId, setPositionId] = useState(employee.position_id || "");
   const [phone, setPhone] = useState(employee.phone || "");
   const [photoUrl, setPhotoUrl] = useState(employee.photo_url || "");
@@ -69,6 +70,12 @@ export function EditEmployeeModal({
 
   const photoInputRef = useRef<HTMLInputElement>(null);
   const certFileInputRef = useRef<HTMLInputElement>(null);
+
+  const selectedPosition =
+    positions.find((p) => p.id === positionId) ||
+    (employee.position_id === positionId ? employee.position : null);
+  const isUstozOrSupport = isTeachingOrSupportRole(selectedPosition?.title);
+
 
   useEffect(() => {
     if (isOpen) {
@@ -214,7 +221,7 @@ export function EditEmployeeModal({
           hired_at: hiredAt || null,
           personal_yqm: personalYqm.trim() || null,
           resume: resume.trim() || null,
-          subject: subject.trim() || null,
+          subject: isUstozOrSupport ? (subject.trim() || null) : null,
           portfolio_links: cleanLinks,
           certificates,
         }),
@@ -381,19 +388,21 @@ export function EditEmployeeModal({
             </select>
           </div>
 
-          {/* O'qitadigan fani */}
-          <div>
-            <label className="block text-xs font-bold text-slate-700 mb-1">
-              O&apos;qitadigan fani <span className="text-slate-400 font-normal lowercase">(ustoz/supportlar uchun: Arab tili, Ingliz tili va h.k.)</span>
-            </label>
-            <input
-              type="text"
-              value={subject}
-              onChange={(e) => setSubject(e.target.value)}
-              placeholder="Masalan: Arab tili, Ingliz tili, Matematika..."
-              className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 bg-white text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-brand-accent/30 focus:border-brand-accent"
-            />
-          </div>
+          {/* O'qitadigan fani - Faqat ustoz va supportlar uchun */}
+          {isUstozOrSupport && (
+            <div>
+              <label className="block text-xs font-bold text-slate-700 mb-1">
+                O&apos;qitadigan fani <span className="text-slate-400 font-normal lowercase">(ustoz/supportlar uchun: Arab tili, Ingliz tili va h.k.)</span>
+              </label>
+              <input
+                type="text"
+                value={subject}
+                onChange={(e) => setSubject(e.target.value)}
+                placeholder="Masalan: Arab tili, Ingliz tili, Matematika..."
+                className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 bg-white text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-brand-accent/30 focus:border-brand-accent"
+              />
+            </div>
+          )}
 
           {/* 3. Phone & Hired At (2 cols) */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">

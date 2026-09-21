@@ -3,7 +3,7 @@
 import React from "react";
 import Link from "next/link";
 import { Plus, User, Award, CheckCircle2, Clock } from "lucide-react";
-import { Employee, Position } from "@/types";
+import { Employee, Position, isTeachingOrSupportRole } from "@/types";
 
 interface OrgEmployeePillProps {
   employee?: Employee;
@@ -149,7 +149,7 @@ export function OrgEmployeePill({
         {/* Info labels (Fani yoki lavozimi va to'liq ism) */}
         <div className="ml-2 min-w-0 flex-1 text-left text-white">
           <p className="text-[9.5px] font-bold text-white/80 uppercase tracking-wider leading-tight break-words">
-            {employee.subject || position.title}
+            {isTeachingOrSupportRole(position.title) && employee.subject ? employee.subject : position.title}
           </p>
           <p className="text-[11.5px] font-bold text-white leading-tight mt-0.5 break-words">
             {employee.full_name}

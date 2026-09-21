@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import { X, User, Upload, Plus, Trash2, Save, Image as ImageIcon, Award, Loader2, FileText } from "lucide-react";
-import { Employee, Position, Department, CertificateItem } from "@/types";
+import { Employee, Position, Department, CertificateItem, isTeachingOrSupportRole } from "@/types";
 import { compressImageFile, isPdf } from "@/lib/imageUtils";
 
 interface EmployeeModalProps {
@@ -39,6 +39,10 @@ export function EmployeeModal({
 
   const fileInputRef = useRef<HTMLInputElement>(null);
   const certFileInputRef = useRef<HTMLInputElement>(null);
+
+  const selectedPos = positions.find((p) => p.id === positionId);
+  const isUstozOrSupport = isTeachingOrSupportRole(selectedPos?.title);
+
 
   useEffect(() => {
     if (employee) {
@@ -181,7 +185,7 @@ export function EmployeeModal({
         hired_at: hiredAt || null,
         personal_yqm: personalYqm.trim() || null,
         resume: resume.trim() || null,
-        subject: subject.trim() || null,
+        subject: isUstozOrSupport ? (subject.trim() || null) : null,
         portfolio_links: portfolioLinks,
         certificates,
       });
@@ -310,19 +314,21 @@ export function EmployeeModal({
             </select>
           </div>
 
-          {/* O'qitadigan fani */}
-          <div>
-            <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
-              O&apos;qitadigan fani <span className="text-slate-400 font-normal lowercase">(ustoz/supportlar uchun: Arab tili, Ingliz tili va h.k.)</span>
-            </label>
-            <input
-              type="text"
-              value={subject}
-              onChange={(e) => setSubject(e.target.value)}
-              placeholder="Masalan: Arab tili, Ingliz tili, Matematika..."
-              className="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:border-brand-accent focus:ring-2 focus:ring-blue-100 text-sm font-medium text-slate-800 outline-none transition"
-            />
-          </div>
+          {/* O'qitadigan fani - Faqat ustoz va supportlar uchun */}
+          {isUstozOrSupport && (
+            <div>
+              <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
+                O&apos;qitadigan fani <span className="text-slate-400 font-normal lowercase">(ustoz/supportlar uchun: Arab tili, Ingliz tili va h.k.)</span>
+              </label>
+              <input
+                type="text"
+                value={subject}
+                onChange={(e) => setSubject(e.target.value)}
+                placeholder="Masalan: Arab tili, Ingliz tili, Matematika..."
+                className="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:border-brand-accent focus:ring-2 focus:ring-blue-100 text-sm font-medium text-slate-800 outline-none transition"
+              />
+            </div>
+          )}
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {/* Telefon */}
