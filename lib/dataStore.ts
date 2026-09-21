@@ -113,13 +113,19 @@ function getInitialStore(): OrgStoreSchema {
 }
 
 export async function ensureStoreSyncedFromSupabase(force = false): Promise<OrgStoreSchema> {
+  // If memoryStoreCache is not yet initialized (e.g. cold start), load from local/tmp disk in 0.1ms
+  if (!memoryStoreCache) {
+    memoryStoreCache = readStore();
+  }
+
   const now = Date.now();
   if (!force && memoryStoreCache && now - lastSyncTimestamp < SYNC_TTL_MS) {
     return memoryStoreCache;
   }
 
-  // Stale-While-Revalidate: If memory cache exists, return immediately and refresh in background
-  if (!force && memoryStoreCache) {
+  // Stale-While-Revalidate: Return current memory/disk store IMMEDIATELY in 0ms!
+  // and revalidate from Supabase in the background!
+  if (!force && memoryStoreCache && Array.isArray(memoryStoreCache.departments) && memoryStoreCache.departments.length > 0) {
     (async () => {
       try {
         const cloudSnapshot = await fetchStoreSnapshotFromSupabase();
