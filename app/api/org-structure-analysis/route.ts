@@ -36,7 +36,7 @@ export async function POST(request: NextRequest) {
 
     await ensureStoreSyncedFromSupabase(false);
     const analysis = await getLatestOrgAIAnalysis(true);
-    syncCurrentStoreToCloud();
+    await syncCurrentStoreToCloud();
 
     return NextResponse.json(
       { success: true, analysis },
@@ -67,7 +67,7 @@ export async function PATCH(request: NextRequest) {
       return NextResponse.json({ error: 'Tavsiya topilmadi' }, { status: 404, headers: NO_CACHE_HEADERS });
     }
 
-    syncCurrentStoreToCloud();
+    await syncCurrentStoreToCloud();
     const fullDepts = getFullOrgStructure();
 
     return NextResponse.json({
@@ -99,7 +99,7 @@ export async function PUT(request: NextRequest) {
 
     await ensureStoreSyncedFromSupabase(false);
     const updated = await updateOrgRecommendation(item_id, updates);
-    syncCurrentStoreToCloud();
+    await syncCurrentStoreToCloud();
 
     return NextResponse.json({
       success: true,

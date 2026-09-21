@@ -241,12 +241,14 @@ export async function writeStoreAsync(store: OrgStoreSchema): Promise<void> {
 
 export async function syncCurrentStoreToCloud(): Promise<boolean> {
   const store = readStore();
-  // Fire push in background so API routes respond in milliseconds
-  pushStoreSnapshotToSupabase(store).catch((err) => {
-    console.error("Background syncCurrentStoreToCloud failed:", err);
-  });
-  lastSyncTimestamp = Date.now();
-  return true;
+  try {
+    const success = await pushStoreSnapshotToSupabase(store);
+    lastSyncTimestamp = Date.now();
+    return success;
+  } catch (err) {
+    console.error("syncCurrentStoreToCloud failed:", err);
+    return false;
+  }
 }
 
 // ==========================================

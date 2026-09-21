@@ -37,6 +37,7 @@ export async function POST(request: NextRequest) {
       hired_at,
       personal_yqm,
       resume,
+      subject,
       portfolio_links,
       certificates,
     } = body;
@@ -55,11 +56,12 @@ export async function POST(request: NextRequest) {
       hired_at: hired_at || null,
       personal_yqm: personal_yqm ? personal_yqm.trim() : null,
       resume: resume ? resume.trim() : null,
+      subject: subject ? subject.trim() : null,
       portfolio_links: Array.isArray(portfolio_links) ? portfolio_links : [],
       certificates: Array.isArray(certificates) ? certificates : [],
     });
 
-    syncCurrentStoreToCloud();
+    await syncCurrentStoreToCloud();
 
     return NextResponse.json({ success: true, employee: emp }, { status: 201, headers: NO_CACHE_HEADERS });
   } catch (err: any) {

@@ -31,7 +31,7 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     await ensureStoreSyncedFromSupabase(false);
     const branch = saveBranch(body);
-    syncCurrentStoreToCloud();
+    await syncCurrentStoreToCloud();
     return NextResponse.json({ success: true, branch }, { status: 201, headers: NO_CACHE_HEADERS });
   } catch (err: any) {
     return NextResponse.json({ error: err.message }, { status: 500, headers: NO_CACHE_HEADERS });
@@ -47,7 +47,7 @@ export async function PUT(request: NextRequest) {
     const body = await request.json();
     await ensureStoreSyncedFromSupabase(false);
     const branch = saveBranch(body);
-    syncCurrentStoreToCloud();
+    await syncCurrentStoreToCloud();
     return NextResponse.json({ success: true, branch }, { headers: NO_CACHE_HEADERS });
   } catch (err: any) {
     return NextResponse.json({ error: err.message }, { status: 500, headers: NO_CACHE_HEADERS });
@@ -68,7 +68,7 @@ export async function DELETE(request: NextRequest) {
 
     await ensureStoreSyncedFromSupabase(false);
     deleteBranch(id);
-    syncCurrentStoreToCloud();
+    await syncCurrentStoreToCloud();
     return NextResponse.json({ success: true }, { headers: NO_CACHE_HEADERS });
   } catch (err: any) {
     return NextResponse.json({ error: err.message }, { status: 500, headers: NO_CACHE_HEADERS });

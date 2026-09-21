@@ -47,7 +47,7 @@ export async function PUT(
       estimated_salary: estimated_salary !== undefined ? (estimated_salary ? Number(estimated_salary) : null) : undefined,
     });
 
-    syncCurrentStoreToCloud();
+    await syncCurrentStoreToCloud();
 
     return NextResponse.json({ success: true, position: pos }, { headers: NO_CACHE_HEADERS });
   } catch (err: any) {
@@ -66,7 +66,7 @@ export async function DELETE(
 
     await ensureStoreSyncedFromSupabase(false);
     deletePosition(params.id);
-    syncCurrentStoreToCloud();
+    await syncCurrentStoreToCloud();
 
     return NextResponse.json({ success: true }, { headers: NO_CACHE_HEADERS });
   } catch (err: any) {

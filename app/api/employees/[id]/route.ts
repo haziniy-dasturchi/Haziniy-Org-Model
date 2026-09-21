@@ -46,6 +46,7 @@ export async function PUT(
       hired_at,
       personal_yqm,
       resume,
+      subject,
       portfolio_links,
       certificates,
     } = body;
@@ -61,11 +62,12 @@ export async function PUT(
       hired_at,
       personal_yqm,
       resume,
+      subject,
       portfolio_links,
       certificates,
     });
 
-    syncCurrentStoreToCloud();
+    await syncCurrentStoreToCloud();
 
     return NextResponse.json({ success: true, employee: emp }, { headers: NO_CACHE_HEADERS });
   } catch (err: any) {
@@ -84,7 +86,7 @@ export async function DELETE(
 
     await ensureStoreSyncedFromSupabase(false);
     deleteEmployee(params.id);
-    syncCurrentStoreToCloud();
+    await syncCurrentStoreToCloud();
     return NextResponse.json({ success: true }, { headers: NO_CACHE_HEADERS });
   } catch (err: any) {
     return NextResponse.json({ error: err.message }, { status: 500, headers: NO_CACHE_HEADERS });

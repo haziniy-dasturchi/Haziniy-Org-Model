@@ -53,7 +53,7 @@ export async function fetchStoreSnapshotFromSupabase(): Promise<any | null> {
       .from("ai_recommendations")
       .select("id, recommendation_text, created_at")
       .order("created_at", { ascending: false })
-      .limit(2);
+      .limit(5);
 
     if (error) {
       lastSupabaseSyncError = "Query error: " + error.message;
@@ -63,7 +63,7 @@ export async function fetchStoreSnapshotFromSupabase(): Promise<any | null> {
           .from("ai_recommendations")
           .select("id, recommendation_text, created_at")
           .order("created_at", { ascending: false })
-          .limit(2);
+          .limit(5);
         data = retry.data;
         error = retry.error;
       }
@@ -75,16 +75,16 @@ export async function fetchStoreSnapshotFromSupabase(): Promise<any | null> {
     }
 
     for (const row of data as any[]) {
-      if (
-        row.recommendation_text &&
-        typeof row.recommendation_text === "string" &&
-        row.recommendation_text.includes("__haziniy_store_sync__")
-      ) {
+      if (row.recommendation_text && typeof row.recommendation_text === "string") {
         try {
           const parsed = JSON.parse(row.recommendation_text);
-          if (parsed && parsed.__haziniy_store_sync__ && parsed.data) {
+          if (parsed && parsed.__haziniy_store_sync__ && parsed.data && Array.isArray(parsed.data.departments)) {
             lastSupabaseSyncError = null;
             return parsed.data;
+          }
+          if (parsed && Array.isArray(parsed.departments) && parsed.departments.length > 0) {
+            lastSupabaseSyncError = null;
+            return parsed;
           }
         } catch {
           // ignore corrupted row
@@ -92,7 +92,7 @@ export async function fetchStoreSnapshotFromSupabase(): Promise<any | null> {
       }
     }
 
-    lastSupabaseSyncError = "No valid __haziniy_store_sync__ found";
+    lastSupabaseSyncError = "No valid store sync record found";
     return null;
   } catch (err: any) {
     lastSupabaseSyncError = "Exception: " + err.message;
@@ -102,19 +102,11 @@ export async function fetchStoreSnapshotFromSupabase(): Promise<any | null> {
 }
 
 /**
- * Pushes the store snapshot to Supabase with debounce protection.
- * Asynchronously cleans up older snapshots without downloading heavy text payloads.
+ * Pushes the store snapshot to Supabase and ensures data is saved.
  */
 export async function pushStoreSnapshotToSupabase(store: any): Promise<boolean> {
-  if (isPushing) {
-    pendingStoreToPush = store;
-    return true;
-  }
-
-  isPushing = true;
   let sb = getSyncSupabaseClient();
   if (!sb) {
-    isPushing = false;
     return false;
   }
 
@@ -146,17 +138,15 @@ export async function pushStoreSnapshotToSupabase(store: any): Promise<boolean> 
     if (error) {
       lastSupabaseSyncError = "Push error: " + error.message;
       console.error("pushStoreSnapshotToSupabase error:", error.message);
-      isPushing = false;
       return false;
     }
 
     lastSupabaseSyncError = null;
 
-    // Asynchronous lightweight cleanup: select ONLY id and created_at (NO heavy recommendation_text)
-    (async () => {
-      try {
-        const client = getSyncSupabaseClient() || getSyncSupabaseClient(true);
-        if (!client) return;
+    // Asynchronous lightweight cleanup: keep latest 3 snapshots
+    try {
+      const client = getSyncSupabaseClient() || getSyncSupabaseClient(true);
+      if (client) {
         const { data: allRows } = await (client as any)
           .from("ai_recommendations")
           .select("id, created_at")
@@ -167,22 +157,15 @@ export async function pushStoreSnapshotToSupabase(store: any): Promise<boolean> 
           const idsToDelete = (allRows as any[]).slice(3).map((r: any) => r.id);
           await (client as any).from("ai_recommendations").delete().in("id", idsToDelete);
         }
-      } catch {
-        // cleanup is non-critical
       }
-    })();
+    } catch {
+      // cleanup is non-critical
+    }
 
     return true;
   } catch (err: any) {
     lastSupabaseSyncError = "Push exception: " + err.message;
     console.error("pushStoreSnapshotToSupabase exception:", err.message);
     return false;
-  } finally {
-    isPushing = false;
-    if (pendingStoreToPush) {
-      const next = pendingStoreToPush;
-      pendingStoreToPush = null;
-      pushStoreSnapshotToSupabase(next);
-    }
   }
 }

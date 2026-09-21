@@ -47,7 +47,7 @@ export async function POST(request: NextRequest) {
       estimated_salary: estimated_salary ? Number(estimated_salary) : undefined,
     });
 
-    syncCurrentStoreToCloud();
+    await syncCurrentStoreToCloud();
 
     return NextResponse.json({ success: true, position: pos }, { status: 201, headers: NO_CACHE_HEADERS });
   } catch (err: any) {

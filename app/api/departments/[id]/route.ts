@@ -44,7 +44,7 @@ export async function PUT(
       yqm_text,
     });
 
-    syncCurrentStoreToCloud();
+    await syncCurrentStoreToCloud();
 
     return NextResponse.json({ success: true, department: dept }, { headers: NO_CACHE_HEADERS });
   } catch (err: any) {
@@ -63,7 +63,7 @@ export async function DELETE(
 
     await ensureStoreSyncedFromSupabase(false);
     deleteDepartment(params.id);
-    syncCurrentStoreToCloud();
+    await syncCurrentStoreToCloud();
 
     return NextResponse.json({ success: true }, { headers: NO_CACHE_HEADERS });
   } catch (err: any) {

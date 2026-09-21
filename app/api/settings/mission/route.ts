@@ -33,7 +33,7 @@ export async function POST(request: NextRequest) {
 
     await ensureStoreSyncedFromSupabase(false);
     const saved = saveMission(mission);
-    syncCurrentStoreToCloud();
+    await syncCurrentStoreToCloud();
     return NextResponse.json({ success: true, mission: saved }, { headers: NO_CACHE_HEADERS });
   } catch (err: any) {
     return NextResponse.json({ error: err.message }, { status: 500, headers: NO_CACHE_HEADERS });

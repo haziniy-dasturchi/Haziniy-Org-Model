@@ -44,7 +44,7 @@ export async function POST(request: NextRequest) {
       yqm_text: yqm_text ? yqm_text.trim() : null,
     });
 
-    syncCurrentStoreToCloud();
+    await syncCurrentStoreToCloud();
 
     return NextResponse.json({ success: true, department: dept }, { status: 201, headers: NO_CACHE_HEADERS });
   } catch (err: any) {
