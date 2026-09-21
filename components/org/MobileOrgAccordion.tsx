@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { ChevronDown, ChevronUp, Layers, Award } from "lucide-react";
 import { Department, Position, Employee } from "@/types";
 import { OrgEmployeePill } from "./OrgEmployeePill";
+import { PositionGroupDropdown, groupPositionsByTitle } from "./PositionGroupDropdown";
 
 interface MobileOrgAccordionProps {
   departments: (Department & {
@@ -57,10 +58,11 @@ export function MobileOrgAccordion({ departments, mode }: MobileOrgAccordionProp
         const isOpen = !!openStates[dept.id];
 
         // Filter positions by mode
-        const positions = (dept.positions || []).filter((p) => {
+        const rawPositions = (dept.positions || []).filter((p) => {
           if (mode === "target") return true;
           return p.status === "mavjud" || (p.employees && p.employees.length > 0);
         });
+        const groupedPositions = groupPositionsByTitle(rawPositions);
 
         return (
           <div
@@ -86,7 +88,7 @@ export function MobileOrgAccordion({ departments, mode }: MobileOrgAccordionProp
 
               <div className="flex items-center gap-2">
                 <span className="text-[11px] font-bold px-2 py-0.5 rounded-full bg-slate-100 text-slate-600">
-                  {positions.length} lavozim
+                  {groupedPositions.length} lavozim
                 </span>
                 {isOpen ? (
                   <ChevronUp className="w-4 h-4 text-slate-400" />
@@ -109,37 +111,17 @@ export function MobileOrgAccordion({ departments, mode }: MobileOrgAccordionProp
 
             {/* Accordion Content */}
             {isOpen && (
-              <div className="p-4 space-y-3 bg-slate-50/40 border-t border-slate-100">
-                {positions.length > 0 ? (
-                  positions.map((pos) => {
-                    const employees = pos.employees || [];
-                    const isPlanned = pos.status === "rejalashtirilgan";
-
-                    if (employees.length > 0) {
-                      return (
-                        <div key={pos.id} className="space-y-2">
-                          {employees.map((emp) => (
-                            <OrgEmployeePill
-                              key={emp.id}
-                              employee={emp}
-                              position={pos}
-                              color={color}
-                              isPlanned={false}
-                            />
-                          ))}
-                        </div>
-                      );
-                    }
-
-                    return (
-                      <OrgEmployeePill
-                        key={pos.id}
-                        position={pos}
-                        color={color}
-                        isPlanned={isPlanned}
-                      />
-                    );
-                  })
+              <div className="p-4 space-y-2.5 bg-slate-50/40 border-t border-slate-100">
+                {groupedPositions.length > 0 ? (
+                  groupedPositions.map((group) => (
+                    <PositionGroupDropdown
+                      key={group.key}
+                      position={group.position}
+                      employees={group.employees}
+                      color={color}
+                      isPlanned={group.isPlanned}
+                    />
+                  ))
                 ) : (
                   <div className="text-center py-4 text-xs text-slate-400 flex items-center justify-center gap-2">
                     <Layers className="w-4 h-4 text-slate-300" />

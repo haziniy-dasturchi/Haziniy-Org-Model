@@ -4,6 +4,7 @@ import React, { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { Department, Position, Employee } from "@/types";
 import { OrgEmployeePill } from "./OrgEmployeePill";
+import { PositionGroupDropdown, groupPositionsByTitle } from "./PositionGroupDropdown";
 import { DEFAULT_TEST_EMPLOYEES } from "@/lib/defaultOrgData";
 import {
   ZoomIn,
@@ -554,10 +555,11 @@ export function InteractiveTreeCanvas({ departments, mode }: InteractiveTreeCanv
               const deptColor = getDeptColor(dept.name, dept.color_hex);
 
               // Filter positions by mode
-              const positions = (dept.positions || []).filter((p) => {
+              const rawPositions = (dept.positions || []).filter((p) => {
                 if (mode === "target") return true;
                 return p.status === "mavjud" || (p.employees && p.employees.length > 0);
               });
+              const groupedPositions = groupPositionsByTitle(rawPositions);
 
               return (
                 <div
@@ -577,38 +579,16 @@ export function InteractiveTreeCanvas({ departments, mode }: InteractiveTreeCanv
 
                     {/* Positions List */}
                     <div className="w-full flex flex-col space-y-1.5">
-                      {positions.length > 0 ? (
-                        positions.map((pos) => {
-                          const employees = pos.employees || [];
-                          const isPlanned = pos.status === "rejalashtirilgan";
-
-                          // If position has real employees assigned
-                          if (employees.length > 0) {
-                            return (
-                              <div key={pos.id} className="w-full space-y-1.5">
-                                {employees.map((emp) => (
-                                  <OrgEmployeePill
-                                    key={emp.id}
-                                    employee={emp}
-                                    position={pos}
-                                    color={deptColor.bg}
-                                    isPlanned={false}
-                                  />
-                                ))}
-                              </div>
-                            );
-                          }
-
-                          // Vacant Position: "Hali band emas"
-                          return (
-                            <OrgEmployeePill
-                              key={pos.id}
-                              position={pos}
-                              color={deptColor.bg}
-                              isPlanned={isPlanned}
-                            />
-                          );
-                        })
+                      {groupedPositions.length > 0 ? (
+                        groupedPositions.map((group) => (
+                          <PositionGroupDropdown
+                            key={group.key}
+                            position={group.position}
+                            employees={group.employees}
+                            color={deptColor.bg}
+                            isPlanned={group.isPlanned}
+                          />
+                        ))
                       ) : (
                         <div className="text-center py-4 text-[10px] text-slate-400 italic">
                           Mavjud lavozimlar yo&apos;q
