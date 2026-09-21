@@ -337,7 +337,7 @@ export function InteractiveTreeCanvas({ departments, mode }: InteractiveTreeCanv
           transform: `translate(${pan.x}px, ${pan.y}px) scale(${zoom})`,
         }}
       >
-        <div className="w-full max-w-[1360px] px-3 flex flex-col items-center">
+        <div className="w-full min-w-[1240px] max-w-[1480px] px-2 sm:px-3 flex flex-col items-center">
           
           {/* ================= 1. ASOSCHI NODE (BRAND DARK & MINT ACCENT) ================= */}
           <div className="relative z-30 flex flex-col items-center">

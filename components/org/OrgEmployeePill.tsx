@@ -37,7 +37,7 @@ export function OrgEmployeePill({
         <div className="flex items-center justify-between gap-2 border-b border-slate-700/80 pb-2 mb-2">
           <div className="flex items-center gap-1.5 min-w-0">
             <Award className="w-3.5 h-3.5 text-amber-400 flex-shrink-0" />
-            <span className="text-[10px] font-black uppercase tracking-wider text-amber-300 truncate">
+            <span className="text-[10px] font-black uppercase tracking-wider text-amber-300 break-words">
               {position.title}
             </span>
           </div>
@@ -65,8 +65,8 @@ export function OrgEmployeePill({
         {/* Assigned employee note */}
         {employee && (
           <div className="mt-2 pt-1.5 border-t border-slate-800 text-[10px] text-slate-400 flex items-center justify-between">
-            <span className="truncate">Xodim: <strong className="text-white">{employee.full_name}</strong></span>
-            <span className="text-brand-accent font-semibold">Batafsil &rarr;</span>
+            <span className="break-words">Xodim: <strong className="text-white">{employee.full_name}</strong></span>
+            <span className="text-brand-accent font-semibold flex-shrink-0 ml-1">Batafsil &rarr;</span>
           </div>
         )}
 
@@ -84,7 +84,7 @@ export function OrgEmployeePill({
           <Plus className="h-3.5 w-3.5" />
         </div>
         <div className="ml-2 min-w-0 flex-1 text-left">
-          <p className="text-[11px] font-bold text-amber-950 truncate leading-snug">
+          <p className="text-[11px] font-bold text-amber-950 leading-snug break-words">
             {position.title}
           </p>
           <span className="inline-block text-[9px] font-semibold text-amber-700/90 uppercase tracking-wider">
@@ -105,11 +105,11 @@ export function OrgEmployeePill({
         <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full border border-slate-200 bg-slate-50 text-slate-400">
           <User className="h-3.5 w-3.5 stroke-[1.75]" />
         </div>
-        <div className="ml-2.5 min-w-0 flex-1 text-left">
-          <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider truncate leading-tight">
+        <div className="ml-2 min-w-0 flex-1 text-left">
+          <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider leading-snug break-words">
             {position.title}
           </p>
-          <p className="text-[11px] font-semibold text-slate-700 truncate leading-tight mt-0.5">
+          <p className="text-[11px] font-semibold text-slate-700 leading-snug mt-0.5 break-words">
             Hali band emas
           </p>
         </div>
@@ -146,12 +146,12 @@ export function OrgEmployeePill({
           )}
         </div>
 
-        {/* Info labels */}
-        <div className="ml-2.5 min-w-0 flex-1 text-left text-white">
-          <p className="text-[10px] font-bold text-white/80 uppercase tracking-wider truncate leading-tight">
+        {/* Info labels (To'liq ism va lavozim ko'rinishi) */}
+        <div className="ml-2 min-w-0 flex-1 text-left text-white">
+          <p className="text-[9.5px] font-bold text-white/80 uppercase tracking-wider leading-tight break-words">
             {position.title}
           </p>
-          <p className="text-[11px] font-bold text-white truncate leading-tight mt-0.5">
+          <p className="text-[11.5px] font-bold text-white leading-tight mt-0.5 break-words">
             {employee.full_name}
           </p>
         </div>

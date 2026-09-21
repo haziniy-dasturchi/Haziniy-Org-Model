@@ -125,7 +125,7 @@ export function PositionGroupDropdown({
 
   return (
     <div className="w-full space-y-1.5">
-      {/* Guruh Dropdown Tugmasi */}
+      {/* Guruh Dropdown Tugmasi (Lavozim nomi va soni, masalan: Ustoz (12)) */}
       <div className="group relative w-full">
         <button
           type="button"
@@ -139,33 +139,25 @@ export function PositionGroupDropdown({
         >
           {/* Multi-user Avatar Icon */}
           <div className="relative flex-shrink-0">
-            <div className="flex h-8 w-8 items-center justify-center rounded-full bg-white/25 backdrop-blur-sm border border-white/50 text-white shadow-2xs">
-              <Users className="h-4 w-4" />
+            <div className="flex h-7 w-7 sm:h-7.5 sm:w-7.5 items-center justify-center rounded-full bg-white/20 backdrop-blur-sm border border-white/40 text-white shadow-2xs">
+              <Users className="h-3.5 w-3.5" />
             </div>
           </div>
 
-          {/* Title & Count Label */}
-          <div className="ml-2.5 min-w-0 flex-1 text-left text-white">
-            <p className="text-[10px] font-bold text-white/80 uppercase tracking-wider truncate leading-tight">
-              {position.title}
-            </p>
-            <p className="text-[11px] font-bold text-white truncate leading-tight mt-0.5">
-              Guruh ({employees.length} ta xodim)
+          {/* Lavozim nomi va soni */}
+          <div className="ml-2 min-w-0 flex-1 text-left text-white">
+            <p className="text-[11px] sm:text-[11.5px] font-black uppercase tracking-wider leading-tight break-words">
+              {position.title} ({employees.length})
             </p>
           </div>
 
-          {/* Right badge + Chevron */}
-          <div className="flex items-center gap-1.5 pl-1.5 flex-shrink-0 text-white">
-            <span className="px-1.5 py-0.5 rounded-md bg-white/20 text-white text-[10px] font-black border border-white/30">
-              {employees.length}
-            </span>
-            <div className="w-5 h-5 rounded-full bg-white/15 flex items-center justify-center">
-              <ChevronDown
-                className={`w-3.5 h-3.5 transition-transform duration-200 ${
-                  isOpen ? "rotate-180" : ""
-                }`}
-              />
-            </div>
+          {/* O'ng tomondagi ochish/yopish strelkasi */}
+          <div className="w-5 h-5 rounded-full bg-white/20 flex items-center justify-center text-white flex-shrink-0 ml-1">
+            <ChevronDown
+              className={`w-3.5 h-3.5 transition-transform duration-200 ${
+                isOpen ? "rotate-180" : ""
+              }`}
+            />
           </div>
         </button>
 
@@ -176,7 +168,7 @@ export function PositionGroupDropdown({
       {/* Ochilganda ko'rinadigan xodimlar ro'yxati */}
       {isOpen && (
         <div
-          className="pl-2 sm:pl-2.5 border-l-2 space-y-1.5 transition-all duration-200 pt-0.5"
+          className="pl-1.5 border-l-2 space-y-1.5 transition-all duration-200 pt-0.5"
           style={{ borderColor: `${color}60` }}
         >
           {employees.map((emp) => (
