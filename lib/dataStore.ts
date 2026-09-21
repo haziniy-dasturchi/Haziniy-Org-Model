@@ -473,6 +473,7 @@ export function saveEmployee(data: Partial<Employee>): Employee {
         certificates: Array.isArray(data.certificates)
           ? data.certificates
           : current.certificates || [],
+        subject: data.subject !== undefined ? (data.subject ? data.subject.trim() : null) : current.subject || null,
       };
       store.employees[idx] = updatedEmp;
     } else {
@@ -488,6 +489,7 @@ export function saveEmployee(data: Partial<Employee>): Employee {
         resume: newResume,
         portfolio_links: Array.isArray(data.portfolio_links) ? data.portfolio_links : [],
         certificates: Array.isArray(data.certificates) ? data.certificates : [],
+        subject: data.subject ? data.subject.trim() : null,
         created_at: new Date().toISOString(),
       };
       store.employees.push(updatedEmp);
@@ -505,6 +507,7 @@ export function saveEmployee(data: Partial<Employee>): Employee {
       resume: newResume,
       portfolio_links: Array.isArray(data.portfolio_links) ? data.portfolio_links : [],
       certificates: Array.isArray(data.certificates) ? data.certificates : [],
+      subject: data.subject ? data.subject.trim() : null,
       created_at: new Date().toISOString(),
     };
     store.employees.push(updatedEmp);

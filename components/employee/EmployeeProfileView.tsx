@@ -150,6 +150,13 @@ export function EmployeeProfileView({
                   {department.name}
                 </span>
               )}
+
+              {employee.subject && (
+                <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-amber-50 text-amber-900 text-xs font-bold border border-amber-200 shadow-2xs">
+                  <Award className="w-3.5 h-3.5 text-amber-600" />
+                  Fani: {employee.subject}
+                </span>
+              )}
             </div>
           </div>
 
@@ -159,7 +166,7 @@ export function EmployeeProfileView({
               {employee.full_name}
             </h1>
             <p className="text-sm font-semibold text-emerald-800/80 uppercase tracking-wider text-xs">
-              {position ? position.title : "Lavozim belgilanmagan"}
+              {position ? (employee.subject ? `${position.title} • ${employee.subject}` : position.title) : "Lavozim belgilanmagan"}
             </p>
 
             <div className="flex flex-wrap items-center gap-3 pt-2 text-xs text-slate-600">

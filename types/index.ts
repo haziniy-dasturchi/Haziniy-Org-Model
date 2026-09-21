@@ -65,6 +65,7 @@ export interface Employee {
   portfolio_links: string[];
   personal_yqm: string | null;
   certificates?: CertificateItem[];
+  subject?: string | null; // O'qitadigan fani (masalan: Arab tili, Ingliz tili, Matematika)
   created_at: string;
   // Bog'langan lavozim (join qilinganda)
   position?: Position;

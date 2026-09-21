@@ -40,6 +40,43 @@ export function groupPositionsByTitle(
   return Array.from(map.values());
 }
 
+/**
+ * Xodimlarni fanlar ko'p-kamligiga qarab tartiblash:
+ * 1-o'rinda eng ko'p o'qituvchiga ega fan (masalan: Arab tili - 7 ta),
+ * 2-o'rinda keyingi ko'p fan (Ingliz tili - 3 ta), va h.k.
+ */
+export function sortEmployeesBySubjectFrequency(employees: Employee[]): Employee[] {
+  const countMap = new Map<string, number>();
+  for (const emp of employees) {
+    const subj = (emp.subject || "").trim().toLowerCase();
+    countMap.set(subj, (countMap.get(subj) || 0) + 1);
+  }
+
+  return [...employees].sort((a, b) => {
+    const subjA = (a.subject || "").trim().toLowerCase();
+    const subjB = (b.subject || "").trim().toLowerCase();
+
+    // Fan biriktirilganlar birinchi chiqadi
+    if (subjA && !subjB) return -1;
+    if (!subjA && subjB) return 1;
+
+    // Fanning umumiy soni bo'yicha (ko'pdan kamga)
+    const countA = countMap.get(subjA) || 0;
+    const countB = countMap.get(subjB) || 0;
+    if (countB !== countA) {
+      return countB - countA;
+    }
+
+    // Bir xil miqdordagi fanlar alifbo bo'yicha
+    if (subjA !== subjB) {
+      return subjA.localeCompare(subjB);
+    }
+
+    // Bir fanning o'zida ism bo'yicha alifbo tartibi
+    return a.full_name.localeCompare(b.full_name);
+  });
+}
+
 interface PositionGroupDropdownProps {
   position: Position;
   employees: Employee[];
@@ -54,6 +91,7 @@ export function PositionGroupDropdown({
   isPlanned = false,
 }: PositionGroupDropdownProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const sortedEmployees = React.useMemo(() => sortEmployeesBySubjectFrequency(employees), [employees]);
 
   // 1. Agar xodim bo'lmasa (bo'sh o'rin / rejalashtirilgan vakansiya)
   if (!employees || employees.length === 0) {
@@ -171,7 +209,7 @@ export function PositionGroupDropdown({
           className="pl-1.5 border-l-2 space-y-1.5 transition-all duration-200 pt-0.5"
           style={{ borderColor: `${color}60` }}
         >
-          {employees.map((emp) => (
+          {sortedEmployees.map((emp) => (
             <OrgEmployeePill
               key={emp.id}
               employee={emp}

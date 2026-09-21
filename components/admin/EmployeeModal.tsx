@@ -27,6 +27,7 @@ export function EmployeeModal({
   const [hiredAt, setHiredAt] = useState("");
   const [personalYqm, setPersonalYqm] = useState("");
   const [resume, setResume] = useState("");
+  const [subject, setSubject] = useState("");
   const [portfolioLinks, setPortfolioLinks] = useState<string[]>([]);
   const [newLink, setNewLink] = useState("");
   const [certificates, setCertificates] = useState<CertificateItem[]>([]);
@@ -48,6 +49,7 @@ export function EmployeeModal({
       setHiredAt(employee.hired_at || "");
       setPersonalYqm(employee.personal_yqm || "");
       setResume(employee.resume || "");
+      setSubject(employee.subject || "");
       setPortfolioLinks(Array.isArray(employee.portfolio_links) ? employee.portfolio_links : []);
       setCertificates(Array.isArray(employee.certificates) ? [...employee.certificates] : []);
     } else {
@@ -58,6 +60,7 @@ export function EmployeeModal({
       setHiredAt("");
       setPersonalYqm("");
       setResume("");
+      setSubject("");
       setPortfolioLinks([]);
       setCertificates([]);
     }
@@ -178,6 +181,7 @@ export function EmployeeModal({
         hired_at: hiredAt || null,
         personal_yqm: personalYqm.trim() || null,
         resume: resume.trim() || null,
+        subject: subject.trim() || null,
         portfolio_links: portfolioLinks,
         certificates,
       });
@@ -304,6 +308,20 @@ export function EmployeeModal({
                 </option>
               ))}
             </select>
+          </div>
+
+          {/* O'qitadigan fani */}
+          <div>
+            <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
+              O&apos;qitadigan fani <span className="text-slate-400 font-normal lowercase">(ustoz/supportlar uchun: Arab tili, Ingliz tili va h.k.)</span>
+            </label>
+            <input
+              type="text"
+              value={subject}
+              onChange={(e) => setSubject(e.target.value)}
+              placeholder="Masalan: Arab tili, Ingliz tili, Matematika..."
+              className="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:border-brand-accent focus:ring-2 focus:ring-blue-100 text-sm font-medium text-slate-800 outline-none transition"
+            />
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
