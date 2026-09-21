@@ -61,17 +61,19 @@ export default async function HomePage() {
       <div className="mx-auto max-w-[1550px] px-3 sm:px-6 lg:px-8 space-y-10">
         {/* 2 & 3 & 4. Interactive OrgChart with Switcher, 7 Departments Auto-fit Grid, Positions, and Vacancy Slots */}
         <section id="org-chart-section">
-          <OrgChart departments={departmentsWithData} />
+          <OrgChart departments={departmentsWithData} isAdmin={isAdmin} />
         </section>
 
-        {/* 5. AI Recommendations Block */}
-        <section className="pt-2 max-w-5xl mx-auto">
-          <AIRecommendation
-            recommendation={aiRecommendation}
-            departments={departmentsWithData}
-            isAdmin={isAdmin}
-          />
-        </section>
+        {/* 5. AI Recommendations Block (Faqat adminga ko'rinadi) */}
+        {isAdmin && (
+          <section className="pt-2 max-w-5xl mx-auto">
+            <AIRecommendation
+              recommendation={aiRecommendation}
+              departments={departmentsWithData}
+              isAdmin={isAdmin}
+            />
+          </section>
+        )}
       </div>
     </main>
   );

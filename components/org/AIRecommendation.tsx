@@ -23,6 +23,7 @@ import {
   TheoryBasisType,
 } from "@/types";
 import { EditAIRecommendationModal } from "./EditAIRecommendationModal";
+import { getCurrentUserProfile } from "@/lib/auth";
 
 interface AIRecommendationProps {
   recommendation?: OrgStructureAnalysis | null;
@@ -36,11 +37,28 @@ export function AIRecommendation({
   isAdmin = false,
 }: AIRecommendationProps) {
   const router = useRouter();
+  const [isAdminState, setIsAdminState] = useState(isAdmin);
   const [analysis, setAnalysis] = useState<OrgStructureAnalysis | null>(initialRec || null);
   const [isRegenerating, setIsRegenerating] = useState(false);
   const [resolvingItemId, setResolvingItemId] = useState<string | null>(null);
   const [editingItem, setEditingItem] = useState<OrgStructureRecommendationItem | null>(null);
   const [successMsg, setSuccessMsg] = useState<string | null>(null);
+
+  React.useEffect(() => {
+    setIsAdminState(isAdmin);
+  }, [isAdmin]);
+
+  React.useEffect(() => {
+    getCurrentUserProfile()
+      .then((prof) => {
+        setIsAdminState(Boolean(prof && prof.role === "admin"));
+      })
+      .catch(() => {});
+  }, []);
+
+  if (!isAdminState) {
+    return null;
+  }
 
   const handleRegenerate = async () => {
     try {
