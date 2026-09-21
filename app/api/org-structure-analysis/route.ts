@@ -14,9 +14,9 @@ const NO_CACHE_HEADERS = {
 
 export async function GET(request: NextRequest) {
   try {
-    await ensureStoreSyncedFromSupabase(true);
     const { searchParams } = new URL(request.url);
     const force = searchParams.get('force') === 'true';
+    await ensureStoreSyncedFromSupabase(force);
     const analysis = await getLatestOrgAIAnalysis(force);
     return NextResponse.json(
       { success: true, analysis },
@@ -34,9 +34,9 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Faqat admin uchun ruxsat berilgan' }, { status: 403, headers: NO_CACHE_HEADERS });
     }
 
-    await ensureStoreSyncedFromSupabase(true);
+    await ensureStoreSyncedFromSupabase(false);
     const analysis = await getLatestOrgAIAnalysis(true);
-    await syncCurrentStoreToCloud();
+    syncCurrentStoreToCloud();
 
     return NextResponse.json(
       { success: true, analysis },
@@ -61,13 +61,13 @@ export async function PATCH(request: NextRequest) {
       return NextResponse.json({ error: 'item_id talab qilinadi' }, { status: 400, headers: NO_CACHE_HEADERS });
     }
 
-    await ensureStoreSyncedFromSupabase(true);
+    await ensureStoreSyncedFromSupabase(false);
     const result = await resolveOrgRecommendation(item_id);
     if (!result) {
       return NextResponse.json({ error: 'Tavsiya topilmadi' }, { status: 404, headers: NO_CACHE_HEADERS });
     }
 
-    await syncCurrentStoreToCloud();
+    syncCurrentStoreToCloud();
     const fullDepts = getFullOrgStructure();
 
     return NextResponse.json({
@@ -97,9 +97,9 @@ export async function PUT(request: NextRequest) {
       return NextResponse.json({ error: 'item_id va updates talab qilinadi' }, { status: 400, headers: NO_CACHE_HEADERS });
     }
 
-    await ensureStoreSyncedFromSupabase(true);
+    await ensureStoreSyncedFromSupabase(false);
     const updated = await updateOrgRecommendation(item_id, updates);
-    await syncCurrentStoreToCloud();
+    syncCurrentStoreToCloud();
 
     return NextResponse.json({
       success: true,

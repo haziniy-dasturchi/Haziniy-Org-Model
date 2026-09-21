@@ -13,7 +13,7 @@ const NO_CACHE_HEADERS = {
 };
 
 export async function GET() {
-  await ensureStoreSyncedFromSupabase(true);
+  await ensureStoreSyncedFromSupabase(false);
   const mission = getMission();
   return NextResponse.json({ mission }, { headers: NO_CACHE_HEADERS });
 }
@@ -31,9 +31,9 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Korxona maqsadi bo'sh bo'lishi mumkin emas" }, { status: 400, headers: NO_CACHE_HEADERS });
     }
 
-    await ensureStoreSyncedFromSupabase(true);
+    await ensureStoreSyncedFromSupabase(false);
     const saved = saveMission(mission);
-    await syncCurrentStoreToCloud();
+    syncCurrentStoreToCloud();
     return NextResponse.json({ success: true, mission: saved }, { headers: NO_CACHE_HEADERS });
   } catch (err: any) {
     return NextResponse.json({ error: err.message }, { status: 500, headers: NO_CACHE_HEADERS });

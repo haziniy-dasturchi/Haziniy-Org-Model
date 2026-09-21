@@ -14,7 +14,7 @@ const NO_CACHE_HEADERS = {
 
 export async function GET() {
   try {
-    await ensureStoreSyncedFromSupabase(true);
+    await ensureStoreSyncedFromSupabase(false);
     const employees = getEmployees();
     return NextResponse.json({ employees }, { headers: NO_CACHE_HEADERS });
   } catch (err: any) {
@@ -45,7 +45,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Xodim F.I.Sh kiritilishi shart" }, { status: 400, headers: NO_CACHE_HEADERS });
     }
 
-    await ensureStoreSyncedFromSupabase(true);
+    await ensureStoreSyncedFromSupabase(false);
 
     const emp = saveEmployee({
       full_name: full_name.trim(),
@@ -59,7 +59,7 @@ export async function POST(request: NextRequest) {
       certificates: Array.isArray(certificates) ? certificates : [],
     });
 
-    await syncCurrentStoreToCloud();
+    syncCurrentStoreToCloud();
 
     return NextResponse.json({ success: true, employee: emp }, { status: 201, headers: NO_CACHE_HEADERS });
   } catch (err: any) {

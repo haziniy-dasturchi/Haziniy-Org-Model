@@ -16,7 +16,7 @@ export async function GET(
   request: NextRequest,
   { params }: { params: { id: string } }
 ) {
-  await ensureStoreSyncedFromSupabase(true);
+  await ensureStoreSyncedFromSupabase(false);
   const dept = getDepartmentById(params.id);
   if (!dept) return NextResponse.json({ error: "Bo'lim topilmadi" }, { status: 404, headers: NO_CACHE_HEADERS });
   return NextResponse.json({ department: dept }, { headers: NO_CACHE_HEADERS });
@@ -34,7 +34,7 @@ export async function PUT(
     const body = await request.json();
     const { name, color_hex, sort_order, yqm_text } = body;
 
-    await ensureStoreSyncedFromSupabase(true);
+    await ensureStoreSyncedFromSupabase(false);
 
     const dept = saveDepartment({
       id: params.id,
@@ -44,7 +44,7 @@ export async function PUT(
       yqm_text,
     });
 
-    await syncCurrentStoreToCloud();
+    syncCurrentStoreToCloud();
 
     return NextResponse.json({ success: true, department: dept }, { headers: NO_CACHE_HEADERS });
   } catch (err: any) {
@@ -61,9 +61,9 @@ export async function DELETE(
       return NextResponse.json({ error: "Faqat admin uchun ruxsat berilgan" }, { status: 403, headers: NO_CACHE_HEADERS });
     }
 
-    await ensureStoreSyncedFromSupabase(true);
+    await ensureStoreSyncedFromSupabase(false);
     deleteDepartment(params.id);
-    await syncCurrentStoreToCloud();
+    syncCurrentStoreToCloud();
 
     return NextResponse.json({ success: true }, { headers: NO_CACHE_HEADERS });
   } catch (err: any) {

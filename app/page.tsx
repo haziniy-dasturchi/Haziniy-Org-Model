@@ -11,7 +11,7 @@ export const revalidate = 0;
 export const fetchCache = "force-no-store";
 
 export default async function HomePage() {
-  await ensureStoreSyncedFromSupabase(true);
+  await ensureStoreSyncedFromSupabase(false);
   const departmentsWithData = getFullOrgStructure();
   const mainMission = getMission();
   const aiRecommendation = await getLatestOrgAIAnalysis();

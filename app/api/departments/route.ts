@@ -14,7 +14,7 @@ const NO_CACHE_HEADERS = {
 
 export async function GET() {
   try {
-    await ensureStoreSyncedFromSupabase(true);
+    await ensureStoreSyncedFromSupabase(false);
     const departments = getDepartments();
     return NextResponse.json({ departments }, { headers: NO_CACHE_HEADERS });
   } catch (err: any) {
@@ -35,7 +35,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Bo'lim nomi kiritilishi shart" }, { status: 400, headers: NO_CACHE_HEADERS });
     }
 
-    await ensureStoreSyncedFromSupabase(true);
+    await ensureStoreSyncedFromSupabase(false);
 
     const dept = saveDepartment({
       name: name.trim(),
@@ -44,7 +44,7 @@ export async function POST(request: NextRequest) {
       yqm_text: yqm_text ? yqm_text.trim() : null,
     });
 
-    await syncCurrentStoreToCloud();
+    syncCurrentStoreToCloud();
 
     return NextResponse.json({ success: true, department: dept }, { status: 201, headers: NO_CACHE_HEADERS });
   } catch (err: any) {

@@ -33,7 +33,7 @@ export default async function AdminPage() {
     redirect("/login?redirect=/admin");
   }
 
-  await ensureStoreSyncedFromSupabase(true);
+  await ensureStoreSyncedFromSupabase(false);
   const departments = getDepartments();
   const positions = getPositions();
   const employees = getEmployees();

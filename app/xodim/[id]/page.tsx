@@ -28,7 +28,7 @@ function checkIsAdmin(): boolean {
 }
 
 export default async function EmployeePage({ params }: PageProps) {
-  await ensureStoreSyncedFromSupabase(true);
+  await ensureStoreSyncedFromSupabase(false);
   const isAdmin = checkIsAdmin();
   const employeeData = getEmployeeById(params.id);
   const allPositions = getPositions();

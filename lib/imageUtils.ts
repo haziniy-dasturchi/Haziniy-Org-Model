@@ -21,8 +21,8 @@ export function isPdf(url?: string | null): boolean {
 
 export async function compressImageFile(
   file: File,
-  maxDimension = 1200,
-  quality = 0.85
+  maxDimension = 1000,
+  quality = 0.8
 ): Promise<File> {
   // If PDF, non-image, SVG or GIF, return file as-is without canvas compression
   const isPdfFile =

@@ -14,7 +14,7 @@ const NO_CACHE_HEADERS = {
 
 export async function GET() {
   try {
-    await ensureStoreSyncedFromSupabase(true);
+    await ensureStoreSyncedFromSupabase(false);
     const branches = getBranches();
     return NextResponse.json({ branches }, { headers: NO_CACHE_HEADERS });
   } catch (err: any) {
@@ -29,9 +29,9 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json();
-    await ensureStoreSyncedFromSupabase(true);
+    await ensureStoreSyncedFromSupabase(false);
     const branch = saveBranch(body);
-    await syncCurrentStoreToCloud();
+    syncCurrentStoreToCloud();
     return NextResponse.json({ success: true, branch }, { status: 201, headers: NO_CACHE_HEADERS });
   } catch (err: any) {
     return NextResponse.json({ error: err.message }, { status: 500, headers: NO_CACHE_HEADERS });
@@ -45,9 +45,9 @@ export async function PUT(request: NextRequest) {
     }
 
     const body = await request.json();
-    await ensureStoreSyncedFromSupabase(true);
+    await ensureStoreSyncedFromSupabase(false);
     const branch = saveBranch(body);
-    await syncCurrentStoreToCloud();
+    syncCurrentStoreToCloud();
     return NextResponse.json({ success: true, branch }, { headers: NO_CACHE_HEADERS });
   } catch (err: any) {
     return NextResponse.json({ error: err.message }, { status: 500, headers: NO_CACHE_HEADERS });
@@ -66,9 +66,9 @@ export async function DELETE(request: NextRequest) {
       return NextResponse.json({ error: "Filial ID ko'rsatilmadi" }, { status: 400, headers: NO_CACHE_HEADERS });
     }
 
-    await ensureStoreSyncedFromSupabase(true);
+    await ensureStoreSyncedFromSupabase(false);
     deleteBranch(id);
-    await syncCurrentStoreToCloud();
+    syncCurrentStoreToCloud();
     return NextResponse.json({ success: true }, { headers: NO_CACHE_HEADERS });
   } catch (err: any) {
     return NextResponse.json({ error: err.message }, { status: 500, headers: NO_CACHE_HEADERS });

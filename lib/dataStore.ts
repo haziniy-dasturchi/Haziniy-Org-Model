@@ -15,7 +15,7 @@ import {
 
 let memoryStoreCache: OrgStoreSchema | null = null;
 let lastSyncTimestamp = 0;
-const SYNC_TTL_MS = 1000; // 1s TTL for serverless edge caching
+const SYNC_TTL_MS = 60000; // 60s memory cache with background revalidation
 
 const isVercel = Boolean(process.env.VERCEL);
 const localDataDir = path.join(process.cwd(), "data");
@@ -112,9 +112,29 @@ function getInitialStore(): OrgStoreSchema {
   };
 }
 
-export async function ensureStoreSyncedFromSupabase(force = true): Promise<OrgStoreSchema> {
+export async function ensureStoreSyncedFromSupabase(force = false): Promise<OrgStoreSchema> {
   const now = Date.now();
   if (!force && memoryStoreCache && now - lastSyncTimestamp < SYNC_TTL_MS) {
+    return memoryStoreCache;
+  }
+
+  // Stale-While-Revalidate: If memory cache exists, return immediately and refresh in background
+  if (!force && memoryStoreCache) {
+    (async () => {
+      try {
+        const cloudSnapshot = await fetchStoreSnapshotFromSupabase();
+        if (cloudSnapshot && Array.isArray(cloudSnapshot.departments) && cloudSnapshot.departments.length > 0) {
+          memoryStoreCache = cloudSnapshot;
+          lastSyncTimestamp = Date.now();
+          try {
+            ensureDataDir();
+            fs.writeFileSync(storeFilePath, JSON.stringify(cloudSnapshot, null, 2), "utf8");
+          } catch {}
+        }
+      } catch (bgErr) {
+        console.warn("Background revalidate failed:", bgErr);
+      }
+    })();
     return memoryStoreCache;
   }
 
@@ -215,11 +235,12 @@ export async function writeStoreAsync(store: OrgStoreSchema): Promise<void> {
 
 export async function syncCurrentStoreToCloud(): Promise<boolean> {
   const store = readStore();
-  const ok = await pushStoreSnapshotToSupabase(store);
-  if (ok) {
-    lastSyncTimestamp = Date.now();
-  }
-  return ok;
+  // Fire push in background so API routes respond in milliseconds
+  pushStoreSnapshotToSupabase(store).catch((err) => {
+    console.error("Background syncCurrentStoreToCloud failed:", err);
+  });
+  lastSyncTimestamp = Date.now();
+  return true;
 }
 
 // ==========================================

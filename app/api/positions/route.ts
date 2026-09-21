@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { checkAdminSession } from "@/lib/adminAuth";
 import { getPositions, savePosition, ensureStoreSyncedFromSupabase, syncCurrentStoreToCloud } from "@/lib/dataStore";
-import { fetchStoreSnapshotFromSupabase, lastSupabaseSyncError } from "@/lib/supabaseSync";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -15,7 +14,7 @@ const NO_CACHE_HEADERS = {
 
 export async function GET() {
   try {
-    await ensureStoreSyncedFromSupabase(true);
+    await ensureStoreSyncedFromSupabase(false);
     const positions = getPositions();
     return NextResponse.json({ positions }, { headers: NO_CACHE_HEADERS });
   } catch (err: any) {
@@ -36,7 +35,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Lavozim nomi kiritilishi shart" }, { status: 400, headers: NO_CACHE_HEADERS });
     }
 
-    await ensureStoreSyncedFromSupabase(true);
+    await ensureStoreSyncedFromSupabase(false);
 
     const pos = savePosition({
       department_id,
@@ -48,7 +47,7 @@ export async function POST(request: NextRequest) {
       estimated_salary: estimated_salary ? Number(estimated_salary) : undefined,
     });
 
-    await syncCurrentStoreToCloud();
+    syncCurrentStoreToCloud();
 
     return NextResponse.json({ success: true, position: pos }, { status: 201, headers: NO_CACHE_HEADERS });
   } catch (err: any) {

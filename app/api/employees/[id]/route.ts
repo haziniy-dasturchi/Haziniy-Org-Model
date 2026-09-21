@@ -17,7 +17,7 @@ export async function GET(
   { params }: { params: { id: string } }
 ) {
   try {
-    await ensureStoreSyncedFromSupabase(true);
+    await ensureStoreSyncedFromSupabase(false);
     const emp = getEmployeeById(params.id);
     if (!emp) {
       return NextResponse.json({ error: "Xodim topilmadi" }, { status: 404, headers: NO_CACHE_HEADERS });
@@ -50,7 +50,7 @@ export async function PUT(
       certificates,
     } = body;
 
-    await ensureStoreSyncedFromSupabase(true);
+    await ensureStoreSyncedFromSupabase(false);
 
     const emp = saveEmployee({
       id: params.id,
@@ -65,7 +65,7 @@ export async function PUT(
       certificates,
     });
 
-    await syncCurrentStoreToCloud();
+    syncCurrentStoreToCloud();
 
     return NextResponse.json({ success: true, employee: emp }, { headers: NO_CACHE_HEADERS });
   } catch (err: any) {
@@ -82,9 +82,9 @@ export async function DELETE(
       return NextResponse.json({ error: "Faqat admin uchun ruxsat berilgan" }, { status: 403, headers: NO_CACHE_HEADERS });
     }
 
-    await ensureStoreSyncedFromSupabase(true);
+    await ensureStoreSyncedFromSupabase(false);
     deleteEmployee(params.id);
-    await syncCurrentStoreToCloud();
+    syncCurrentStoreToCloud();
     return NextResponse.json({ success: true }, { headers: NO_CACHE_HEADERS });
   } catch (err: any) {
     return NextResponse.json({ error: err.message }, { status: 500, headers: NO_CACHE_HEADERS });

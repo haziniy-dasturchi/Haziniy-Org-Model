@@ -16,7 +16,7 @@ export async function GET(
   request: NextRequest,
   { params }: { params: { id: string } }
 ) {
-  await ensureStoreSyncedFromSupabase(true);
+  await ensureStoreSyncedFromSupabase(false);
   const pos = getPositionById(params.id);
   if (!pos) return NextResponse.json({ error: "Lavozim topilmadi" }, { status: 404, headers: NO_CACHE_HEADERS });
   return NextResponse.json({ position: pos }, { headers: NO_CACHE_HEADERS });
@@ -34,10 +34,8 @@ export async function PUT(
     const body = await request.json();
     const { department_id, title, yqm_text, status, sort_order, branch_id, estimated_salary } = body;
 
-    // 1. Force fresh sync from Supabase cloud first
-    await ensureStoreSyncedFromSupabase(true);
+    await ensureStoreSyncedFromSupabase(false);
 
-    // 2. Save in store
     const pos = savePosition({
       id: params.id,
       department_id,
@@ -49,8 +47,7 @@ export async function PUT(
       estimated_salary: estimated_salary !== undefined ? (estimated_salary ? Number(estimated_salary) : null) : undefined,
     });
 
-    // 3. Immediately persist to Supabase cloud
-    await syncCurrentStoreToCloud();
+    syncCurrentStoreToCloud();
 
     return NextResponse.json({ success: true, position: pos }, { headers: NO_CACHE_HEADERS });
   } catch (err: any) {
@@ -67,9 +64,9 @@ export async function DELETE(
       return NextResponse.json({ error: "Faqat admin uchun ruxsat berilgan" }, { status: 403, headers: NO_CACHE_HEADERS });
     }
 
-    await ensureStoreSyncedFromSupabase(true);
+    await ensureStoreSyncedFromSupabase(false);
     deletePosition(params.id);
-    await syncCurrentStoreToCloud();
+    syncCurrentStoreToCloud();
 
     return NextResponse.json({ success: true }, { headers: NO_CACHE_HEADERS });
   } catch (err: any) {
