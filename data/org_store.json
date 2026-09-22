@@ -446,7 +446,15 @@
       "resume": "- Hidoya madrasasini tamomlagan",
       "portfolio_links": [],
       "created_at": "2026-09-20T02:42:45.078Z",
-      "subject": "Arab tili"
+      "subject": "Arab tili",
+      "certificates": [
+        {
+          "id": "cert-yaxyoxonov-moslashuv-2026",
+          "title": "Jamoaga eng tez moslashgan ustoz",
+          "image_url": "/certificates/cert_yaxyoxonov_saidxon.png",
+          "issued_date": "2025/2026"
+        }
+      ]
     },
     {
       "id": "emp-1789874563144",
