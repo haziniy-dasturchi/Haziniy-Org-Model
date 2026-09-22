@@ -45,7 +45,7 @@ export function PositionCard({ position, mode }: PositionCardProps) {
         )}
       </div>
 
-      {/* Position YQM (Yakuniy Qimmatli Mahsulot) */}
+      {/* Position YQM (Yakuniy Qiymatli Mahsulot) */}
       {position.yqm_text && (
         <div className="mb-2.5 px-2 py-1 rounded bg-white/70 border border-slate-100 text-[11px] text-slate-600 flex items-start gap-1">
           <FileText className="w-3 h-3 text-slate-400 mt-0.5 flex-shrink-0" />

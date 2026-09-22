@@ -271,7 +271,7 @@ export function TreeOrgChart({ departments, mode }: TreeOrgChartProps) {
                 {dept.yqm_text && (
                   <div className="w-full mt-4 pt-2 border-t border-slate-200/60">
                     <div
-                      className="w-full p-2 rounded-xl text-[9px] sm:text-[10px] font-extrabold uppercase text-center leading-snug shadow-2xs text-white"
+                      className="w-full px-2 py-2 rounded-xl text-[9px] sm:text-[9.5px] font-extrabold uppercase text-justify [text-align-last:center] leading-snug tracking-tight shadow-2xs text-white"
                       style={{ backgroundColor: deptColor.bg }}
                       title={dept.yqm_text}
                     >

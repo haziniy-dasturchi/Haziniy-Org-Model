@@ -181,13 +181,13 @@ export function DepartmentModal({
           {/* YQM matni */}
           <div>
             <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
-              Yakuniy Qimmatli Mahsulot (YQM)
+              Yakuniy Qiymatli Mahsulot (YQM)
             </label>
             <textarea
               value={yqmText}
               onChange={(e) => setYqmText(e.target.value)}
               rows={3}
-              placeholder="Bo'limning umumiy yakuniy qimmatli mahsuloti ta'rifi..."
+              placeholder="Bo'limning umumiy yakuniy qiymatli mahsuloti ta'rifi..."
               className="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:border-brand-accent focus:ring-2 focus:ring-blue-100 text-xs sm:text-sm font-medium text-slate-800 outline-none transition leading-relaxed resize-none"
             />
           </div>

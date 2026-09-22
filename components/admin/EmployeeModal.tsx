@@ -362,7 +362,7 @@ export function EmployeeModal({
           {/* Shaxsiy YQM */}
           <div>
             <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
-              Shaxsiy Yakuniy Qimmatli Mahsulot (YQM)
+              Shaxsiy Yakuniy Qiymatli Mahsulot (YQM)
             </label>
             <textarea
               value={personalYqm}

@@ -436,7 +436,7 @@ export function EditEmployeeModal({
           <div>
             <label className="block text-xs font-bold text-slate-700 mb-1 flex items-center gap-1.5">
               <Award className="w-3.5 h-3.5 text-amber-600" />
-              Shaxsiy YQM (Yakuniy Qimmatli Mahsulot)
+              Shaxsiy YQM (Yakuniy Qiymatli Mahsulot)
             </label>
             <textarea
               rows={3}

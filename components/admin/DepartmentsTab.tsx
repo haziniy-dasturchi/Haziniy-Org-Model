@@ -107,7 +107,7 @@ export function DepartmentsTab({
             <span>Tashkiliy Bo&apos;limlar ({departments.length})</span>
           </h2>
           <p className="text-xs text-slate-500 mt-0.5">
-            Barcha bo&apos;limlar, rang sxemalari va Yakuniy Qimmatli Mahsulotlar
+            Barcha bo&apos;limlar, rang sxemalari va Yakuniy Qiymatli Mahsulotlar
           </p>
         </div>
 
@@ -142,7 +142,7 @@ export function DepartmentsTab({
                 <th className="py-3.5 px-4 sm:px-6 w-16">Tartib</th>
                 <th className="py-3.5 px-4 sm:px-6">Bo&apos;lim nomi</th>
                 <th className="py-3.5 px-4 sm:px-6">Rang</th>
-                <th className="py-3.5 px-4 sm:px-6">Yakuniy Qimmatli Mahsulot (YQM)</th>
+                <th className="py-3.5 px-4 sm:px-6">Yakuniy Qiymatli Mahsulot (YQM)</th>
                 <th className="py-3.5 px-4 sm:px-6 text-right w-28">Amallar</th>
               </tr>
             </thead>

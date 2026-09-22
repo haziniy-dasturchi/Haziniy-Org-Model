@@ -198,13 +198,13 @@ export function EmployeeProfileView({
 
           {/* Core YQM Cards Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5 pt-6 border-t border-emerald-900/10">
-            {/* 1. Shaxsiy YQM (Yakuniy Qimmatli Mahsulot) - Highlighted Haziniy Brand Style */}
+            {/* 1. Shaxsiy YQM (Yakuniy Qiymatli Mahsulot) - Highlighted Haziniy Brand Style */}
             <div className="rounded-2xl border border-emerald-200/80 bg-gradient-to-br from-emerald-50/60 via-white to-emerald-50/30 p-5 shadow-2xs hover:border-brand-accent/50 transition">
               <div className="flex items-center gap-2 text-brand-dark font-bold text-xs uppercase tracking-wider mb-2.5">
                 <div className="flex h-7 w-7 items-center justify-center rounded-xl bg-brand-dark text-brand-accent shadow-2xs">
                   <Award className="w-4 h-4" />
                 </div>
-                <span>Shaxsiy YQM (Yakuniy Qimmatli Mahsulot)</span>
+                <span>Shaxsiy YQM (Yakuniy Qiymatli Mahsulot)</span>
               </div>
               <p className="text-xs sm:text-sm text-slate-800 leading-relaxed font-medium whitespace-pre-line pl-1">
                 {employee.personal_yqm ||

@@ -138,7 +138,7 @@ export function PositionGroupDropdown({
         {/* YQM Text */}
         <div className="text-[11px] leading-relaxed text-slate-200 font-normal">
           <span className="font-bold text-white block text-[10px] uppercase text-slate-400 mb-0.5">
-            Yakuniy Qimmatli Mahsulot:
+            Yakuniy Qiymatli Mahsulot:
           </span>
           <p className="whitespace-pre-line text-slate-100">
             {position.yqm_text}
