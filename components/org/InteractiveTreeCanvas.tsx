@@ -170,7 +170,7 @@ export function InteractiveTreeCanvas({ departments, mode }: InteractiveTreeCanv
     id: "pos-asoschi-default",
     department_id: boshqaruvDept?.id || "dept-boshqaruv",
     title: "ASOSCHI",
-    yqm_text: "KORXONA STRATEGIYASI, MISSIYASI VA YUKSALISHI",
+    yqm_text: "KORXONA STRATEGIYASI, MISSIYASI VA YUKSALISHI YO'LIDA SAMIMIY XIZMAT QILISH.",
     status: "mavjud",
     sort_order: 1,
     created_at: "",
