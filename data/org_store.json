@@ -431,6 +431,12 @@
           "title": "Eng ko'p ilm ulashgan ustoz",
           "image_url": "/certificates/cert_ibrohimov_muhammadayyub_award.png",
           "issued_date": "2025/2026"
+        },
+        {
+          "id": "cert-ibrohimov-hidoya-diplom-2024",
+          "title": "Hidoya o'rta maxsus islom bilim yurti diplomi (Imtiyozli)",
+          "image_url": "/certificates/cert_ibrohimov_hidoya_diplom.png",
+          "issued_date": "2024"
         }
       ],
       "subject": "Arab tili"
@@ -453,6 +459,12 @@
           "title": "Jamoaga eng tez moslashgan ustoz",
           "image_url": "/certificates/cert_yaxyoxonov_saidxon.png",
           "issued_date": "2025/2026"
+        },
+        {
+          "id": "cert-yaxyoxonov-attanal-2025",
+          "title": "At-Tanal Al-Arabi xalqaro sertifikati (C1 daraja)",
+          "image_url": "/certificates/cert_yaxyoxonov_attanal.png",
+          "issued_date": "15.06.2025"
         }
       ]
     },
@@ -531,7 +543,15 @@
       "resume": "Ma'lumotlari:\nTug'ilgan sana: 01.02.2002\nYashash manzili: Fargʻona viloyati, Bagʻdod tumani, Qaroqchitol MFY, Marhamat koʻchasi 1-uy\n\nTa'lim:\n2020-2024 — QDPI, Xorijiy til va adabiyoti (Bakalavr)\n\nIsh tajribasi:\n- 2025-hozirgacha — 13-umumiy oʻrta ta'lim maktabi, Ingliz tili oʻqituvchisi\n\nSertifikatlar:\n- Multilevel B2 sertifikati",
       "portfolio_links": [],
       "created_at": "2026-09-20T05:21:09.111Z",
-      "subject": "Ingliz tili"
+      "subject": "Ingliz tili",
+      "certificates": [
+        {
+          "id": "cert-eshboltayeva-ingliz-b2-2026",
+          "title": "Ingliz tili Milliy sertifikati (B2 daraja)",
+          "image_url": "/certificates/cert_eshboltayeva_hosiyat_b2.png",
+          "issued_date": "18.06.2026"
+        }
+      ]
     },
     {
       "id": "emp-1789881696786",
@@ -551,6 +571,12 @@
           "title": "Individual yondashuv ustasi",
           "image_url": "/certificates/cert_ganiyeva_zilolaxon.png",
           "issued_date": "2025/2026"
+        },
+        {
+          "id": "cert-ganiyeva-sat-2025",
+          "title": "SAT xalqaro sertifikati (Math: 760)",
+          "image_url": "/certificates/cert_ganiyeva_sat.png",
+          "issued_date": "08.03.2025"
         }
       ]
     },
@@ -572,6 +598,12 @@
           "title": "Eng natijali ustoz",
           "image_url": "/certificates/cert_hamidova_kumushxon.png",
           "issued_date": "2025/2026"
+        },
+        {
+          "id": "cert-hamidova-kumush-c1-2025",
+          "title": "Ingliz tili Milliy sertifikati (C1 daraja)",
+          "image_url": "/certificates/cert_hamidova_kumush_c1.png",
+          "issued_date": "07.02.2025"
         }
       ]
     },
@@ -583,7 +615,7 @@
       "photo_url": null,
       "hired_at": null,
       "personal_yqm": null,
-      "resume": null,
+      "resume": "Ta'lim:\n2012-2016 — Farg'ona davlat universiteti, Filologiya va tillarni o'qitish: o'zbek tili (Bakalavr)\n\nSertifikatlar:\n- Ona tili va adabiyot fanidan Milliy sertifikat (87.2%)",
       "portfolio_links": [],
       "created_at": "2026-09-20T05:22:05.695Z",
       "subject": "Ona tili",
@@ -593,6 +625,18 @@
           "title": "Eng tartibli ustoz",
           "image_url": "/certificates/cert_hamidova_muslimaxon.png",
           "issued_date": "2025/2026"
+        },
+        {
+          "id": "cert-hamidova-muslima-diplom-2016",
+          "title": "Farg'ona davlat universiteti Bakalavr diplomi (O'zbek tili va adabiyoti)",
+          "image_url": "/certificates/cert_hamidova_muslima_diplom.png",
+          "issued_date": "2016"
+        },
+        {
+          "id": "cert-hamidova-muslima-milliy-2023",
+          "title": "Ona tili va adabiyot fanidan Milliy sertifikat (87.2%)",
+          "image_url": "/certificates/cert_hamidova_muslima_milliy.png",
+          "issued_date": "21.11.2023"
         }
       ]
     },
@@ -675,7 +719,7 @@
       "photo_url": null,
       "hired_at": null,
       "personal_yqm": null,
-      "resume": null,
+      "resume": "Sertifikatlar:\n- Arab tili bo'yicha Milliy sertifikat (B2 daraja)",
       "portfolio_links": [],
       "created_at": "2026-09-20T05:23:05.137Z",
       "subject": "Arab tili",
@@ -685,6 +729,12 @@
           "title": "Eng ijodkor ustoz",
           "image_url": "/certificates/cert_muhammadjonova_hidoyatxon.png",
           "issued_date": "2025/2026"
+        },
+        {
+          "id": "cert-muhammadjonova-arab-b2-2026",
+          "title": "Arab tili Milliy sertifikati (B2 daraja)",
+          "image_url": "/certificates/cert_muhammadjonova_hidoyat_b2.jpg",
+          "issued_date": "11.09.2026"
         }
       ]
     },
@@ -706,6 +756,12 @@
           "title": "O'quvchilar ishonchini qozongan ustoz",
           "image_url": "/certificates/cert_mirzaolimov_islomjon.png",
           "issued_date": "2025/2026"
+        },
+        {
+          "id": "cert-mirzaolimov-arab-b2-2025",
+          "title": "Arab tili Milliy sertifikati (B2 daraja)",
+          "image_url": "/certificates/cert_mirzaolimov_islomjon_b2.png",
+          "issued_date": "19.03.2025"
         }
       ]
     },
