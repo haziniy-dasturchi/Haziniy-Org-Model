@@ -206,7 +206,7 @@ export function EmployeeProfileView({
                 </div>
                 <span>Shaxsiy YQM (Yakuniy Qiymatli Mahsulot)</span>
               </div>
-              <p className="text-xs sm:text-sm text-slate-800 leading-relaxed font-medium whitespace-pre-line pl-1">
+              <p className="text-xs sm:text-sm text-slate-800 leading-relaxed font-medium whitespace-pre-line pl-1 uppercase">
                 {employee.personal_yqm ||
                   position?.yqm_text ||
                   "Ushbu xodim uchun shaxsiy YQM hali belgilanmagan."}
@@ -221,7 +221,7 @@ export function EmployeeProfileView({
                 </div>
                 <span>Bo&apos;limning Umumiy YQMi</span>
               </div>
-              <p className="text-xs sm:text-sm text-slate-700 leading-relaxed pl-1">
+              <p className="text-xs sm:text-sm text-slate-700 leading-relaxed pl-1 uppercase">
                 {department?.yqm_text || "Bo'lim YQMi ko'rsatilmagan."}
               </p>
             </div>
