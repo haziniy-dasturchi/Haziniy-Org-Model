@@ -601,7 +601,7 @@ export function InteractiveTreeCanvas({ departments, mode }: InteractiveTreeCanv
                   {dept.yqm_text && (
                     <div className="w-full mt-4 pt-2 border-t border-slate-100">
                       <div
-                        className="w-full px-2 py-2 rounded-xl text-[9px] sm:text-[9.5px] font-bold uppercase text-justify [text-align-last:center] leading-snug tracking-tight border transition-all shadow-2xs"
+                        className="w-full px-2 py-2 rounded-xl text-[9px] sm:text-[9.5px] font-bold uppercase text-center leading-snug tracking-tight border transition-all shadow-2xs"
                         style={{
                           backgroundColor: deptColor.lightBg,
                           color: deptColor.darkText,
