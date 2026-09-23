@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Playfair_Display, Inter } from "next/font/google";
 import { Navbar } from "@/components/layout/Navbar";
+import { ScreenProtection } from "@/components/common/ScreenProtection";
 import "./globals.css";
 
 const playfair = Playfair_Display({
@@ -33,6 +34,7 @@ export default function RootLayout({
   return (
     <html lang="uz" className={`${playfair.variable} ${inter.variable}`}>
       <body className="min-h-screen bg-brand-bg text-brand-text font-sans antialiased selection:bg-brand-accent selection:text-white flex flex-col">
+        <ScreenProtection />
         <Navbar />
         <div className="flex-1">
           {children}

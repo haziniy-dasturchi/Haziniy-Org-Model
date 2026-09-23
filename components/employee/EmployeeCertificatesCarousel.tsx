@@ -19,11 +19,13 @@ import {
 interface EmployeeCertificatesCarouselProps {
   certificates?: CertificateItem[];
   employeeName: string;
+  isAdmin?: boolean;
 }
 
 export function EmployeeCertificatesCarousel({
   certificates = [],
   employeeName,
+  isAdmin = false,
 }: EmployeeCertificatesCarouselProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [selectedCert, setSelectedCert] = useState<CertificateItem | null>(null);
@@ -174,7 +176,11 @@ export function EmployeeCertificatesCarousel({
                 <img
                   src={current.image_url}
                   alt={current.title}
-                  className="w-full h-full object-contain p-2 group-hover:scale-[1.02] transition-transform duration-300 select-none"
+                  draggable={false}
+                  onContextMenu={(e) => {
+                    if (!isAdmin) e.preventDefault();
+                  }}
+                  className={`w-full h-full object-contain p-2 group-hover:scale-[1.02] transition-transform duration-300 select-none ${!isAdmin ? "pointer-events-none" : ""}`}
                 />
 
                 {/* Hover Overlay with Zoom Icon */}
@@ -189,6 +195,14 @@ export function EmployeeCertificatesCarousel({
                 <div className="absolute top-3 left-3 bg-brand-dark/85 backdrop-blur-md text-amber-300 border border-amber-400/40 text-[10px] font-bold px-3 py-1 rounded-xl shadow-xs">
                   <span>Tasdiqlangan</span>
                 </div>
+
+                {!isAdmin && (
+                  <div
+                    className="absolute inset-0 z-10 select-none bg-transparent cursor-pointer"
+                    onContextMenu={(e) => e.preventDefault()}
+                    onDragStart={(e) => e.preventDefault()}
+                  />
+                )}
               </div>
             )}
           </div>
@@ -232,7 +246,7 @@ export function EmployeeCertificatesCarousel({
                 <span>{isCurrentPdf ? "PDFni to'liq ochish" : "To'liq hajmda ko'rish"}</span>
               </button>
 
-              {isCurrentPdf && (
+              {isCurrentPdf && isAdmin && (
                 <a
                   href={current.image_url}
                   target="_blank"
@@ -295,26 +309,30 @@ export function EmployeeCertificatesCarousel({
               </div>
 
               <div className="flex items-center gap-2">
-                <a
-                  href={selectedCert.image_url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white border border-slate-200 text-xs font-semibold text-slate-700 hover:text-brand-dark hover:border-brand-accent transition"
-                  title="Yangi oynada ochish"
-                >
-                  <ExternalLink className="w-3.5 h-3.5 text-slate-400" />
-                  <span className="hidden sm:inline">Yangi oynada</span>
-                </a>
+                {isAdmin && (
+                  <>
+                    <a
+                      href={selectedCert.image_url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white border border-slate-200 text-xs font-semibold text-slate-700 hover:text-brand-dark hover:border-brand-accent transition"
+                      title="Yangi oynada ochish"
+                    >
+                      <ExternalLink className="w-3.5 h-3.5 text-slate-400" />
+                      <span className="hidden sm:inline">Yangi oynada</span>
+                    </a>
 
-                <a
-                  href={selectedCert.image_url}
-                  download={`${(selectedCert.title || "Sertifikat").replace(/\s+/g, "_")}${isPdf(selectedCert.image_url) ? ".pdf" : ".jpg"}`}
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-brand-dark text-white text-xs font-semibold hover:bg-emerald-950 transition"
-                  title="Faylni yuklab olish"
-                >
-                  <Download className="w-3.5 h-3.5" />
-                  <span className="hidden sm:inline">Yuklab olish</span>
-                </a>
+                    <a
+                      href={selectedCert.image_url}
+                      download={`${(selectedCert.title || "Sertifikat").replace(/\s+/g, "_")}${isPdf(selectedCert.image_url) ? ".pdf" : ".jpg"}`}
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-brand-dark text-white text-xs font-semibold hover:bg-emerald-950 transition"
+                      title="Faylni yuklab olish"
+                    >
+                      <Download className="w-3.5 h-3.5" />
+                      <span className="hidden sm:inline">Yuklab olish</span>
+                    </a>
+                  </>
+                )}
 
                 <button
                   type="button"
@@ -331,17 +349,28 @@ export function EmployeeCertificatesCarousel({
               {isPdf(selectedCert.image_url) ? (
                 <div className="w-full h-[75vh] rounded-2xl overflow-hidden border border-slate-200 bg-white shadow-md flex flex-col">
                   <iframe
-                    src={`${selectedCert.image_url}#toolbar=1&navpanes=1`}
+                    src={`${selectedCert.image_url}#toolbar=${isAdmin ? 1 : 0}&navpanes=0`}
                     className="w-full h-full border-0"
                     title={selectedCert.title}
                   />
                 </div>
               ) : (
-                <img
-                  src={selectedCert.image_url}
-                  alt={selectedCert.title}
-                  className="max-h-[72vh] w-auto max-w-full rounded-xl object-contain shadow-md border border-slate-200 bg-white"
-                />
+                <div className="relative inline-block select-none max-w-full">
+                  <img
+                    src={selectedCert.image_url}
+                    alt={selectedCert.title}
+                    draggable={false}
+                    className={`max-h-[72vh] w-auto max-w-full rounded-xl object-contain shadow-md border border-slate-200 bg-white ${
+                      !isAdmin ? "pointer-events-none select-none" : ""
+                    }`}
+                  />
+                  {!isAdmin && (
+                    <div
+                      className="absolute inset-0 z-10 bg-transparent select-none cursor-default"
+                      onContextMenu={(e) => e.preventDefault()}
+                    />
+                  )}
+                </div>
               )}
             </div>
           </div>

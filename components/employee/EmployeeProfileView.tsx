@@ -119,15 +119,28 @@ export function EmployeeProfileView({
           {/* Avatar & Badges Row */}
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 -mt-16 sm:-mt-20 mb-6">
             {/* Avatar / Photo */}
-            <div className="relative">
+            <div className="relative group">
               {employee.photo_url ? (
-                <img
-                  src={employee.photo_url}
-                  alt={employee.full_name}
-                  className="w-28 h-28 sm:w-36 sm:h-36 rounded-3xl object-cover border-4 border-white shadow-xl bg-white ring-2 ring-emerald-900/10"
-                />
+                <div className="relative">
+                  <img
+                    src={employee.photo_url}
+                    alt={employee.full_name}
+                    draggable={false}
+                    onContextMenu={(e) => {
+                      if (!isAdmin) e.preventDefault();
+                    }}
+                    className={`w-28 h-28 sm:w-36 sm:h-36 rounded-3xl object-cover border-4 border-white shadow-xl bg-white ring-2 ring-emerald-900/10 ${!isAdmin ? "select-none pointer-events-none" : ""}`}
+                  />
+                  {!isAdmin && (
+                    <div
+                      className="absolute inset-0 z-10 select-none bg-transparent rounded-3xl cursor-default"
+                      onContextMenu={(e) => e.preventDefault()}
+                      onDragStart={(e) => e.preventDefault()}
+                    />
+                  )}
+                </div>
               ) : (
-                <div className="w-28 h-28 sm:w-36 sm:h-36 rounded-3xl bg-gradient-to-br from-[#003933] to-[#002420] border-4 border-white text-brand-accent flex items-center justify-center text-3xl sm:text-4xl font-serif font-bold shadow-xl ring-2 ring-emerald-900/10">
+                <div className="w-28 h-28 sm:w-36 sm:h-36 rounded-3xl bg-gradient-to-br from-[#003933] to-[#002420] border-4 border-white text-brand-accent flex items-center justify-center text-3xl sm:text-4xl font-serif font-bold shadow-xl ring-2 ring-emerald-900/10 select-none">
                   {getInitials(employee.full_name)}
                 </div>
               )}
@@ -248,6 +261,7 @@ export function EmployeeProfileView({
           <EmployeeCertificatesCarousel
             certificates={employee.certificates}
             employeeName={employee.full_name}
+            isAdmin={isAdmin}
           />
 
           {/* Portfolio & Documents External Links */}
