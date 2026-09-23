@@ -96,7 +96,7 @@ export function EditEmployeeModal({
       setError(null);
       setSuccess(false);
     }
-  }, [isOpen, employee]);
+  }, [isOpen, employee?.id]);
 
   if (!isOpen) return null;
 
@@ -108,7 +108,7 @@ export function EditEmployeeModal({
       setIsUploadingPhoto(true);
       setError(null);
 
-      const compressed = await compressImageFile(file);
+      const compressed = await compressImageFile(file, 500, 0.8);
       const formData = new FormData();
       formData.append("file", compressed);
 

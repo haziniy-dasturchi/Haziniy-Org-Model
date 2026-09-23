@@ -45,6 +45,7 @@ export function EmployeeModal({
 
 
   useEffect(() => {
+    if (!isOpen) return;
     if (employee) {
       setFullName(employee.full_name || "");
       setPositionId(employee.position_id || (positions[0]?.id || ""));
@@ -70,7 +71,7 @@ export function EmployeeModal({
     }
     setNewLink("");
     setError(null);
-  }, [employee, positions, isOpen]);
+  }, [isOpen, employee?.id]);
 
   if (!isOpen) return null;
 
@@ -82,7 +83,8 @@ export function EmployeeModal({
       setIsUploading(true);
       setError(null);
 
-      const compressed = await compressImageFile(file);
+      // Compress avatar photo to max 500px for instant upload and cloud sync
+      const compressed = await compressImageFile(file, 500, 0.8);
       const formData = new FormData();
       formData.append("file", compressed);
 
@@ -101,6 +103,7 @@ export function EmployeeModal({
       setError(err.message || "Surat yuklab bo'lmadi");
     } finally {
       setIsUploading(false);
+      if (fileInputRef.current) fileInputRef.current.value = "";
     }
   };
 

@@ -77,7 +77,9 @@ export function EmployeesTab({
     }
 
     showToast(isEdit ? "Xodim ma'lumotlari muvaffaqiyatli yangilandi!" : "Yangi xodim muvaffaqiyatli qo'shildi!");
-    onRefresh().catch(console.error);
+    setTimeout(() => {
+      onRefresh().catch(console.error);
+    }, 1500);
   };
 
   const handleDelete = async () => {
