@@ -132,15 +132,23 @@ export function OrgEmployeePill({
         }}
       >
         {/* Avatar Circle */}
-        <div className="relative flex-shrink-0">
+        <div className="relative flex-shrink-0 select-none">
           {employee.photo_url ? (
-            <img
-              src={employee.photo_url}
-              alt={employee.full_name}
-              className="h-8 w-8 rounded-full object-cover border border-white/60 shadow-2xs"
-            />
+            <div className="relative overflow-hidden rounded-full h-8 w-8">
+              <img
+                src={employee.photo_url}
+                alt={employee.full_name}
+                draggable={false}
+                className="h-8 w-8 rounded-full object-cover border border-white/60 shadow-2xs pointer-events-none select-none"
+              />
+              <div
+                className="absolute inset-0 z-10 bg-transparent select-none cursor-pointer"
+                onContextMenu={(e) => e.preventDefault()}
+                onDragStart={(e) => e.preventDefault()}
+              />
+            </div>
           ) : (
-            <div className="flex h-8 w-8 items-center justify-center rounded-full bg-white/25 backdrop-blur-sm border border-white/50 text-white text-[10px] font-black shadow-2xs">
+            <div className="flex h-8 w-8 items-center justify-center rounded-full bg-white/25 backdrop-blur-sm border border-white/50 text-white text-[10px] font-black shadow-2xs select-none">
               {getInitials(employee.full_name)}
             </div>
           )}

@@ -121,7 +121,7 @@ export function EmployeeProfileView({
             {/* Avatar / Photo */}
             <div className="relative group">
               {employee.photo_url ? (
-                <div className="relative">
+                <div className="relative overflow-hidden rounded-3xl">
                   <img
                     src={employee.photo_url}
                     alt={employee.full_name}
@@ -132,11 +132,18 @@ export function EmployeeProfileView({
                     className={`w-28 h-28 sm:w-36 sm:h-36 rounded-3xl object-cover border-4 border-white shadow-xl bg-white ring-2 ring-emerald-900/10 ${!isAdmin ? "select-none pointer-events-none" : ""}`}
                   />
                   {!isAdmin && (
-                    <div
-                      className="absolute inset-0 z-10 select-none bg-transparent rounded-3xl cursor-default"
-                      onContextMenu={(e) => e.preventDefault()}
-                      onDragStart={(e) => e.preventDefault()}
-                    />
+                    <>
+                      <div className="absolute inset-0 rounded-3xl pointer-events-none flex flex-col justify-end p-2 bg-gradient-to-t from-slate-950/70 via-transparent to-transparent select-none">
+                        <span className="text-[9px] font-bold text-white/95 text-center tracking-wider uppercase drop-shadow-sm">
+                          Haziniy • Himoyalangan
+                        </span>
+                      </div>
+                      <div
+                        className="absolute inset-0 z-10 select-none bg-transparent rounded-3xl cursor-default"
+                        onContextMenu={(e) => e.preventDefault()}
+                        onDragStart={(e) => e.preventDefault()}
+                      />
+                    </>
                   )}
                 </div>
               ) : (

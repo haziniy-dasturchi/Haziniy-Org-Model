@@ -348,13 +348,21 @@ export function InteractiveTreeCanvas({ departments, mode }: InteractiveTreeCanv
                 style={{ boxShadow: "0 6px 20px -2px rgba(0, 57, 51, 0.35)" }}
               >
                 {/* Photo / Avatar */}
-                <div className="relative flex-shrink-0">
+                <div className="relative flex-shrink-0 select-none">
                   {asoschiEmp.photo_url ? (
-                    <img
-                      src={asoschiEmp.photo_url}
-                      alt={asoschiEmp.full_name}
-                      className="h-9 w-9 rounded-full object-cover border border-brand-accent/50 shadow-2xs"
-                    />
+                    <div className="relative overflow-hidden rounded-full h-9 w-9">
+                      <img
+                        src={asoschiEmp.photo_url}
+                        alt={asoschiEmp.full_name}
+                        draggable={false}
+                        className="h-9 w-9 rounded-full object-cover border border-brand-accent/50 shadow-2xs pointer-events-none select-none"
+                      />
+                      <div
+                        className="absolute inset-0 z-10 bg-transparent select-none cursor-pointer"
+                        onContextMenu={(e) => e.preventDefault()}
+                        onDragStart={(e) => e.preventDefault()}
+                      />
+                    </div>
                   ) : (
                     <div className="flex h-9 w-9 items-center justify-center rounded-full bg-brand-accent/20 backdrop-blur-sm border border-brand-accent/40 text-brand-accent text-xs font-black shadow-2xs">
                       {getInitials(asoschiEmp.full_name)}
@@ -474,13 +482,21 @@ export function InteractiveTreeCanvas({ departments, mode }: InteractiveTreeCanv
                   style={{ boxShadow: "0 6px 20px -2px rgba(0, 57, 51, 0.35)" }}
                 >
                   {/* Photo / Avatar */}
-                  <div className="relative flex-shrink-0">
+                  <div className="relative flex-shrink-0 select-none">
                     {menejerEmp.photo_url ? (
-                      <img
-                        src={menejerEmp.photo_url}
-                        alt={menejerEmp.full_name}
-                        className="h-9 w-9 rounded-full object-cover border border-brand-accent/50 shadow-2xs"
-                      />
+                      <div className="relative overflow-hidden rounded-full h-9 w-9">
+                        <img
+                          src={menejerEmp.photo_url}
+                          alt={menejerEmp.full_name}
+                          draggable={false}
+                          className="h-9 w-9 rounded-full object-cover border border-brand-accent/50 shadow-2xs pointer-events-none select-none"
+                        />
+                        <div
+                          className="absolute inset-0 z-10 bg-transparent select-none cursor-pointer"
+                          onContextMenu={(e) => e.preventDefault()}
+                          onDragStart={(e) => e.preventDefault()}
+                        />
+                      </div>
                     ) : (
                       <div className="flex h-9 w-9 items-center justify-center rounded-full bg-brand-accent/20 backdrop-blur-sm border border-brand-accent/40 text-brand-accent text-xs font-black shadow-2xs">
                         {getInitials(menejerEmp.full_name)}

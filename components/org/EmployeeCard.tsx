@@ -46,11 +46,19 @@ export function EmployeeCard({ employee, position, isPlanned }: EmployeeCardProp
     >
       {/* Avatar / Photo */}
       {employee.photo_url ? (
-        <img
-          src={employee.photo_url}
-          alt={employee.full_name}
-          className="h-10 w-10 flex-shrink-0 rounded-full object-cover border border-slate-200"
-        />
+        <div className="relative overflow-hidden rounded-full h-10 w-10 flex-shrink-0 select-none">
+          <img
+            src={employee.photo_url}
+            alt={employee.full_name}
+            draggable={false}
+            className="h-10 w-10 rounded-full object-cover border border-slate-200 pointer-events-none select-none"
+          />
+          <div
+            className="absolute inset-0 z-10 bg-transparent select-none cursor-pointer"
+            onContextMenu={(e) => e.preventDefault()}
+            onDragStart={(e) => e.preventDefault()}
+          />
+        </div>
       ) : (
         <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-emerald-50 to-teal-100 border border-emerald-200/60 text-brand-dark text-xs font-bold shadow-2xs group-hover:from-emerald-100 group-hover:to-brand-accent/30 group-hover:text-emerald-950 transition">
           {getInitials(employee.full_name)}
