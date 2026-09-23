@@ -18,6 +18,7 @@
 .DS_Store
 *.pem
 *.pdf
+!public/certificates/*.pdf
 Haziniy/Taqdimot/
 
 # debug
