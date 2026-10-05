@@ -1,16 +1,15 @@
 "use client";
 
 import React, { useState } from "react";
-import { Plus, Edit, Trash2, Briefcase, Search, Filter, Building2 } from "lucide-react";
-import { Position, Department, Branch } from "@/types";
+import { Plus, Edit, Trash2, Briefcase, Search, Filter } from "lucide-react";
+import { Position, Department } from "@/types";
 import { PositionModal } from "./PositionModal";
 import { DeleteConfirmModal } from "./DeleteConfirmModal";
 import { useToast } from "./ToastContext";
 
 interface PositionsTabProps {
-  positions: (Position & { department?: Department; branch?: Branch | null })[];
+  positions: (Position & { department?: Department })[];
   departments: Department[];
-  branches?: Branch[];
   onRefresh: () => Promise<void>;
   onPositionSaved?: (pos: Position) => void;
   onPositionDeleted?: (id: string) => void;
@@ -19,7 +18,6 @@ interface PositionsTabProps {
 export function PositionsTab({
   positions,
   departments,
-  branches = [],
   onRefresh,
   onPositionSaved,
   onPositionDeleted,
@@ -201,12 +199,6 @@ export function PositionsTab({
                       <td className="py-4 px-4 sm:px-6">
                         <div className="flex flex-col gap-1">
                           <span className="font-bold text-brand-dark">{pos.title}</span>
-                          {pos.branch ? (
-                            <span className="inline-flex items-center gap-1 text-[10px] font-semibold text-teal-700 bg-teal-50 px-2 py-0.5 rounded-md border border-teal-100 w-fit">
-                              <Building2 className="w-3 h-3" />
-                              {pos.branch.name}
-                            </span>
-                          ) : null}
                         </div>
                       </td>
                       <td className="py-4 px-4 sm:px-6">
@@ -283,7 +275,6 @@ export function PositionsTab({
         onSave={handleSave}
         position={selectedPos}
         departments={departments}
-        branches={branches}
       />
 
 

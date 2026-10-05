@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { X, Briefcase, Save } from "lucide-react";
-import { Position, Department, Branch } from "@/types";
+import { Position, Department } from "@/types";
 
 interface PositionModalProps {
   isOpen: boolean;
@@ -10,7 +10,6 @@ interface PositionModalProps {
   onSave: (data: Partial<Position>) => Promise<void>;
   position?: Position | null;
   departments: Department[];
-  branches?: Branch[];
 }
 
 export function PositionModal({

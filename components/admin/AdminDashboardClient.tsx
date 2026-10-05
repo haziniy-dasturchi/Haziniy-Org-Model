@@ -180,7 +180,6 @@ export function AdminDashboardClient({
               <PositionsTab
                 positions={positions}
                 departments={departments}
-                branches={branches}
                 onRefresh={refreshAll}
                 onPositionSaved={handlePositionSaved}
                 onPositionDeleted={handlePositionDeleted}
