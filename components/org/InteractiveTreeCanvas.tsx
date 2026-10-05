@@ -198,19 +198,18 @@ export function InteractiveTreeCanvas({
 
   const allEmployees = departments.flatMap((d) => (d.positions || []).flatMap((p) => p.employees || []));
 
-  const asoschiEmp =
-    (asoschiPos.employees && asoschiPos.employees.length > 0 ? asoschiPos.employees[0] : null) ||
-    (isBranchFiltered
-      ? null
-      : allEmployees.find((e) => e.position_id === asoschiPos.id || e.id === "asoschi-test-emp") ||
-        DEFAULT_TEST_EMPLOYEES[0]);
+  // Asoschi: faqat umumiy rejimda ko'rinadi (filial bo'yicha ko'rsatilganda umumiy darajada qoladi)
+  const asoschiEmp = isBranchFiltered
+    ? null
+    : (asoschiPos.employees && asoschiPos.employees.length > 0 ? asoschiPos.employees[0] : null) ||
+      allEmployees.find((e) => e.position_id === asoschiPos.id || e.id === "asoschi-test-emp") ||
+      DEFAULT_TEST_EMPLOYEES[0];
 
+  // Menejer: har bir filialda (Haziniy, Xazina va Umumiy) mavjud
   const menejerEmp =
     (menejerPos.employees && menejerPos.employees.length > 0 ? menejerPos.employees[0] : null) ||
-    (isBranchFiltered
-      ? null
-      : allEmployees.find((e) => e.position_id === menejerPos.id || e.id === "menejer-test-emp") ||
-        DEFAULT_TEST_EMPLOYEES[1]);
+    allEmployees.find((e) => e.position_id === menejerPos.id || e.id === "menejer-test-emp") ||
+    DEFAULT_TEST_EMPLOYEES[1];
 
   // Zoom Controls
   const handleZoomIn = () => setZoom((prev) => Math.min(prev + 0.15, 1.8));
@@ -411,11 +410,11 @@ export function InteractiveTreeCanvas({
                         {asoschiPos.title}
                       </p>
                       <span className="px-1.5 py-0.2 rounded text-[8px] font-bold bg-slate-100 text-slate-500 border border-slate-200">
-                        Band emas
+                        Umumiy
                       </span>
                     </div>
                     <p className="text-xs font-semibold text-slate-600 truncate leading-tight mt-0.5">
-                      Bu filialda hali band emas
+                      Faqat Umumiy modelda
                     </p>
                   </div>
                 </div>

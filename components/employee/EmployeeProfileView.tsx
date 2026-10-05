@@ -183,12 +183,31 @@ export function EmployeeProfileView({
                 </span>
               )}
 
-              {(employee.branch || branches?.find((b) => b.id === employee.branch_id)) && (
+              {employee.branch_id === "all" ? (
+                <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-emerald-50 text-emerald-900 text-xs font-bold border border-emerald-300 shadow-2xs">
+                  <Building2 className="w-3.5 h-3.5 text-emerald-700" />
+                  Umumiy boshqaruv
+                </span>
+              ) : employee.branch_ids && employee.branch_ids.length > 0 ? (
+                employee.branch_ids.map((bId) => {
+                  const br = branches?.find((b) => b.id === bId);
+                  if (!br) return null;
+                  return (
+                    <span
+                      key={bId}
+                      className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-teal-50 text-teal-900 text-xs font-bold border border-teal-200/80 shadow-2xs"
+                    >
+                      <Building2 className="w-3.5 h-3.5 text-teal-600" />
+                      {br.name}
+                    </span>
+                  );
+                })
+              ) : (employee.branch || branches?.find((b) => b.id === employee.branch_id)) ? (
                 <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-teal-50 text-teal-900 text-xs font-bold border border-teal-200/80 shadow-2xs">
                   <Building2 className="w-3.5 h-3.5 text-teal-600" />
                   {(employee.branch || branches?.find((b) => b.id === employee.branch_id))?.name}
                 </span>
-              )}
+              ) : null}
             </div>
           </div>
 

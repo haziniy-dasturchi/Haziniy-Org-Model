@@ -1,14 +1,14 @@
 "use client";
 
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import { AdminSidebar, AdminTab } from "./AdminSidebar";
 import { DepartmentsTab } from "./DepartmentsTab";
 import { PositionsTab } from "./PositionsTab";
 import { EmployeesTab } from "./EmployeesTab";
 import { BranchesTab } from "./BranchesTab";
 import { MissionTab } from "./MissionTab";
-import { ShieldCheck } from "lucide-react";
-import { Department, Position, Employee, Branch } from "@/types";
+import { ShieldCheck, Building2, ChevronDown } from "lucide-react";
+import { Department, Position, Employee, Branch, isEmployeeInBranch } from "@/types";
 
 interface AdminDashboardClientProps {
   initialDepartments: Department[];
@@ -32,6 +32,28 @@ export function AdminDashboardClient({
   const [employees, setEmployees] = useState<(Employee & { position?: Position & { department?: Department }; branch?: Branch | null })[]>(initialEmployees);
   const [branches, setBranches] = useState<Branch[]>(initialBranches);
   const [mission, setMission] = useState<string>(initialMission);
+  const [selectedBranchId, setSelectedBranchId] = useState<string>("all");
+
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem("haziniy_admin_selected_branch") || localStorage.getItem("haziniy_selected_branch");
+      if (saved) {
+        setSelectedBranchId(saved);
+      }
+    } catch {}
+  }, []);
+
+  const handleBranchChange = (branchId: string) => {
+    setSelectedBranchId(branchId);
+    try {
+      localStorage.setItem("haziniy_admin_selected_branch", branchId);
+      localStorage.setItem("haziniy_selected_branch", branchId);
+    } catch {}
+  };
+
+  const displayedEmployees = selectedBranchId === "all"
+    ? employees
+    : employees.filter((emp) => isEmployeeInBranch(emp, selectedBranchId));
 
   // 1. Immediate optimistic state updates
   const handlePositionSaved = useCallback((savedPos: Position) => {
@@ -127,22 +149,47 @@ export function AdminDashboardClient({
       {/* Header Banner */}
       <div className="border-b border-slate-200/80 bg-white">
         <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-          <div className="flex items-center gap-3">
-            <div className="p-2.5 rounded-2xl bg-brand-accent/10 text-brand-dark border border-brand-accent/20">
-              <ShieldCheck className="w-6 h-6 text-brand-dark" />
-            </div>
-            <div>
-              <div className="flex items-center gap-2">
-                <span className="text-xs font-bold uppercase tracking-wider text-brand-dark">
-                  Admin boshqaruv paneli
-                </span>
-                <span className="px-2 py-0.5 rounded-full bg-brand-accent/20 text-brand-dark text-[10px] font-bold">
-                  Faol Sessiya
-                </span>
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div className="flex items-center gap-3">
+              <div className="p-2.5 rounded-2xl bg-brand-accent/10 text-brand-dark border border-brand-accent/20">
+                <ShieldCheck className="w-6 h-6 text-brand-dark" />
               </div>
-              <h1 className="text-xl sm:text-2xl font-black text-brand-dark tracking-tight">
-                Haziniy ORG Boshqaruv Markazi
-              </h1>
+              <div>
+                <div className="flex items-center gap-2">
+                  <span className="text-xs font-bold uppercase tracking-wider text-brand-dark">
+                    Admin boshqaruv paneli
+                  </span>
+                  <span className="px-2 py-0.5 rounded-full bg-brand-accent/20 text-brand-dark text-[10px] font-bold">
+                    Faol Sessiya
+                  </span>
+                </div>
+                <h1 className="text-xl sm:text-2xl font-black text-brand-dark tracking-tight">
+                  Haziniy ORG Boshqaruv Markazi
+                </h1>
+              </div>
+            </div>
+
+            {/* Global Branch Selector Dropdown */}
+            <div className="relative flex items-center min-w-[240px] w-full sm:w-auto">
+              <span className="absolute left-3.5 text-slate-500 pointer-events-none z-10">
+                <Building2 className="w-4 h-4 text-emerald-700" />
+              </span>
+              <select
+                id="admin-branch-selector"
+                value={selectedBranchId}
+                onChange={(e) => handleBranchChange(e.target.value)}
+                className="w-full pl-9 pr-9 py-2.5 bg-slate-50 hover:bg-slate-100/90 border border-slate-300 text-slate-800 text-xs sm:text-sm font-bold rounded-2xl focus:ring-2 focus:ring-brand-accent focus:border-brand-accent transition appearance-none cursor-pointer shadow-2xs"
+              >
+                <option value="all">Umumiy (Barcha filiallar)</option>
+                {branches.map((b) => (
+                  <option key={b.id} value={b.id}>
+                    {b.name}
+                  </option>
+                ))}
+              </select>
+              <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-slate-400">
+                <ChevronDown className="h-4 w-4" />
+              </div>
             </div>
           </div>
         </div>
@@ -159,7 +206,7 @@ export function AdminDashboardClient({
               counts={{
                 departments: departments.length,
                 positions: positions.length,
-                employees: employees.length,
+                employees: displayedEmployees.length,
                 branches: branches.length,
               }}
             />
@@ -191,6 +238,8 @@ export function AdminDashboardClient({
                 employees={employees}
                 positions={positions}
                 branches={branches}
+                selectedBranchId={selectedBranchId}
+                onBranchChange={handleBranchChange}
                 onRefresh={refreshAll}
                 onEmployeeSaved={handleEmployeeSaved}
                 onEmployeeDeleted={handleEmployeeDeleted}

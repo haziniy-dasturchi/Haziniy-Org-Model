@@ -1,9 +1,9 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import { Plus, Edit, Trash2, Users, Search, ExternalLink, Phone, Calendar, Building2 } from "lucide-react";
-import { Employee, Position, Department, Branch } from "@/types";
+import { Plus, Edit, Trash2, Users, Search, ExternalLink, Phone, Calendar, Building2, Check } from "lucide-react";
+import { Employee, Position, Department, Branch, isEmployeeInBranch } from "@/types";
 import { EmployeeModal } from "./EmployeeModal";
 import { DeleteConfirmModal } from "./DeleteConfirmModal";
 import { useToast } from "./ToastContext";
@@ -12,6 +12,8 @@ interface EmployeesTabProps {
   employees: (Employee & { position?: Position & { department?: Department }; branch?: Branch | null })[];
   positions: (Position & { department?: Department })[];
   branches?: Branch[];
+  selectedBranchId?: string;
+  onBranchChange?: (branchId: string) => void;
   onRefresh: () => Promise<void>;
   onEmployeeSaved?: (emp: Employee) => void;
   onEmployeeDeleted?: (id: string) => void;
@@ -28,6 +30,8 @@ export function EmployeesTab({
   employees,
   positions,
   branches = [],
+  selectedBranchId = "all",
+  onBranchChange,
   onRefresh,
   onEmployeeSaved,
   onEmployeeDeleted,
@@ -37,10 +41,32 @@ export function EmployeesTab({
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedEmp, setSelectedEmp] = useState<Employee | null>(null);
 
+  const [activeBranch, setActiveBranch] = useState<string>(selectedBranchId);
+
+  useEffect(() => {
+    setActiveBranch(selectedBranchId);
+  }, [selectedBranchId]);
+
+  const handleBranchSelect = (branchId: string) => {
+    setActiveBranch(branchId);
+    try {
+      localStorage.setItem("haziniy_admin_selected_branch", branchId);
+      localStorage.setItem("haziniy_selected_branch", branchId);
+    } catch {}
+    if (onBranchChange) {
+      onBranchChange(branchId);
+    }
+  };
+
   const [deleteTarget, setDeleteTarget] = useState<Employee | null>(null);
   const [isDeleting, setIsDeleting] = useState(false);
 
-  const filtered = employees.filter((emp) =>
+  // Filial bo'yicha saralash
+  const branchFiltered = activeBranch === "all"
+    ? employees
+    : employees.filter((emp) => isEmployeeInBranch(emp, activeBranch));
+
+  const filtered = branchFiltered.filter((emp) =>
     emp.full_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
     (emp.phone && emp.phone.includes(searchTerm)) ||
     (emp.position?.title && emp.position.title.toLowerCase().includes(searchTerm.toLowerCase()))
@@ -136,6 +162,43 @@ export function EmployeesTab({
         </button>
       </div>
 
+      {/* Branch Filter Pills */}
+      <div className="flex flex-wrap items-center gap-2 bg-white p-2.5 sm:p-3 rounded-2xl border border-slate-200/90 shadow-2xs">
+        <span className="text-xs font-bold text-slate-500 uppercase tracking-wider pl-2 pr-1 flex items-center gap-1.5">
+          <Building2 className="w-3.5 h-3.5 text-emerald-600" />
+          Filial:
+        </span>
+        <button
+          type="button"
+          onClick={() => handleBranchSelect("all")}
+          className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+            activeBranch === "all"
+              ? "bg-brand-dark text-white shadow-xs"
+              : "bg-slate-100 hover:bg-slate-200/80 text-slate-600"
+          }`}
+        >
+          Umumiy ({employees.length})
+        </button>
+        {branches.map((b) => {
+          const count = employees.filter((e) => isEmployeeInBranch(e, b.id)).length;
+          const isActive = activeBranch === b.id;
+          return (
+            <button
+              key={b.id}
+              type="button"
+              onClick={() => handleBranchSelect(b.id)}
+              className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+                isActive
+                  ? "bg-brand-dark text-white shadow-xs"
+                  : "bg-slate-100 hover:bg-slate-200/80 text-slate-600"
+              }`}
+            >
+              {b.name} ({count})
+            </button>
+          );
+        })}
+      </div>
+
       {/* Search Filter */}
       <div className="relative">
         <Search className="w-4 h-4 text-slate-400 absolute left-4 top-1/2 -translate-y-1/2" />
@@ -213,23 +276,63 @@ export function EmployeesTab({
                                   {dept.name}
                                 </span>
                               )}
-                              {(emp.branch || branches.find((b) => b.id === emp.branch_id)) && (
+                              {emp.branch_id === "all" ? (
+                                <span className="inline-flex items-center gap-1 text-[10px] font-bold text-emerald-900 bg-emerald-100/90 border border-emerald-300 px-2 py-0.5 rounded-full">
+                                  <Building2 className="w-2.5 h-2.5 text-emerald-700" />
+                                  Umumiy boshqaruv
+                                </span>
+                              ) : emp.branch_ids && emp.branch_ids.length > 0 ? (
+                                emp.branch_ids.map((bId) => {
+                                  const br = branches.find((b) => b.id === bId);
+                                  if (!br) return null;
+                                  return (
+                                    <span
+                                      key={bId}
+                                      className="inline-flex items-center gap-1 text-[10px] font-bold text-teal-800 bg-teal-50 border border-teal-200/80 px-2 py-0.5 rounded-full"
+                                    >
+                                      <Building2 className="w-2.5 h-2.5 text-teal-600" />
+                                      {br.name}
+                                    </span>
+                                  );
+                                })
+                              ) : (emp.branch || branches.find((b) => b.id === emp.branch_id)) ? (
                                 <span className="inline-flex items-center gap-1 text-[10px] font-bold text-teal-800 bg-teal-50 border border-teal-200/80 px-2 py-0.5 rounded-full">
                                   <Building2 className="w-2.5 h-2.5 text-teal-600" />
                                   {(emp.branch || branches.find((b) => b.id === emp.branch_id))?.name}
                                 </span>
-                              )}
+                              ) : null}
                             </div>
                           </div>
                         ) : (
                           <div>
                             <span className="text-xs text-slate-400 block">Lavozimsiz</span>
-                            {(emp.branch || branches.find((b) => b.id === emp.branch_id)) && (
-                              <span className="inline-flex items-center gap-1 text-[10px] font-bold text-teal-800 bg-teal-50 border border-teal-200/80 px-2 py-0.5 rounded-full mt-1">
-                                <Building2 className="w-2.5 h-2.5 text-teal-600" />
-                                {(emp.branch || branches.find((b) => b.id === emp.branch_id))?.name}
-                              </span>
-                            )}
+                            <div className="flex flex-wrap items-center gap-1 mt-1">
+                              {emp.branch_id === "all" ? (
+                                <span className="inline-flex items-center gap-1 text-[10px] font-bold text-emerald-900 bg-emerald-100/90 border border-emerald-300 px-2 py-0.5 rounded-full">
+                                  <Building2 className="w-2.5 h-2.5 text-emerald-700" />
+                                  Umumiy boshqaruv
+                                </span>
+                              ) : emp.branch_ids && emp.branch_ids.length > 0 ? (
+                                emp.branch_ids.map((bId) => {
+                                  const br = branches.find((b) => b.id === bId);
+                                  if (!br) return null;
+                                  return (
+                                    <span
+                                      key={bId}
+                                      className="inline-flex items-center gap-1 text-[10px] font-bold text-teal-800 bg-teal-50 border border-teal-200/80 px-2 py-0.5 rounded-full"
+                                    >
+                                      <Building2 className="w-2.5 h-2.5 text-teal-600" />
+                                      {br.name}
+                                    </span>
+                                  );
+                                })
+                              ) : (emp.branch || branches.find((b) => b.id === emp.branch_id)) ? (
+                                <span className="inline-flex items-center gap-1 text-[10px] font-bold text-teal-800 bg-teal-50 border border-teal-200/80 px-2 py-0.5 rounded-full">
+                                  <Building2 className="w-2.5 h-2.5 text-teal-600" />
+                                  {(emp.branch || branches.find((b) => b.id === emp.branch_id))?.name}
+                                </span>
+                              ) : null}
+                            </div>
                           </div>
                         )}
                       </td>

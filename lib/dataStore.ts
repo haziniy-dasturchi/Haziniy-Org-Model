@@ -30,7 +30,7 @@ const storeFilePath = isVercel ? vercelStoreFilePath : localStoreFilePath;
 export const DEFAULT_BRANCHES: Branch[] = [
   {
     id: "branch-1",
-    name: "Asosiy filial",
+    name: "Haziniy filial",
     student_count: 358,
     room_count: 6,
     capacity_estimate: 960,
@@ -439,6 +439,7 @@ export function saveEmployee(data: Partial<Employee>): Employee {
         full_name: (data.full_name || current.full_name).trim(),
         position_id: data.position_id !== undefined ? (data.position_id || null) : current.position_id,
         branch_id: data.branch_id !== undefined ? (data.branch_id || null) : (current.branch_id || defaultBranchId),
+        branch_ids: data.branch_ids !== undefined ? data.branch_ids : (current.branch_ids || (data.branch_id ? [data.branch_id] : [defaultBranchId])),
         phone: data.phone !== undefined ? (data.phone ? data.phone.trim() : null) : current.phone,
         photo_url: data.photo_url !== undefined ? (data.photo_url ? data.photo_url.trim() : null) : current.photo_url,
         hired_at: data.hired_at !== undefined ? (data.hired_at || null) : current.hired_at,
@@ -459,6 +460,7 @@ export function saveEmployee(data: Partial<Employee>): Employee {
         id: data.id,
         position_id: data.position_id || null,
         branch_id: data.branch_id || defaultBranchId,
+        branch_ids: data.branch_ids || (data.branch_id ? [data.branch_id] : [defaultBranchId]),
         full_name: (data.full_name || "Yangi xodim").trim(),
         phone: data.phone ? data.phone.trim() : null,
         photo_url: data.photo_url ? data.photo_url.trim() : null,
@@ -478,6 +480,7 @@ export function saveEmployee(data: Partial<Employee>): Employee {
       id: "emp-" + Date.now(),
       position_id: data.position_id || null,
       branch_id: data.branch_id || defaultBranchId,
+      branch_ids: data.branch_ids || (data.branch_id ? [data.branch_id] : [defaultBranchId]),
       full_name: (data.full_name || "Yangi xodim").trim(),
       phone: data.phone ? data.phone.trim() : null,
       photo_url: data.photo_url ? data.photo_url.trim() : null,

@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { Department, Position, Employee, Branch } from "@/types";
+import { Department, Position, Employee, Branch, isEmployeeInBranch } from "@/types";
 import { InteractiveTreeCanvas } from "./InteractiveTreeCanvas";
 import { MobileOrgAccordion } from "./MobileOrgAccordion";
 import { Target, CheckCircle2, Info, Building2, ChevronDown } from "lucide-react";
@@ -25,12 +25,28 @@ export function OrgChart({ departments, branches = [], isAdmin = false }: OrgCha
   }, [isAdmin]);
 
   useEffect(() => {
+    try {
+      const saved = localStorage.getItem("haziniy_selected_branch");
+      if (saved) {
+        setSelectedBranchId(saved);
+      }
+    } catch {}
+  }, []);
+
+  useEffect(() => {
     getCurrentUserProfile()
       .then((prof) => {
         setIsAdminState(Boolean(prof && prof.role === "admin"));
       })
       .catch(() => {});
   }, []);
+
+  const handleBranchChange = (branchId: string) => {
+    setSelectedBranchId(branchId);
+    try {
+      localStorage.setItem("haziniy_selected_branch", branchId);
+    } catch {}
+  };
 
   // Regular userlar uchun har doim faqat "current" (hozirgi holat) ishlaydi
   const activeMode = isAdminState ? mode : "current";
@@ -45,7 +61,7 @@ export function OrgChart({ departments, branches = [], isAdmin = false }: OrgCha
     positions: (dept.positions || []).map((pos) => {
       const allPosEmployees = pos.employees || [];
       const filteredEmployees = isBranchFiltered
-        ? allPosEmployees.filter((emp) => emp.branch_id === selectedBranchId)
+        ? allPosEmployees.filter((emp) => isEmployeeInBranch(emp, selectedBranchId))
         : allPosEmployees;
 
       return {
@@ -127,7 +143,7 @@ export function OrgChart({ departments, branches = [], isAdmin = false }: OrgCha
             <select
               id="branch-selector"
               value={selectedBranchId}
-              onChange={(e) => setSelectedBranchId(e.target.value)}
+              onChange={(e) => handleBranchChange(e.target.value)}
               className="w-full pl-9 pr-9 py-2.5 bg-slate-50 hover:bg-slate-100/90 border border-slate-300 text-slate-800 text-xs sm:text-sm font-bold rounded-2xl focus:ring-2 focus:ring-brand-accent focus:border-brand-accent transition appearance-none cursor-pointer shadow-2xs"
             >
               <option value="all">Umumiy (Barcha filiallar)</option>

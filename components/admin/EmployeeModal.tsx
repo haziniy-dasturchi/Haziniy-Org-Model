@@ -193,6 +193,7 @@ export function EmployeeModal({
         full_name: fullName.trim(),
         position_id: positionId || null,
         branch_id: branchId,
+        branch_ids: employee?.branch_ids && employee.branch_ids.includes(branchId) ? employee.branch_ids : [branchId],
         phone: phone.trim() || null,
         photo_url: photoUrl.trim() || null,
         hired_at: hiredAt || null,

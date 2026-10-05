@@ -55,7 +55,8 @@ export interface CertificateItem {
 export interface Employee {
   id: string;
   position_id: string | null;
-  branch_id?: string | null; // Har bir xodim faqat bitta filialga biriktiriladi
+  branch_id?: string | null; // Asosiy filial ID
+  branch_ids?: string[]; // Xodim biriktirilgan filiallar ro'yxati (bir nechta filialda ishlasa)
   full_name: string;
   photo_url: string | null;
   phone: string | null;
@@ -69,6 +70,16 @@ export interface Employee {
   // Bog'langan lavozim va filial (join qilinganda)
   position?: Position;
   branch?: Branch | null;
+}
+
+export function isEmployeeInBranch(emp: Employee, selectedBranchId: string): boolean {
+  if (!selectedBranchId || selectedBranchId === "all") return true;
+  // Agar xodim faqat umumiyda ko'rsatilsin deb belgilangan bo'lsa (masalan Asoschi)
+  if (emp.branch_id === "all") return false;
+  if (emp.branch_ids && Array.isArray(emp.branch_ids) && emp.branch_ids.length > 0) {
+    return emp.branch_ids.includes(selectedBranchId);
+  }
+  return emp.branch_id === selectedBranchId;
 }
 
 export function isTeachingOrSupportRole(positionTitle?: string | null): boolean {
