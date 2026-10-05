@@ -633,10 +633,9 @@ export function getFullOrgStructure(): any[] {
         .filter((p) => p.department_id === dept.id)
         .map((pos) => {
           const posEmployees = employees.filter((e) => e.position_id === pos.id);
-          const effectiveStatus = posEmployees.length > 0 ? "mavjud" : pos.status;
           return {
             ...pos,
-            status: effectiveStatus,
+            status: pos.status,
             employees: posEmployees,
           };
         })

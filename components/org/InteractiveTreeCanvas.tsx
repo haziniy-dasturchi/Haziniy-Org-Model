@@ -162,6 +162,18 @@ export function InteractiveTreeCanvas({
 
   const branchDepartments = departments
     .filter((d) => d !== boshqaruvDept)
+    .filter((d) => {
+      // In target mode (Maqsad / Namuna), show all configured departments
+      if (mode === "target") return true;
+      // In branch view (when a branch is selected), only show departments that have at least one active or existing position
+      if (isBranchFiltered) {
+        const activePositions = (d.positions || []).filter((p) => {
+          return (p.employees && p.employees.length > 0) || p.status === "mavjud";
+        });
+        return activePositions.length > 0;
+      }
+      return true;
+    })
     .sort((a, b) => {
       const idxA = DEPT_ORDER.findIndex((name) => a.name.toLowerCase().includes(name.toLowerCase()));
       const idxB = DEPT_ORDER.findIndex((name) => b.name.toLowerCase().includes(name.toLowerCase()));
@@ -466,44 +478,70 @@ export function InteractiveTreeCanvas({
           {/* ================= 2. SVG CONNECTOR LINES & MENEJER TIER ================= */}
           <div className="w-full h-[140px] relative my-1">
             <svg className="w-full h-full" preserveAspectRatio="none" viewBox="0 0 700 140">
-              {/* --- 1. ASOSCHI DIRECT GOVERNANCE BRANCH (Top horizontal bar at Y=16) --- */}
-              {/* Asoschi stem down to Menejer (X=350, Y=0 to 32) */}
-              <line x1="350" y1="0" x2="350" y2="32" stroke="#003933" strokeWidth="2" />
+              {branchDepartments.length === 7 ? (
+                <>
+                  {/* --- 1. ASOSCHI DIRECT GOVERNANCE BRANCH (Top horizontal bar at Y=16) --- */}
+                  <line x1="350" y1="0" x2="350" y2="32" stroke="#003933" strokeWidth="2" />
+                  <path
+                    d="M 50 140 L 50 16 L 650 16 L 650 140"
+                    fill="none"
+                    stroke="#003933"
+                    strokeWidth="2"
+                  />
+                  <circle cx="350" cy="16" r="3" fill="#00BC55" />
+                  <circle cx="50" cy="16" r="3" fill="#00BC55" />
+                  <circle cx="650" cy="16" r="3" fill="#00BC55" />
 
-              {/* Asoschi direct governance bar: Left to Moliya (X=50), Right to Yuridik (X=650) */}
-              <path
-                d="M 50 140 L 50 16 L 650 16 L 650 140"
-                fill="none"
-                stroke="#003933"
-                strokeWidth="2"
-              />
+                  {/* --- 2. MENEJER OPERATIONAL BRANCH (Lower horizontal bar at Y=110) --- */}
+                  <line x1="350" y1="78" x2="350" y2="110" stroke="#003933" strokeWidth="2" />
+                  <line x1="50" y1="110" x2="550" y2="110" stroke="#003933" strokeWidth="2" />
+                  <line x1="150" y1="110" x2="150" y2="140" stroke="#003933" strokeWidth="2" />
+                  <line x1="250" y1="110" x2="250" y2="140" stroke="#003933" strokeWidth="2" />
+                  <line x1="350" y1="110" x2="350" y2="140" stroke="#003933" strokeWidth="2" />
+                  <line x1="450" y1="110" x2="450" y2="140" stroke="#003933" strokeWidth="2" />
+                  <line x1="550" y1="110" x2="550" y2="140" stroke="#003933" strokeWidth="2" />
 
-              {/* Junction dots on Asoschi branch */}
-              <circle cx="350" cy="16" r="3" fill="#00BC55" />
-              <circle cx="50" cy="16" r="3" fill="#00BC55" />
-              <circle cx="650" cy="16" r="3" fill="#00BC55" />
+                  <circle cx="50" cy="110" r="3" fill="#00BC55" />
+                  <circle cx="150" cy="110" r="3" fill="#00BC55" />
+                  <circle cx="250" cy="110" r="3" fill="#00BC55" />
+                  <circle cx="350" cy="110" r="3" fill="#00BC55" />
+                  <circle cx="450" cy="110" r="3" fill="#00BC55" />
+                  <circle cx="550" cy="110" r="3" fill="#00BC55" />
+                </>
+              ) : branchDepartments.length > 0 ? (
+                (() => {
+                  const N = branchDepartments.length;
+                  const colCoords = branchDepartments.map((_, i) => ((i + 0.5) / N) * 700);
+                  const minX = colCoords[0];
+                  const maxX = colCoords[colCoords.length - 1];
 
-              {/* --- 2. MENEJER OPERATIONAL BRANCH (Lower horizontal bar at Y=110) --- */}
-              {/* Gap between Menejer (Y=78) and Menejer Bus (Y=110) is exactly 32px, equal to Asoschi-Menejer gap! */}
-              <line x1="350" y1="78" x2="350" y2="110" stroke="#003933" strokeWidth="2" />
-
-              {/* MENEJER BUS: Spans from Moliya (X=50) to Texnik (X=550) - DOES NOT REACH YURIDIK! */}
-              <line x1="50" y1="110" x2="550" y2="110" stroke="#003933" strokeWidth="2" />
-
-              {/* Vertical drops from Menejer horizontal bar (Y=110 to 140) to operational departments */}
-              <line x1="150" y1="110" x2="150" y2="140" stroke="#003933" strokeWidth="2" />
-              <line x1="250" y1="110" x2="250" y2="140" stroke="#003933" strokeWidth="2" />
-              <line x1="350" y1="110" x2="350" y2="140" stroke="#003933" strokeWidth="2" />
-              <line x1="450" y1="110" x2="450" y2="140" stroke="#003933" strokeWidth="2" />
-              <line x1="550" y1="110" x2="550" y2="140" stroke="#003933" strokeWidth="2" />
-
-              {/* Junction dots on Menejer bus */}
-              <circle cx="50" cy="110" r="3" fill="#00BC55" />
-              <circle cx="150" cy="110" r="3" fill="#00BC55" />
-              <circle cx="250" cy="110" r="3" fill="#00BC55" />
-              <circle cx="350" cy="110" r="3" fill="#00BC55" />
-              <circle cx="450" cy="110" r="3" fill="#00BC55" />
-              <circle cx="550" cy="110" r="3" fill="#00BC55" />
+                  return (
+                    <>
+                      {/* Asoschi stem down to Menejer */}
+                      <line x1="350" y1="0" x2="350" y2="32" stroke="#003933" strokeWidth="2" />
+                      {/* Menejer stem down to operational bus */}
+                      <line x1="350" y1="78" x2="350" y2="110" stroke="#003933" strokeWidth="2" />
+                      {/* Operational horizontal bus connecting all columns through Menejer */}
+                      <line
+                        x1={Math.min(minX, 350)}
+                        y1="110"
+                        x2={Math.max(maxX, 350)}
+                        y2="110"
+                        stroke="#003933"
+                        strokeWidth="2"
+                      />
+                      <circle cx="350" cy="110" r="3" fill="#00BC55" />
+                      {/* Drops to each department card */}
+                      {colCoords.map((x, idx) => (
+                        <g key={idx}>
+                          <line x1={x} y1="110" x2={x} y2="140" stroke="#003933" strokeWidth="2" />
+                          <circle cx={x} cy="110" r="3" fill="#00BC55" />
+                        </g>
+                      ))}
+                    </>
+                  );
+                })()
+              ) : null}
             </svg>
 
             {/* MENEJER (DIREKTOR) NODE (Centered at Top=32px, height ~46px, bottom=78px) */}

@@ -55,7 +55,15 @@ export function MobileOrgAccordion({ departments, mode, selectedBranchId }: Mobi
 
   return (
     <div className="space-y-4 md:hidden">
-      {departments.map((dept) => {
+      {departments
+        .filter((dept) => {
+          if (mode === "target") return true;
+          const activePositions = (dept.positions || []).filter((p) => {
+            return (p.employees && p.employees.length > 0) || p.status === "mavjud";
+          });
+          return activePositions.length > 0;
+        })
+        .map((dept) => {
         const color = getDeptColor(dept.name, dept.color_hex);
         const isOpen = !!openStates[dept.id];
 
