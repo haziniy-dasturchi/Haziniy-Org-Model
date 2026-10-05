@@ -2,7 +2,8 @@
 
 import React, { useState, useEffect } from "react";
 import { X, Layers, Palette, Save } from "lucide-react";
-import { Department } from "@/types";
+import { Department, Branch } from "@/types";
+import { Building2 } from "lucide-react";
 
 const COLOR_PRESETS = [
   { name: "Navy", hex: "#0F172A" },
@@ -22,6 +23,8 @@ interface DepartmentModalProps {
   onClose: () => void;
   onSave: (data: Partial<Department>) => Promise<void>;
   department?: Department | null;
+  branches?: Branch[];
+  defaultBranchId?: string;
 }
 
 export function DepartmentModal({
@@ -29,8 +32,11 @@ export function DepartmentModal({
   onClose,
   onSave,
   department,
+  branches = [],
+  defaultBranchId = "all",
 }: DepartmentModalProps) {
   const [name, setName] = useState("");
+  const [branchId, setBranchId] = useState("all");
   const [colorHex, setColorHex] = useState("#1D4ED8");
   const [sortOrder, setSortOrder] = useState(0);
   const [yqmText, setYqmText] = useState("");
@@ -40,17 +46,20 @@ export function DepartmentModal({
   useEffect(() => {
     if (department) {
       setName(department.name || "");
+      const bId = department.branch_id || (department.branch_ids && department.branch_ids.length > 0 ? department.branch_ids[0] : "all");
+      setBranchId(bId || "all");
       setColorHex(department.color_hex || "#1D4ED8");
       setSortOrder(department.sort_order ?? 0);
       setYqmText(department.yqm_text || "");
     } else {
       setName("");
+      setBranchId(defaultBranchId || "all");
       setColorHex("#1D4ED8");
       setSortOrder(0);
       setYqmText("");
     }
     setError(null);
-  }, [department, isOpen]);
+  }, [department, isOpen, defaultBranchId]);
 
   if (!isOpen) return null;
 
@@ -67,6 +76,8 @@ export function DepartmentModal({
       await onSave({
         id: department?.id,
         name: name.trim(),
+        branch_id: branchId === "all" ? null : branchId,
+        branch_ids: branchId === "all" ? ["all"] : [branchId],
         color_hex: colorHex,
         sort_order: Number(sortOrder) || 0,
         yqm_text: yqmText.trim() || undefined,
@@ -125,6 +136,31 @@ export function DepartmentModal({
               className="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:border-brand-accent focus:ring-2 focus:ring-blue-100 text-sm font-medium text-slate-800 outline-none transition"
               required
             />
+          </div>
+
+          {/* Filial biriktiruvi */}
+          <div>
+            <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
+              <Building2 className="w-3.5 h-3.5 text-emerald-600" />
+              <span>Filial biriktiruvi <span className="text-rose-500">*</span></span>
+            </label>
+            <select
+              value={branchId}
+              onChange={(e) => setBranchId(e.target.value)}
+              className="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:border-brand-accent focus:ring-2 focus:ring-blue-100 text-sm font-semibold text-slate-800 outline-none transition bg-white"
+            >
+              <option value="all">Barcha filiallar (Umumiy model)</option>
+              {branches.map((b) => (
+                <option key={b.id} value={b.id}>
+                  {b.name}
+                </option>
+              ))}
+            </select>
+            <p className="text-[11px] text-slate-400 mt-1">
+              {branchId === "all"
+                ? "Ushbu bo'lim barcha filiallarning tashkiliy tuzilmasida mavjud bo'ladi."
+                : `Ushbu bo'lim faqat ${branches.find((b) => b.id === branchId)?.name || "tanlangan filial"} uchun amal qiladi.`}
+            </p>
           </div>
 
           {/* Rang tanlash */}

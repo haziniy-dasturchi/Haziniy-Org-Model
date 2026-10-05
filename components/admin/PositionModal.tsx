@@ -1,8 +1,8 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { X, Briefcase, Save } from "lucide-react";
-import { Position, Department } from "@/types";
+import { X, Briefcase, Save, Building2 } from "lucide-react";
+import { Position, Department, Branch } from "@/types";
 
 interface PositionModalProps {
   isOpen: boolean;
@@ -10,6 +10,8 @@ interface PositionModalProps {
   onSave: (data: Partial<Position>) => Promise<void>;
   position?: Position | null;
   departments: Department[];
+  branches?: Branch[];
+  defaultBranchId?: string;
 }
 
 export function PositionModal({
@@ -18,8 +20,11 @@ export function PositionModal({
   onSave,
   position,
   departments,
+  branches = [],
+  defaultBranchId = "all",
 }: PositionModalProps) {
   const [departmentId, setDepartmentId] = useState("");
+  const [branchId, setBranchId] = useState("all");
   const [title, setTitle] = useState("");
   const [yqmText, setYqmText] = useState("");
   const [status, setStatus] = useState<"mavjud" | "rejalashtirilgan">("mavjud");
@@ -30,19 +35,22 @@ export function PositionModal({
   useEffect(() => {
     if (position) {
       setDepartmentId(position.department_id || (departments[0]?.id || ""));
+      const bId = position.branch_id || (position.branch_ids && position.branch_ids.length > 0 ? position.branch_ids[0] : "all");
+      setBranchId(bId || "all");
       setTitle(position.title || "");
       setYqmText(position.yqm_text || "");
       setStatus(position.status || "mavjud");
       setSortOrder(position.sort_order ?? 0);
     } else {
       setDepartmentId(departments[0]?.id || "");
+      setBranchId(defaultBranchId || "all");
       setTitle("");
       setYqmText("");
       setStatus("mavjud");
       setSortOrder(0);
     }
     setError(null);
-  }, [position, departments, isOpen]);
+  }, [position, departments, isOpen, defaultBranchId]);
 
   if (!isOpen) return null;
 
@@ -63,6 +71,8 @@ export function PositionModal({
       await onSave({
         id: position?.id,
         department_id: departmentId,
+        branch_id: branchId === "all" ? null : branchId,
+        branch_ids: branchId === "all" ? ["all"] : [branchId],
         title: title.trim(),
         yqm_text: yqmText.trim() || undefined,
         status,
@@ -129,6 +139,30 @@ export function PositionModal({
             </select>
           </div>
 
+          {/* Filial biriktiruvi */}
+          <div>
+            <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
+              <Building2 className="w-3.5 h-3.5 text-emerald-600" />
+              <span>Filial biriktiruvi <span className="text-rose-500">*</span></span>
+            </label>
+            <select
+              value={branchId}
+              onChange={(e) => setBranchId(e.target.value)}
+              className="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:border-brand-accent focus:ring-2 focus:ring-emerald-100 text-sm font-semibold text-slate-800 outline-none transition bg-white"
+            >
+              <option value="all">Barcha filiallar (Umumiy shtat)</option>
+              {branches.map((b) => (
+                <option key={b.id} value={b.id}>
+                  {b.name}
+                </option>
+              ))}
+            </select>
+            <p className="text-[11px] text-slate-400 mt-1">
+              {branchId === "all"
+                ? "Ushbu lavozim barcha filiallarning shtat jadvalida mavjud bo'ladi."
+                : `Ushbu lavozim faqat ${branches.find((b) => b.id === branchId)?.name || "tanlangan filial"} shtatida rejalashtiriladi.`}
+            </p>
+          </div>
 
           {/* Lavozim nomi */}
           <div>

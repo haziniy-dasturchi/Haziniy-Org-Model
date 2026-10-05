@@ -622,8 +622,13 @@ export function InteractiveTreeCanvas({
             </div>
           </div>
 
-          {/* ================= 3. 7 DEPARTMENTS GRID (CALM MATTE PALETTE) ================= */}
-          <div className="w-full grid grid-cols-7 gap-2 lg:gap-2.5 xl:gap-3.5 items-stretch pt-0">
+          {/* ================= 3. DEPARTMENTS GRID (CALM MATTE PALETTE) ================= */}
+          <div
+            className="w-full grid gap-2 lg:gap-2.5 xl:gap-3.5 items-stretch pt-0"
+            style={{
+              gridTemplateColumns: `repeat(${Math.max(1, branchDepartments.length)}, minmax(0, 1fr))`,
+            }}
+          >
             {branchDepartments.map((dept) => {
               const deptColor = getDeptColor(dept.name, dept.color_hex);
 

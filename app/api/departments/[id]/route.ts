@@ -32,7 +32,7 @@ export async function PUT(
     }
 
     const body = await request.json();
-    const { name, color_hex, sort_order, yqm_text } = body;
+    const { name, color_hex, sort_order, yqm_text, branch_id, branch_ids } = body;
 
     await ensureStoreSyncedFromSupabase(false);
 
@@ -42,6 +42,8 @@ export async function PUT(
       color_hex,
       sort_order,
       yqm_text,
+      branch_id: branch_id !== undefined ? (branch_id || null) : undefined,
+      branch_ids: branch_ids !== undefined ? (Array.isArray(branch_ids) ? branch_ids : []) : undefined,
     });
 
     await syncCurrentStoreToCloud();

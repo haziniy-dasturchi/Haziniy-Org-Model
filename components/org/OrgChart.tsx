@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { Department, Position, Employee, Branch, isEmployeeInBranch } from "@/types";
+import { Department, Position, Employee, Branch, isEmployeeInBranch, isDepartmentInBranch, isPositionInBranch } from "@/types";
 import { InteractiveTreeCanvas } from "./InteractiveTreeCanvas";
 import { MobileOrgAccordion } from "./MobileOrgAccordion";
 import { Target, CheckCircle2, Info, Building2, ChevronDown } from "lucide-react";
@@ -54,24 +54,28 @@ export function OrgChart({ departments, branches = [], isAdmin = false }: OrgCha
   const isBranchFiltered = selectedBranchId !== "all";
 
   // Filter department positions' employees if a specific branch is selected
-  // Positions are never hidden: if an employee doesn't belong to this branch,
+  // Positions are never hidden if assigned to this branch; if an employee doesn't belong to this branch,
   // the position remains visible with "Bu filialda hali band emas".
-  const displayedDepartments = departments.map((dept) => ({
-    ...dept,
-    positions: (dept.positions || []).map((pos) => {
-      const allPosEmployees = pos.employees || [];
-      const filteredEmployees = isBranchFiltered
-        ? allPosEmployees.filter((emp) => isEmployeeInBranch(emp, selectedBranchId))
-        : allPosEmployees;
+  const displayedDepartments = departments
+    .filter((dept) => isDepartmentInBranch(dept, selectedBranchId))
+    .map((dept) => ({
+      ...dept,
+      positions: (dept.positions || [])
+        .filter((pos) => isPositionInBranch(pos, selectedBranchId))
+        .map((pos) => {
+          const allPosEmployees = pos.employees || [];
+          const filteredEmployees = isBranchFiltered
+            ? allPosEmployees.filter((emp) => isEmployeeInBranch(emp, selectedBranchId))
+            : allPosEmployees;
 
-      return {
-        ...pos,
-        // If it had employees in any branch, treat as active in org model so it stays visible
-        status: allPosEmployees.length > 0 ? ("mavjud" as const) : pos.status,
-        employees: filteredEmployees,
-      };
-    }),
-  }));
+          return {
+            ...pos,
+            // If it had employees in this branch, treat as active in org model so it stays visible
+            status: filteredEmployees.length > 0 ? ("mavjud" as const) : pos.status,
+            employees: filteredEmployees,
+          };
+        }),
+    }));
 
   // Summary counts based on filtered view
   const allPositions = displayedDepartments.flatMap((d) => d.positions || []);
@@ -164,7 +168,7 @@ export function OrgChart({ departments, branches = [], isAdmin = false }: OrgCha
           <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-50 border border-slate-200/80">
             <span className="w-2.5 h-2.5 rounded-full bg-brand-accent"></span>
             <span>
-              Bo&apos;limlar: <strong className="text-slate-800">{departments.length}</strong>
+              Bo&apos;limlar: <strong className="text-slate-800">{displayedDepartments.length}</strong>
             </span>
           </div>
 

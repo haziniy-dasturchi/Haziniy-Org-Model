@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { checkAdminSession } from "@/lib/adminAuth";
 import { getPositions, savePosition, ensureStoreSyncedFromSupabase, syncCurrentStoreToCloud } from "@/lib/dataStore";
+import { isPositionInBranch } from "@/types";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -12,10 +13,16 @@ const NO_CACHE_HEADERS = {
   "Expires": "0",
 };
 
-export async function GET() {
+export async function GET(request: NextRequest) {
   try {
     await ensureStoreSyncedFromSupabase(false);
-    const positions = getPositions();
+    const { searchParams } = new URL(request.url);
+    const branchId = searchParams.get("branch_id");
+
+    let positions = getPositions();
+    if (branchId && branchId !== "all") {
+      positions = positions.filter((p) => isPositionInBranch(p, branchId));
+    }
     return NextResponse.json({ positions }, { headers: NO_CACHE_HEADERS });
   } catch (err: any) {
     return NextResponse.json({ error: err.message }, { status: 500, headers: NO_CACHE_HEADERS });
@@ -29,7 +36,7 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json();
-    const { department_id, title, yqm_text, status, sort_order, estimated_salary } = body;
+    const { department_id, title, yqm_text, status, sort_order, estimated_salary, branch_id, branch_ids } = body;
 
     if (!title || !title.trim()) {
       return NextResponse.json({ error: "Lavozim nomi kiritilishi shart" }, { status: 400, headers: NO_CACHE_HEADERS });
@@ -44,6 +51,8 @@ export async function POST(request: NextRequest) {
       status: status === "rejalashtirilgan" ? "rejalashtirilgan" : "mavjud",
       sort_order: typeof sort_order === "number" ? sort_order : 0,
       estimated_salary: estimated_salary ? Number(estimated_salary) : undefined,
+      branch_id: branch_id || null,
+      branch_ids: Array.isArray(branch_ids) ? branch_ids : (branch_id ? [branch_id] : []),
     });
 
     await syncCurrentStoreToCloud();

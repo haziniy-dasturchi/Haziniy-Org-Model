@@ -1,14 +1,17 @@
 "use client";
 
-import React, { useState } from "react";
-import { Plus, Edit, Trash2, Layers, Search } from "lucide-react";
-import { Department } from "@/types";
+import React, { useState, useEffect } from "react";
+import { Plus, Edit, Trash2, Layers, Search, Building2 } from "lucide-react";
+import { Department, Branch, isDepartmentInBranch } from "@/types";
 import { DepartmentModal } from "./DepartmentModal";
 import { DeleteConfirmModal } from "./DeleteConfirmModal";
 import { useToast } from "./ToastContext";
 
 interface DepartmentsTabProps {
   departments: Department[];
+  branches?: Branch[];
+  selectedBranchId?: string;
+  onBranchChange?: (branchId: string) => void;
   onRefresh: () => Promise<void>;
   onDepartmentSaved?: (dept: Department) => void;
   onDepartmentDeleted?: (id: string) => void;
@@ -16,6 +19,9 @@ interface DepartmentsTabProps {
 
 export function DepartmentsTab({
   departments,
+  branches = [],
+  selectedBranchId = "all",
+  onBranchChange,
   onRefresh,
   onDepartmentSaved,
   onDepartmentDeleted,
@@ -25,10 +31,32 @@ export function DepartmentsTab({
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedDept, setSelectedDept] = useState<Department | null>(null);
 
+  const [activeBranch, setActiveBranch] = useState<string>(selectedBranchId);
+
+  useEffect(() => {
+    setActiveBranch(selectedBranchId);
+  }, [selectedBranchId]);
+
+  const handleBranchSelect = (branchId: string) => {
+    setActiveBranch(branchId);
+    try {
+      localStorage.setItem("haziniy_admin_selected_branch", branchId);
+      localStorage.setItem("haziniy_selected_branch", branchId);
+    } catch {}
+    if (onBranchChange) {
+      onBranchChange(branchId);
+    }
+  };
+
   const [deleteTarget, setDeleteTarget] = useState<Department | null>(null);
   const [isDeleting, setIsDeleting] = useState(false);
 
-  const filtered = departments.filter((d) =>
+  // Filial bo'yicha saralash
+  const branchFiltered = activeBranch === "all"
+    ? departments
+    : departments.filter((d) => isDepartmentInBranch(d, activeBranch));
+
+  const filtered = branchFiltered.filter((d) =>
     d.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
     (d.yqm_text && d.yqm_text.toLowerCase().includes(searchTerm.toLowerCase()))
   );
@@ -104,10 +132,12 @@ export function DepartmentsTab({
         <div>
           <h2 className="text-lg sm:text-xl font-extrabold text-brand-dark flex items-center gap-2">
             <Layers className="w-5 h-5 text-brand-accent" />
-            <span>Tashkiliy Bo&apos;limlar ({departments.length})</span>
+            <span>Tashkiliy Bo&apos;limlar ({branchFiltered.length})</span>
           </h2>
           <p className="text-xs text-slate-500 mt-0.5">
-            Barcha bo&apos;limlar, rang sxemalari va Yakuniy Qiymatli Mahsulotlar
+            {activeBranch === "all"
+              ? "Barcha filiallar bo'yicha tashkiliy bo'limlar ro'yxati va YQMlari"
+              : `${branches.find((b) => b.id === activeBranch)?.name || "Filial"} bo'yicha tuzilgan bo'limlar va YQMlari`}
           </p>
         </div>
 
@@ -119,6 +149,43 @@ export function DepartmentsTab({
           <Plus className="w-4 h-4" />
           <span>Bo&apos;lim qo&apos;shish</span>
         </button>
+      </div>
+
+      {/* Branch Filter Pills */}
+      <div className="flex flex-wrap items-center gap-2 bg-white p-2.5 sm:p-3 rounded-2xl border border-slate-200/90 shadow-2xs">
+        <span className="text-xs font-bold text-slate-500 uppercase tracking-wider pl-2 pr-1 flex items-center gap-1.5">
+          <Building2 className="w-3.5 h-3.5 text-emerald-600" />
+          Filial:
+        </span>
+        <button
+          type="button"
+          onClick={() => handleBranchSelect("all")}
+          className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+            activeBranch === "all"
+              ? "bg-brand-dark text-white shadow-xs"
+              : "bg-slate-100 hover:bg-slate-200/80 text-slate-600"
+          }`}
+        >
+          Umumiy ({departments.length})
+        </button>
+        {branches.map((b) => {
+          const count = departments.filter((d) => isDepartmentInBranch(d, b.id)).length;
+          const isActive = activeBranch === b.id;
+          return (
+            <button
+              key={b.id}
+              type="button"
+              onClick={() => handleBranchSelect(b.id)}
+              className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+                isActive
+                  ? "bg-brand-dark text-white shadow-xs"
+                  : "bg-slate-100 hover:bg-slate-200/80 text-slate-600"
+              }`}
+            >
+              {b.name} ({count})
+            </button>
+          );
+        })}
       </div>
 
       {/* Search Filter */}
@@ -141,6 +208,7 @@ export function DepartmentsTab({
               <tr>
                 <th className="py-3.5 px-4 sm:px-6 w-16">Tartib</th>
                 <th className="py-3.5 px-4 sm:px-6">Bo&apos;lim nomi</th>
+                <th className="py-3.5 px-4 sm:px-6">Filial</th>
                 <th className="py-3.5 px-4 sm:px-6">Rang</th>
                 <th className="py-3.5 px-4 sm:px-6">Yakuniy Qiymatli Mahsulot (YQM)</th>
                 <th className="py-3.5 px-4 sm:px-6 text-right w-28">Amallar</th>
@@ -148,57 +216,74 @@ export function DepartmentsTab({
             </thead>
             <tbody className="divide-y divide-slate-100 font-medium text-slate-700">
               {filtered.length > 0 ? (
-                filtered.map((dept) => (
-                  <tr key={dept.id} className="hover:bg-slate-50/80 transition">
-                    <td className="py-4 px-4 sm:px-6 font-mono text-slate-400 font-bold">
-                      #{dept.sort_order ?? 0}
-                    </td>
-                    <td className="py-4 px-4 sm:px-6">
-                      <div className="flex items-center gap-2.5">
-                        <span
-                          className="w-3.5 h-3.5 rounded-full shrink-0 shadow-2xs border border-white"
-                          style={{ backgroundColor: dept.color_hex || "#1D4ED8" }}
-                        />
-                        <span className="font-bold text-brand-dark">{dept.name}</span>
-                      </div>
-                    </td>
-                    <td className="py-4 px-4 sm:px-6 font-mono text-[11px] text-slate-500">
-                      {dept.color_hex || "#1D4ED8"}
-                    </td>
-                    <td className="py-4 px-4 sm:px-6 max-w-md">
-                      {dept.yqm_text ? (
-                        <p className="text-xs text-slate-600 line-clamp-2 leading-relaxed">
-                          {dept.yqm_text}
-                        </p>
-                      ) : (
-                        <span className="text-xs text-slate-400 italic">YQM kiritilmagan</span>
-                      )}
-                    </td>
-                    <td className="py-4 px-4 sm:px-6 text-right">
-                      <div className="flex items-center justify-end gap-1.5">
-                        <button
-                          type="button"
-                          onClick={() => handleOpenEdit(dept)}
-                          title="Tahrirlash"
-                          className="p-2 rounded-xl text-slate-600 hover:bg-slate-100 hover:text-brand-accent transition cursor-pointer"
-                        >
-                          <Edit className="w-4 h-4" />
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() => setDeleteTarget(dept)}
-                          title="O'chirish"
-                          className="p-2 rounded-xl text-slate-400 hover:bg-rose-50 hover:text-rose-600 transition cursor-pointer"
-                        >
-                          <Trash2 className="w-4 h-4" />
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                ))
+                filtered.map((dept) => {
+                  const isUniversal = !dept.branch_id || dept.branch_id === "all" || (dept.branch_ids && dept.branch_ids.includes("all"));
+                  const branchName = branches.find((b) => b.id === dept.branch_id)?.name || (dept.branch_ids && branches.find(b => dept.branch_ids?.includes(b.id))?.name);
+
+                  return (
+                    <tr key={dept.id} className="hover:bg-slate-50/80 transition">
+                      <td className="py-4 px-4 sm:px-6 font-mono text-slate-400 font-bold">
+                        #{dept.sort_order ?? 0}
+                      </td>
+                      <td className="py-4 px-4 sm:px-6">
+                        <div className="flex items-center gap-2.5">
+                          <span
+                            className="w-3.5 h-3.5 rounded-full shrink-0 shadow-2xs border border-white"
+                            style={{ backgroundColor: dept.color_hex || "#1D4ED8" }}
+                          />
+                          <span className="font-bold text-brand-dark">{dept.name}</span>
+                        </div>
+                      </td>
+                      <td className="py-4 px-4 sm:px-6">
+                        {isUniversal ? (
+                          <span className="inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-bold bg-slate-100 text-slate-700 border border-slate-200">
+                            Barcha filiallar
+                          </span>
+                        ) : (
+                          <span className="inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-bold bg-emerald-50 text-emerald-800 border border-emerald-200/80">
+                            <Building2 className="w-2.5 h-2.5 mr-1 text-emerald-600" />
+                            {branchName || "Maxsus filial"}
+                          </span>
+                        )}
+                      </td>
+                      <td className="py-4 px-4 sm:px-6 font-mono text-[11px] text-slate-500">
+                        {dept.color_hex || "#1D4ED8"}
+                      </td>
+                      <td className="py-4 px-4 sm:px-6 max-w-md">
+                        {dept.yqm_text ? (
+                          <p className="text-xs text-slate-600 line-clamp-2 leading-relaxed">
+                            {dept.yqm_text}
+                          </p>
+                        ) : (
+                          <span className="text-xs text-slate-400 italic">YQM kiritilmagan</span>
+                        )}
+                      </td>
+                      <td className="py-4 px-4 sm:px-6 text-right">
+                        <div className="flex items-center justify-end gap-1.5">
+                          <button
+                            type="button"
+                            onClick={() => handleOpenEdit(dept)}
+                            title="Tahrirlash"
+                            className="p-2 rounded-xl text-slate-600 hover:bg-slate-100 hover:text-brand-accent transition cursor-pointer"
+                          >
+                            <Edit className="w-4 h-4" />
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => setDeleteTarget(dept)}
+                            title="O'chirish"
+                            className="p-2 rounded-xl text-slate-400 hover:bg-rose-50 hover:text-rose-600 transition cursor-pointer"
+                          >
+                            <Trash2 className="w-4 h-4" />
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                })
               ) : (
                 <tr>
-                  <td colSpan={5} className="py-8 text-center text-xs text-slate-400">
+                  <td colSpan={6} className="py-8 text-center text-xs text-slate-400">
                     Hech qanday bo&apos;lim topilmadi
                   </td>
                 </tr>
@@ -214,6 +299,8 @@ export function DepartmentsTab({
         onClose={() => setIsModalOpen(false)}
         onSave={handleSave}
         department={selectedDept}
+        branches={branches}
+        defaultBranchId={activeBranch}
       />
 
       {/* Delete Modal */}

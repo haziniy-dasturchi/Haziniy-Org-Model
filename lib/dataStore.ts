@@ -248,10 +248,13 @@ export function saveDepartment(data: Partial<Department>): Department {
   if (data.id) {
     const idx = store.departments.findIndex((d) => d.id === data.id);
     if (idx >= 0) {
+      const prev = store.departments[idx];
       updatedDept = {
-        ...store.departments[idx],
+        ...prev,
         ...data,
-        name: (data.name || store.departments[idx].name).trim(),
+        name: (data.name || prev.name).trim(),
+        branch_id: data.branch_id !== undefined ? (data.branch_id || null) : (prev.branch_id || null),
+        branch_ids: data.branch_ids !== undefined ? data.branch_ids : (prev.branch_ids || []),
       };
       store.departments[idx] = updatedDept;
     } else {
@@ -261,6 +264,8 @@ export function saveDepartment(data: Partial<Department>): Department {
         color_hex: data.color_hex || "#003933",
         sort_order: Number(data.sort_order) || 0,
         yqm_text: data.yqm_text?.trim() || null,
+        branch_id: data.branch_id !== undefined ? (data.branch_id || null) : null,
+        branch_ids: data.branch_ids !== undefined ? data.branch_ids : [],
         created_at: new Date().toISOString(),
       };
       store.departments.push(updatedDept);
@@ -272,6 +277,8 @@ export function saveDepartment(data: Partial<Department>): Department {
       color_hex: data.color_hex || "#003933",
       sort_order: Number(data.sort_order) || 0,
       yqm_text: data.yqm_text?.trim() || null,
+      branch_id: data.branch_id !== undefined ? (data.branch_id || null) : null,
+      branch_ids: data.branch_ids !== undefined ? data.branch_ids : [],
       created_at: new Date().toISOString(),
     };
     store.departments.push(updatedDept);
@@ -328,6 +335,8 @@ export function savePosition(data: Partial<Position>): Position {
         ...prev,
         ...data,
         title: (data.title || prev.title).trim(),
+        branch_id: data.branch_id !== undefined ? (data.branch_id || null) : (prev.branch_id || null),
+        branch_ids: data.branch_ids !== undefined ? data.branch_ids : (prev.branch_ids || []),
       };
       store.positions[idx] = updatedPos;
     } else {
@@ -338,6 +347,8 @@ export function savePosition(data: Partial<Position>): Position {
         yqm_text: data.yqm_text?.trim() || null,
         status: data.status === "rejalashtirilgan" ? "rejalashtirilgan" : "mavjud",
         sort_order: Number(data.sort_order) || 0,
+        branch_id: data.branch_id !== undefined ? (data.branch_id || null) : null,
+        branch_ids: data.branch_ids !== undefined ? data.branch_ids : [],
         created_at: new Date().toISOString(),
       };
       store.positions.push(updatedPos);
@@ -350,6 +361,8 @@ export function savePosition(data: Partial<Position>): Position {
       yqm_text: data.yqm_text?.trim() || null,
       status: data.status === "rejalashtirilgan" ? "rejalashtirilgan" : "mavjud",
       sort_order: Number(data.sort_order) || 0,
+      branch_id: data.branch_id !== undefined ? (data.branch_id || null) : null,
+      branch_ids: data.branch_ids !== undefined ? data.branch_ids : [],
       created_at: new Date().toISOString(),
     };
     store.positions.push(updatedPos);

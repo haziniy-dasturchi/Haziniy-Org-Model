@@ -1,8 +1,8 @@
 "use client";
 
-import React, { useState } from "react";
-import { Plus, Edit, Trash2, Briefcase, Search, Filter } from "lucide-react";
-import { Position, Department } from "@/types";
+import React, { useState, useEffect } from "react";
+import { Plus, Edit, Trash2, Briefcase, Search, Filter, Building2 } from "lucide-react";
+import { Position, Department, Branch, isPositionInBranch } from "@/types";
 import { PositionModal } from "./PositionModal";
 import { DeleteConfirmModal } from "./DeleteConfirmModal";
 import { useToast } from "./ToastContext";
@@ -10,6 +10,9 @@ import { useToast } from "./ToastContext";
 interface PositionsTabProps {
   positions: (Position & { department?: Department })[];
   departments: Department[];
+  branches?: Branch[];
+  selectedBranchId?: string;
+  onBranchChange?: (branchId: string) => void;
   onRefresh: () => Promise<void>;
   onPositionSaved?: (pos: Position) => void;
   onPositionDeleted?: (id: string) => void;
@@ -18,6 +21,9 @@ interface PositionsTabProps {
 export function PositionsTab({
   positions,
   departments,
+  branches = [],
+  selectedBranchId = "all",
+  onBranchChange,
   onRefresh,
   onPositionSaved,
   onPositionDeleted,
@@ -28,13 +34,35 @@ export function PositionsTab({
   const [deptFilter, setDeptFilter] = useState<string>("all");
   const [statusFilter, setStatusFilter] = useState<string>("all");
 
+  const [activeBranch, setActiveBranch] = useState<string>(selectedBranchId);
+
+  useEffect(() => {
+    setActiveBranch(selectedBranchId);
+  }, [selectedBranchId]);
+
+  const handleBranchSelect = (branchId: string) => {
+    setActiveBranch(branchId);
+    try {
+      localStorage.setItem("haziniy_admin_selected_branch", branchId);
+      localStorage.setItem("haziniy_selected_branch", branchId);
+    } catch {}
+    if (onBranchChange) {
+      onBranchChange(branchId);
+    }
+  };
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedPos, setSelectedPos] = useState<Position | null>(null);
 
   const [deleteTarget, setDeleteTarget] = useState<Position | null>(null);
   const [isDeleting, setIsDeleting] = useState(false);
 
-  const filtered = positions.filter((p) => {
+  // Filial bo'yicha saralash
+  const branchFiltered = activeBranch === "all"
+    ? positions
+    : positions.filter((p) => isPositionInBranch(p, activeBranch));
+
+  const filtered = branchFiltered.filter((p) => {
     const matchesSearch =
       p.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
       (p.yqm_text && p.yqm_text.toLowerCase().includes(searchTerm.toLowerCase()));
@@ -117,10 +145,12 @@ export function PositionsTab({
         <div>
           <h2 className="text-lg sm:text-xl font-extrabold text-brand-dark flex items-center gap-2">
             <Briefcase className="w-5 h-5 text-emerald-600" />
-            <span>Lavozimlar ({positions.length})</span>
+            <span>Lavozimlar ({branchFiltered.length})</span>
           </h2>
           <p className="text-xs text-slate-500 mt-0.5">
-            Mavjud va rejalashtirilgan barcha shtat lavozimlari va YQMlari
+            {activeBranch === "all"
+              ? "Mavjud va rejalashtirilgan barcha shtat lavozimlari va YQMlari"
+              : `${branches.find((b) => b.id === activeBranch)?.name || "Filial"} bo'yicha shtat lavozimlari va rejalashtirish`}
           </p>
         </div>
 
@@ -132,6 +162,43 @@ export function PositionsTab({
           <Plus className="w-4 h-4" />
           <span>Lavozim qo&apos;shish</span>
         </button>
+      </div>
+
+      {/* Branch Filter Pills */}
+      <div className="flex flex-wrap items-center gap-2 bg-white p-2.5 sm:p-3 rounded-2xl border border-slate-200/90 shadow-2xs">
+        <span className="text-xs font-bold text-slate-500 uppercase tracking-wider pl-2 pr-1 flex items-center gap-1.5">
+          <Building2 className="w-3.5 h-3.5 text-emerald-600" />
+          Filial:
+        </span>
+        <button
+          type="button"
+          onClick={() => handleBranchSelect("all")}
+          className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+            activeBranch === "all"
+              ? "bg-brand-dark text-white shadow-xs"
+              : "bg-slate-100 hover:bg-slate-200/80 text-slate-600"
+          }`}
+        >
+          Umumiy ({positions.length})
+        </button>
+        {branches.map((b) => {
+          const count = positions.filter((p) => isPositionInBranch(p, b.id)).length;
+          const isActive = activeBranch === b.id;
+          return (
+            <button
+              key={b.id}
+              type="button"
+              onClick={() => handleBranchSelect(b.id)}
+              className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+                isActive
+                  ? "bg-brand-dark text-white shadow-xs"
+                  : "bg-slate-100 hover:bg-slate-200/80 text-slate-600"
+              }`}
+            >
+              {b.name} ({count})
+            </button>
+          );
+        })}
       </div>
 
       {/* Search & Filters */}
@@ -183,6 +250,7 @@ export function PositionsTab({
               <tr>
                 <th className="py-3.5 px-4 sm:px-6">Lavozim nomi</th>
                 <th className="py-3.5 px-4 sm:px-6">Bo&apos;lim</th>
+                <th className="py-3.5 px-4 sm:px-6">Filial</th>
                 <th className="py-3.5 px-4 sm:px-6">Holati</th>
                 <th className="py-3.5 px-4 sm:px-6">YQM</th>
                 <th className="py-3.5 px-4 sm:px-6 text-right w-28">Amallar</th>
@@ -193,6 +261,8 @@ export function PositionsTab({
                 filtered.map((pos) => {
                   const dept = pos.department || departments.find((d) => d.id === pos.department_id);
                   const isPlanned = pos.status === "rejalashtirilgan";
+                  const isUniversal = !pos.branch_id || pos.branch_id === "all" || (pos.branch_ids && pos.branch_ids.includes("all"));
+                  const branchName = branches.find((b) => b.id === pos.branch_id)?.name || (pos.branch_ids && branches.find(b => pos.branch_ids?.includes(b.id))?.name);
 
                   return (
                     <tr key={pos.id} className="hover:bg-slate-50/80 transition">
@@ -211,6 +281,18 @@ export function PositionsTab({
                           </span>
                         ) : (
                           <span className="text-xs text-slate-400">—</span>
+                        )}
+                      </td>
+                      <td className="py-4 px-4 sm:px-6">
+                        {isUniversal ? (
+                          <span className="inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-bold bg-slate-100 text-slate-700 border border-slate-200">
+                            Barcha filiallar
+                          </span>
+                        ) : (
+                          <span className="inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-bold bg-emerald-50 text-emerald-800 border border-emerald-200/80">
+                            <Building2 className="w-2.5 h-2.5 mr-1 text-emerald-600" />
+                            {branchName || "Maxsus filial"}
+                          </span>
                         )}
                       </td>
                       <td className="py-4 px-4 sm:px-6">
@@ -258,7 +340,7 @@ export function PositionsTab({
                 })
               ) : (
                 <tr>
-                  <td colSpan={5} className="py-8 text-center text-xs text-slate-400">
+                  <td colSpan={6} className="py-8 text-center text-xs text-slate-400">
                     Hech qanday lavozim topilmadi
                   </td>
                 </tr>
@@ -275,6 +357,8 @@ export function PositionsTab({
         onSave={handleSave}
         position={selectedPos}
         departments={departments}
+        branches={branches}
+        defaultBranchId={activeBranch}
       />
 
 

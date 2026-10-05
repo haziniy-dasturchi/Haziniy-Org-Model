@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { checkAdminSession } from "@/lib/adminAuth";
 import { getDepartments, saveDepartment, ensureStoreSyncedFromSupabase, syncCurrentStoreToCloud } from "@/lib/dataStore";
+import { isDepartmentInBranch } from "@/types";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -12,10 +13,16 @@ const NO_CACHE_HEADERS = {
   "Expires": "0",
 };
 
-export async function GET() {
+export async function GET(request: NextRequest) {
   try {
     await ensureStoreSyncedFromSupabase(false);
-    const departments = getDepartments();
+    const { searchParams } = new URL(request.url);
+    const branchId = searchParams.get("branch_id");
+
+    let departments = getDepartments();
+    if (branchId && branchId !== "all") {
+      departments = departments.filter((d) => isDepartmentInBranch(d, branchId));
+    }
     return NextResponse.json({ departments }, { headers: NO_CACHE_HEADERS });
   } catch (err: any) {
     return NextResponse.json({ error: err.message }, { status: 500, headers: NO_CACHE_HEADERS });
@@ -29,7 +36,7 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json();
-    const { name, color_hex, sort_order, yqm_text } = body;
+    const { name, color_hex, sort_order, yqm_text, branch_id, branch_ids } = body;
 
     if (!name || !name.trim()) {
       return NextResponse.json({ error: "Bo'lim nomi kiritilishi shart" }, { status: 400, headers: NO_CACHE_HEADERS });
@@ -42,6 +49,8 @@ export async function POST(request: NextRequest) {
       color_hex: color_hex || "#1D4ED8",
       sort_order: typeof sort_order === "number" ? sort_order : 0,
       yqm_text: yqm_text ? yqm_text.trim() : null,
+      branch_id: branch_id || null,
+      branch_ids: Array.isArray(branch_ids) ? branch_ids : (branch_id ? [branch_id] : []),
     });
 
     await syncCurrentStoreToCloud();

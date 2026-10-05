@@ -26,6 +26,8 @@ export interface Department {
   color_hex: string | null;
   sort_order: number;
   yqm_text: string | null;
+  branch_id?: string | null; // Asosiy filial ID (agar faqat 1 ta filialga tegishli bo'lsa), 'all' yoki null bo'lsa barcha filiallar uchun
+  branch_ids?: string[]; // Filiallar ID lari ro'yxati. Bo'sh bo'lsa barcha filiallarda mavjud
   created_at: string;
   // Bog'langan lavozimlar (join qilinganda)
   positions?: Position[];
@@ -39,6 +41,8 @@ export interface Position {
   status: PositionStatus;
   sort_order: number;
   estimated_salary?: number | null;
+  branch_id?: string | null; // Asosiy filial ID, 'all' yoki null bo'lsa barcha filiallar uchun
+  branch_ids?: string[]; // Filiallar ID lari ro'yxati. Bo'sh bo'lsa barcha filiallarda mavjud
   created_at: string;
   // Bog'langan bo'lim va xodimlar (join qilinganda)
   department?: Department;
@@ -80,6 +84,34 @@ export function isEmployeeInBranch(emp: Employee, selectedBranchId: string): boo
     return emp.branch_ids.includes(selectedBranchId);
   }
   return emp.branch_id === selectedBranchId;
+}
+
+export function isDepartmentInBranch(dept: Department, selectedBranchId: string): boolean {
+  if (!selectedBranchId || selectedBranchId === "all") return true;
+  if (dept.branch_id === "all") return true;
+  if (dept.branch_ids && Array.isArray(dept.branch_ids) && dept.branch_ids.length > 0) {
+    if (dept.branch_ids.includes("all")) return true;
+    return dept.branch_ids.includes(selectedBranchId);
+  }
+  if (dept.branch_id) {
+    return dept.branch_id === selectedBranchId;
+  }
+  // Agar belgilanmagan bo'lsa, barcha filiallarda mavjud (umumiy)
+  return true;
+}
+
+export function isPositionInBranch(pos: Position, selectedBranchId: string): boolean {
+  if (!selectedBranchId || selectedBranchId === "all") return true;
+  if (pos.branch_id === "all") return true;
+  if (pos.branch_ids && Array.isArray(pos.branch_ids) && pos.branch_ids.length > 0) {
+    if (pos.branch_ids.includes("all")) return true;
+    return pos.branch_ids.includes(selectedBranchId);
+  }
+  if (pos.branch_id) {
+    return pos.branch_id === selectedBranchId;
+  }
+  // Agar belgilanmagan bo'lsa, barcha filiallarda mavjud (umumiy)
+  return true;
 }
 
 export function isTeachingOrSupportRole(positionTitle?: string | null): boolean {

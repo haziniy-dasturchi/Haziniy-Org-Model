@@ -8,7 +8,7 @@ import { EmployeesTab } from "./EmployeesTab";
 import { BranchesTab } from "./BranchesTab";
 import { MissionTab } from "./MissionTab";
 import { ShieldCheck, Building2, ChevronDown } from "lucide-react";
-import { Department, Position, Employee, Branch, isEmployeeInBranch } from "@/types";
+import { Department, Position, Employee, Branch, isEmployeeInBranch, isDepartmentInBranch, isPositionInBranch } from "@/types";
 
 interface AdminDashboardClientProps {
   initialDepartments: Department[];
@@ -54,6 +54,14 @@ export function AdminDashboardClient({
   const displayedEmployees = selectedBranchId === "all"
     ? employees
     : employees.filter((emp) => isEmployeeInBranch(emp, selectedBranchId));
+
+  const displayedDepartments = selectedBranchId === "all"
+    ? departments
+    : departments.filter((d) => isDepartmentInBranch(d, selectedBranchId));
+
+  const displayedPositions = selectedBranchId === "all"
+    ? positions
+    : positions.filter((p) => isPositionInBranch(p, selectedBranchId));
 
   // 1. Immediate optimistic state updates
   const handlePositionSaved = useCallback((savedPos: Position) => {
@@ -204,8 +212,8 @@ export function AdminDashboardClient({
               activeTab={activeTab}
               onTabChange={setActiveTab}
               counts={{
-                departments: departments.length,
-                positions: positions.length,
+                departments: displayedDepartments.length,
+                positions: displayedPositions.length,
                 employees: displayedEmployees.length,
                 branches: branches.length,
               }}
@@ -217,6 +225,9 @@ export function AdminDashboardClient({
             {activeTab === "departments" && (
               <DepartmentsTab
                 departments={departments}
+                branches={branches}
+                selectedBranchId={selectedBranchId}
+                onBranchChange={handleBranchChange}
                 onRefresh={refreshAll}
                 onDepartmentSaved={handleDepartmentSaved}
                 onDepartmentDeleted={handleDepartmentDeleted}
@@ -227,6 +238,9 @@ export function AdminDashboardClient({
               <PositionsTab
                 positions={positions}
                 departments={departments}
+                branches={branches}
+                selectedBranchId={selectedBranchId}
+                onBranchChange={handleBranchChange}
                 onRefresh={refreshAll}
                 onPositionSaved={handlePositionSaved}
                 onPositionDeleted={handlePositionDeleted}

@@ -32,7 +32,7 @@ export async function PUT(
     }
 
     const body = await request.json();
-    const { department_id, title, yqm_text, status, sort_order, estimated_salary } = body;
+    const { department_id, title, yqm_text, status, sort_order, estimated_salary, branch_id, branch_ids } = body;
 
     await ensureStoreSyncedFromSupabase(false);
 
@@ -44,6 +44,8 @@ export async function PUT(
       status: status === "rejalashtirilgan" ? "rejalashtirilgan" : "mavjud",
       sort_order: sort_order !== undefined ? Number(sort_order) : undefined,
       estimated_salary: estimated_salary !== undefined ? (estimated_salary ? Number(estimated_salary) : null) : undefined,
+      branch_id: branch_id !== undefined ? (branch_id || null) : undefined,
+      branch_ids: branch_ids !== undefined ? (Array.isArray(branch_ids) ? branch_ids : []) : undefined,
     });
 
     await syncCurrentStoreToCloud();
