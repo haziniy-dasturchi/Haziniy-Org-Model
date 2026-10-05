@@ -2,15 +2,16 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import { Plus, Edit, Trash2, Users, Search, ExternalLink, Phone, Calendar } from "lucide-react";
-import { Employee, Position, Department } from "@/types";
+import { Plus, Edit, Trash2, Users, Search, ExternalLink, Phone, Calendar, Building2 } from "lucide-react";
+import { Employee, Position, Department, Branch } from "@/types";
 import { EmployeeModal } from "./EmployeeModal";
 import { DeleteConfirmModal } from "./DeleteConfirmModal";
 import { useToast } from "./ToastContext";
 
 interface EmployeesTabProps {
-  employees: (Employee & { position?: Position & { department?: Department } })[];
+  employees: (Employee & { position?: Position & { department?: Department }; branch?: Branch | null })[];
   positions: (Position & { department?: Department })[];
+  branches?: Branch[];
   onRefresh: () => Promise<void>;
   onEmployeeSaved?: (emp: Employee) => void;
   onEmployeeDeleted?: (id: string) => void;
@@ -26,6 +27,7 @@ function getInitials(name: string): string {
 export function EmployeesTab({
   employees,
   positions,
+  branches = [],
   onRefresh,
   onEmployeeSaved,
   onEmployeeDeleted,
@@ -202,17 +204,33 @@ export function EmployeesTab({
                             <span className="font-bold text-slate-800 text-xs block">
                               {pos.title}
                             </span>
-                            {dept && (
-                              <span
-                                className="inline-block text-[10px] font-bold text-white px-2 py-0.5 rounded-full mt-0.5"
-                                style={{ backgroundColor: dept.color_hex || "#1D4ED8" }}
-                              >
-                                {dept.name}
+                            <div className="flex flex-wrap items-center gap-1 mt-0.5">
+                              {dept && (
+                                <span
+                                  className="inline-block text-[10px] font-bold text-white px-2 py-0.5 rounded-full"
+                                  style={{ backgroundColor: dept.color_hex || "#1D4ED8" }}
+                                >
+                                  {dept.name}
+                                </span>
+                              )}
+                              {(emp.branch || branches.find((b) => b.id === emp.branch_id)) && (
+                                <span className="inline-flex items-center gap-1 text-[10px] font-bold text-teal-800 bg-teal-50 border border-teal-200/80 px-2 py-0.5 rounded-full">
+                                  <Building2 className="w-2.5 h-2.5 text-teal-600" />
+                                  {(emp.branch || branches.find((b) => b.id === emp.branch_id))?.name}
+                                </span>
+                              )}
+                            </div>
+                          </div>
+                        ) : (
+                          <div>
+                            <span className="text-xs text-slate-400 block">Lavozimsiz</span>
+                            {(emp.branch || branches.find((b) => b.id === emp.branch_id)) && (
+                              <span className="inline-flex items-center gap-1 text-[10px] font-bold text-teal-800 bg-teal-50 border border-teal-200/80 px-2 py-0.5 rounded-full mt-1">
+                                <Building2 className="w-2.5 h-2.5 text-teal-600" />
+                                {(emp.branch || branches.find((b) => b.id === emp.branch_id))?.name}
                               </span>
                             )}
                           </div>
-                        ) : (
-                          <span className="text-xs text-slate-400">Lavozimsiz</span>
                         )}
                       </td>
 
@@ -287,6 +305,7 @@ export function EmployeesTab({
         onSave={handleSave}
         employee={selectedEmp}
         positions={positions}
+        branches={branches}
       />
 
       {/* Delete Modal */}

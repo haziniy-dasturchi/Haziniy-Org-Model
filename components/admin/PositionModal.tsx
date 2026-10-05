@@ -19,10 +19,8 @@ export function PositionModal({
   onSave,
   position,
   departments,
-  branches = [],
 }: PositionModalProps) {
   const [departmentId, setDepartmentId] = useState("");
-  const [branchId, setBranchId] = useState<string>("");
   const [title, setTitle] = useState("");
   const [yqmText, setYqmText] = useState("");
   const [status, setStatus] = useState<"mavjud" | "rejalashtirilgan">("mavjud");
@@ -33,14 +31,12 @@ export function PositionModal({
   useEffect(() => {
     if (position) {
       setDepartmentId(position.department_id || (departments[0]?.id || ""));
-      setBranchId(position.branch_id || "");
       setTitle(position.title || "");
       setYqmText(position.yqm_text || "");
       setStatus(position.status || "mavjud");
       setSortOrder(position.sort_order ?? 0);
     } else {
       setDepartmentId(departments[0]?.id || "");
-      setBranchId("");
       setTitle("");
       setYqmText("");
       setStatus("mavjud");
@@ -68,7 +64,6 @@ export function PositionModal({
       await onSave({
         id: position?.id,
         department_id: departmentId,
-        branch_id: branchId ? branchId : null,
         title: title.trim(),
         yqm_text: yqmText.trim() || undefined,
         status,
@@ -130,25 +125,6 @@ export function PositionModal({
               {departments.map((d) => (
                 <option key={d.id} value={d.id}>
                   {d.name} bo&apos;limi
-                </option>
-              ))}
-            </select>
-          </div>
-
-          {/* Filial tanlash */}
-          <div>
-            <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
-              Filial tegishliligi (Ixtiyoriy)
-            </label>
-            <select
-              value={branchId}
-              onChange={(e) => setBranchId(e.target.value)}
-              className="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:border-brand-accent focus:ring-2 focus:ring-emerald-100 text-sm font-medium text-slate-800 outline-none transition bg-white"
-            >
-              <option value="">Umumiy / Barcha filiallar (Markaziy)</option>
-              {branches.map((b) => (
-                <option key={b.id} value={b.id}>
-                  {b.name}
                 </option>
               ))}
             </select>

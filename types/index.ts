@@ -38,12 +38,10 @@ export interface Position {
   yqm_text: string | null;
   status: PositionStatus;
   sort_order: number;
-  branch_id?: string | null; // Ixtiyoriy: filialga xos lavozimlar uchun
   estimated_salary?: number | null;
   created_at: string;
-  // Bog'langan bo'lim, filial va xodimlar (join qilinganda)
+  // Bog'langan bo'lim va xodimlar (join qilinganda)
   department?: Department;
-  branch?: Branch | null;
   employees?: Employee[];
 }
 
@@ -57,6 +55,7 @@ export interface CertificateItem {
 export interface Employee {
   id: string;
   position_id: string | null;
+  branch_id?: string | null; // Har bir xodim faqat bitta filialga biriktiriladi
   full_name: string;
   photo_url: string | null;
   phone: string | null;
@@ -67,8 +66,9 @@ export interface Employee {
   certificates?: CertificateItem[];
   subject?: string | null; // O'qitadigan fani (masalan: Arab tili, Ingliz tili, Matematika)
   created_at: string;
-  // Bog'langan lavozim (join qilinganda)
+  // Bog'langan lavozim va filial (join qilinganda)
   position?: Position;
+  branch?: Branch | null;
 }
 
 export function isTeachingOrSupportRole(positionTitle?: string | null): boolean {

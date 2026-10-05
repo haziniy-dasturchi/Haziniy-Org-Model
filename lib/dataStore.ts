@@ -48,7 +48,7 @@ export const DEFAULT_BRANCHES: Branch[] = [
 
 interface OrgStoreSchema {
   departments: Department[];
-  positions: (Position & { department_id?: string; branch_id?: string | null })[];
+  positions: (Position & { department_id?: string })[];
   employees: Employee[];
   branches: Branch[];
   mission: string;
@@ -75,7 +75,7 @@ function getInitialStore(): OrgStoreSchema {
     created_at: d.created_at || new Date().toISOString(),
   }));
 
-  const positions: (Position & { department_id?: string; branch_id?: string | null })[] = DEFAULT_SHEETS_DEPARTMENTS.flatMap((d) =>
+  const positions: (Position & { department_id?: string })[] = DEFAULT_SHEETS_DEPARTMENTS.flatMap((d) =>
     d.positions.map((p) => ({
       id: p.id,
       department_id: d.id,
@@ -83,7 +83,6 @@ function getInitialStore(): OrgStoreSchema {
       yqm_text: p.yqm_text,
       status: p.status,
       sort_order: p.sort_order,
-      branch_id: null,
       created_at: p.created_at || new Date().toISOString(),
     }))
   );
@@ -92,6 +91,7 @@ function getInitialStore(): OrgStoreSchema {
     ...DEFAULT_TEST_EMPLOYEES.map((e) => ({
       id: e.id,
       position_id: e.position_id,
+      branch_id: DEFAULT_BRANCHES[0].id,
       full_name: e.full_name,
       phone: e.phone,
       photo_url: e.photo_url,
@@ -292,21 +292,19 @@ export function deleteDepartment(id: string): boolean {
 // 2. POSITIONS CRUD
 // ==========================================
 
-export function getPositions(): (Position & { department?: Department; branch?: Branch | null })[] {
+export function getPositions(): (Position & { department?: Department })[] {
   const store = readStore();
   const deptMap = new Map(store.departments.map((d) => [d.id, d]));
-  const branchMap = new Map((store.branches || []).map((b) => [b.id, b]));
 
   return store.positions
     .map((p) => ({
       ...p,
       department: p.department_id ? deptMap.get(p.department_id) : undefined,
-      branch: p.branch_id ? branchMap.get(p.branch_id) || null : null,
     }))
     .sort((a, b) => (a.sort_order ?? 0) - (b.sort_order ?? 0));
 }
 
-export function getPositionById(id: string): (Position & { department?: Department; branch?: Branch | null }) | null {
+export function getPositionById(id: string): (Position & { department?: Department }) | null {
   const store = readStore();
   const pos = store.positions.find((p) => p.id === id);
   if (!pos) return null;
@@ -314,11 +312,8 @@ export function getPositionById(id: string): (Position & { department?: Departme
   const dept = pos.department_id
     ? store.departments.find((d) => d.id === pos.department_id)
     : undefined;
-  const branch = pos.branch_id
-    ? (store.branches || []).find((b) => b.id === pos.branch_id) || null
-    : null;
 
-  return { ...pos, department: dept, branch };
+  return { ...pos, department: dept };
 }
 
 export function savePosition(data: Partial<Position>): Position {
@@ -333,7 +328,6 @@ export function savePosition(data: Partial<Position>): Position {
         ...prev,
         ...data,
         title: (data.title || prev.title).trim(),
-        branch_id: data.branch_id !== undefined ? (data.branch_id || null) : (prev.branch_id || null),
       };
       store.positions[idx] = updatedPos;
     } else {
@@ -344,7 +338,6 @@ export function savePosition(data: Partial<Position>): Position {
         yqm_text: data.yqm_text?.trim() || null,
         status: data.status === "rejalashtirilgan" ? "rejalashtirilgan" : "mavjud",
         sort_order: Number(data.sort_order) || 0,
-        branch_id: data.branch_id || null,
         created_at: new Date().toISOString(),
       };
       store.positions.push(updatedPos);
@@ -357,7 +350,6 @@ export function savePosition(data: Partial<Position>): Position {
       yqm_text: data.yqm_text?.trim() || null,
       status: data.status === "rejalashtirilgan" ? "rejalashtirilgan" : "mavjud",
       sort_order: Number(data.sort_order) || 0,
-      branch_id: data.branch_id || null,
       created_at: new Date().toISOString(),
     };
     store.positions.push(updatedPos);
@@ -380,9 +372,11 @@ export function deletePosition(id: string): boolean {
 
 export function getEmployees(): (Employee & {
   position?: Position & { department?: Department };
+  branch?: Branch | null;
 })[] {
   const store = readStore();
   const deptMap = new Map(store.departments.map((d) => [d.id, d]));
+  const branchMap = new Map((store.branches || []).map((b) => [b.id, b]));
   const posMap = new Map(
     store.positions.map((p) => [
       p.id,
@@ -393,17 +387,20 @@ export function getEmployees(): (Employee & {
   return store.employees.map((e) => ({
     ...e,
     position: e.position_id ? posMap.get(e.position_id) : undefined,
+    branch: e.branch_id ? branchMap.get(e.branch_id) || null : null,
   }));
 }
 
 export function getEmployeeById(id: string): (Employee & {
   position?: Position & { department?: Department };
+  branch?: Branch | null;
 }) | null {
   const store = readStore();
   const emp = store.employees.find((e) => e.id === id);
   if (!emp) return null;
 
   const deptMap = new Map(store.departments.map((d) => [d.id, d]));
+  const branchMap = new Map((store.branches || []).map((b) => [b.id, b]));
   const pos = emp.position_id
     ? store.positions.find((p) => p.id === emp.position_id)
     : null;
@@ -412,11 +409,12 @@ export function getEmployeeById(id: string): (Employee & {
     ? { ...pos, department: pos.department_id ? deptMap.get(pos.department_id) : undefined }
     : undefined;
 
-  return { ...emp, position: positionWithDept };
+  return { ...emp, position: positionWithDept, branch: emp.branch_id ? branchMap.get(emp.branch_id) || null : null };
 }
 
 export function saveEmployee(data: Partial<Employee>): Employee {
   const store = readStore();
+  const defaultBranchId = store.branches?.[0]?.id || "branch-1";
   let updatedEmp: Employee;
 
   if (data.id) {
@@ -440,6 +438,7 @@ export function saveEmployee(data: Partial<Employee>): Employee {
         ...data,
         full_name: (data.full_name || current.full_name).trim(),
         position_id: data.position_id !== undefined ? (data.position_id || null) : current.position_id,
+        branch_id: data.branch_id !== undefined ? (data.branch_id || null) : (current.branch_id || defaultBranchId),
         phone: data.phone !== undefined ? (data.phone ? data.phone.trim() : null) : current.phone,
         photo_url: data.photo_url !== undefined ? (data.photo_url ? data.photo_url.trim() : null) : current.photo_url,
         hired_at: data.hired_at !== undefined ? (data.hired_at || null) : current.hired_at,
@@ -459,6 +458,7 @@ export function saveEmployee(data: Partial<Employee>): Employee {
       updatedEmp = {
         id: data.id,
         position_id: data.position_id || null,
+        branch_id: data.branch_id || defaultBranchId,
         full_name: (data.full_name || "Yangi xodim").trim(),
         phone: data.phone ? data.phone.trim() : null,
         photo_url: data.photo_url ? data.photo_url.trim() : null,
@@ -477,6 +477,7 @@ export function saveEmployee(data: Partial<Employee>): Employee {
     updatedEmp = {
       id: "emp-" + Date.now(),
       position_id: data.position_id || null,
+      branch_id: data.branch_id || defaultBranchId,
       full_name: (data.full_name || "Yangi xodim").trim(),
       phone: data.phone ? data.phone.trim() : null,
       photo_url: data.photo_url ? data.photo_url.trim() : null,
@@ -609,7 +610,6 @@ export function saveMission(mission: string): string {
 export function getFullOrgStructure(): any[] {
   const store = readStore();
   const employees = getEmployees();
-  const branchMap = new Map((store.branches || []).map((b) => [b.id, b]));
 
   return store.departments
     .map((dept) => {
@@ -621,7 +621,6 @@ export function getFullOrgStructure(): any[] {
           return {
             ...pos,
             status: effectiveStatus,
-            branch: pos.branch_id ? branchMap.get(pos.branch_id) || null : null,
             employees: posEmployees,
           };
         })
@@ -657,12 +656,12 @@ export function getOrgStructureHash(
       department_id: p.department_id,
       title: p.title,
       status: p.status,
-      branch_id: p.branch_id,
       yqm_text: p.yqm_text,
     })),
     employees: employees.map((e) => ({
       id: e.id,
       position_id: e.position_id,
+      branch_id: e.branch_id,
       full_name: e.full_name,
       personal_yqm: e.personal_yqm,
     })),
@@ -795,7 +794,6 @@ export async function resolveOrgRecommendation(
         yqm_text: null,
         status: "mavjud",
         sort_order: 99,
-        branch_id: null,
         created_at: new Date().toISOString(),
       };
       store.positions.push(newPos);

@@ -216,7 +216,12 @@ export function computeOrgSignals(params: {
   );
 
   const branchesWithoutDedicatedManager = branches
-    .filter((b) => !positions.some((p) => p.branch_id === b.id && p.status === "mavjud"))
+    .filter(
+      (b) =>
+        !employees.some(
+          (e) => e.branch_id === b.id && managerPositions.some((p) => p.id === e.position_id)
+        )
+    )
     .map((b) => b.name);
 
   const spanOfControl: SpanOfControlSignal = {

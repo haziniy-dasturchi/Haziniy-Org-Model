@@ -12,8 +12,8 @@ import { Department, Position, Employee, Branch } from "@/types";
 
 interface AdminDashboardClientProps {
   initialDepartments: Department[];
-  initialPositions: (Position & { department?: Department; branch?: Branch | null })[];
-  initialEmployees: (Employee & { position?: Position & { department?: Department } })[];
+  initialPositions: (Position & { department?: Department })[];
+  initialEmployees: (Employee & { position?: Position & { department?: Department }; branch?: Branch | null })[];
   initialBranches?: Branch[];
   initialMission: string;
 }
@@ -28,8 +28,8 @@ export function AdminDashboardClient({
   const [activeTab, setActiveTab] = useState<AdminTab>("departments");
 
   const [departments, setDepartments] = useState<Department[]>(initialDepartments);
-  const [positions, setPositions] = useState<(Position & { department?: Department; branch?: Branch | null })[]>(initialPositions);
-  const [employees, setEmployees] = useState<(Employee & { position?: Position & { department?: Department } })[]>(initialEmployees);
+  const [positions, setPositions] = useState<(Position & { department?: Department })[]>(initialPositions);
+  const [employees, setEmployees] = useState<(Employee & { position?: Position & { department?: Department }; branch?: Branch | null })[]>(initialEmployees);
   const [branches, setBranches] = useState<Branch[]>(initialBranches);
   const [mission, setMission] = useState<string>(initialMission);
 
@@ -37,15 +37,14 @@ export function AdminDashboardClient({
   const handlePositionSaved = useCallback((savedPos: Position) => {
     setPositions((prev) => {
       const dept = departments.find((d) => d.id === savedPos.department_id);
-      const branch = branches.find((b) => b.id === savedPos.branch_id) || null;
-      const enriched = { ...savedPos, department: dept, branch };
+      const enriched = { ...savedPos, department: dept };
       const exists = prev.some((p) => p.id === savedPos.id);
       if (exists) {
         return prev.map((p) => (p.id === savedPos.id ? enriched : p));
       }
       return [...prev, enriched];
     });
-  }, [departments, branches]);
+  }, [departments]);
 
   const handlePositionDeleted = useCallback((id: string) => {
     setPositions((prev) => prev.filter((p) => p.id !== id));
@@ -68,14 +67,15 @@ export function AdminDashboardClient({
   const handleEmployeeSaved = useCallback((savedEmp: Employee) => {
     setEmployees((prev) => {
       const pos = positions.find((p) => p.id === savedEmp.position_id);
-      const enriched = { ...savedEmp, position: pos };
+      const branch = branches.find((b) => b.id === savedEmp.branch_id) || null;
+      const enriched = { ...savedEmp, position: pos, branch };
       const exists = prev.some((e) => e.id === savedEmp.id);
       if (exists) {
         return prev.map((e) => (e.id === savedEmp.id ? enriched : e));
       }
       return [...prev, enriched];
     });
-  }, [positions]);
+  }, [positions, branches]);
 
   const handleEmployeeDeleted = useCallback((id: string) => {
     setEmployees((prev) => prev.filter((e) => e.id !== id));
@@ -191,6 +191,7 @@ export function AdminDashboardClient({
               <EmployeesTab
                 employees={employees}
                 positions={positions}
+                branches={branches}
                 onRefresh={refreshAll}
                 onEmployeeSaved={handleEmployeeSaved}
                 onEmployeeDeleted={handleEmployeeDeleted}

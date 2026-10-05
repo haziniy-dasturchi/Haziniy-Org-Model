@@ -2,7 +2,7 @@ import React from "react";
 import Link from "next/link";
 import { cookies } from "next/headers";
 import { EmployeeProfileView } from "@/components/employee/EmployeeProfileView";
-import { getEmployeeById, getPositions, ensureStoreSyncedFromSupabase } from "@/lib/dataStore";
+import { getEmployeeById, getPositions, getBranches, ensureStoreSyncedFromSupabase } from "@/lib/dataStore";
 import { UserX, ArrowLeft } from "lucide-react";
 
 interface PageProps {
@@ -32,6 +32,7 @@ export default async function EmployeePage({ params }: PageProps) {
   const isAdmin = checkIsAdmin();
   const employeeData = getEmployeeById(params.id);
   const allPositions = getPositions();
+  const allBranches = getBranches();
 
   // If employee not found, render custom beautiful 404 screen
   if (!employeeData) {
@@ -73,6 +74,7 @@ export default async function EmployeePage({ params }: PageProps) {
       <EmployeeProfileView
         employee={employeeData as any}
         positions={allPositions}
+        branches={allBranches}
         isAdmin={isAdmin}
       />
     </main>

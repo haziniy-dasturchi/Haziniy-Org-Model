@@ -29,7 +29,7 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json();
-    const { department_id, title, yqm_text, status, sort_order, branch_id, estimated_salary } = body;
+    const { department_id, title, yqm_text, status, sort_order, estimated_salary } = body;
 
     if (!title || !title.trim()) {
       return NextResponse.json({ error: "Lavozim nomi kiritilishi shart" }, { status: 400, headers: NO_CACHE_HEADERS });
@@ -39,7 +39,6 @@ export async function POST(request: NextRequest) {
 
     const pos = savePosition({
       department_id,
-      branch_id: branch_id || null,
       title: title.trim(),
       yqm_text: yqm_text ? yqm_text.trim() : null,
       status: status === "rejalashtirilgan" ? "rejalashtirilgan" : "mavjud",

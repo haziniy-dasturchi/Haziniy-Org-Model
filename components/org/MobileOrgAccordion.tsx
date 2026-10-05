@@ -11,6 +11,7 @@ interface MobileOrgAccordionProps {
     positions?: (Position & { employees?: Employee[] })[];
   })[];
   mode: "current" | "target";
+  selectedBranchId?: string;
 }
 
 const DEPARTMENT_COLORS: Record<string, string> = {
@@ -34,7 +35,8 @@ function getDeptColor(name: string, fallback?: string | null) {
   return fallback || "#2563eb";
 }
 
-export function MobileOrgAccordion({ departments, mode }: MobileOrgAccordionProps) {
+export function MobileOrgAccordion({ departments, mode, selectedBranchId }: MobileOrgAccordionProps) {
+  const isBranchFiltered = Boolean(selectedBranchId && selectedBranchId !== "all");
   // Store open state for each department id (open all by default)
   const [openStates, setOpenStates] = useState<Record<string, boolean>>(() => {
     const initial: Record<string, boolean> = {};
@@ -120,6 +122,7 @@ export function MobileOrgAccordion({ departments, mode }: MobileOrgAccordionProp
                       employees={group.employees}
                       color={color}
                       isPlanned={group.isPlanned}
+                      isBranchFiltered={isBranchFiltered}
                     />
                   ))
                 ) : (

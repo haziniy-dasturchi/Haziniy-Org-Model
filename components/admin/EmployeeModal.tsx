@@ -1,8 +1,8 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
-import { X, User, Upload, Plus, Trash2, Save, Image as ImageIcon, Award, Loader2, FileText } from "lucide-react";
-import { Employee, Position, Department, CertificateItem, isTeachingOrSupportRole } from "@/types";
+import { X, User, Upload, Plus, Trash2, Save, Image as ImageIcon, Award, Loader2, FileText, Building2 } from "lucide-react";
+import { Employee, Position, Department, Branch, CertificateItem, isTeachingOrSupportRole } from "@/types";
 import { compressImageFile, isPdf } from "@/lib/imageUtils";
 
 interface EmployeeModalProps {
@@ -11,6 +11,7 @@ interface EmployeeModalProps {
   onSave: (data: Partial<Employee>) => Promise<void>;
   employee?: Employee | null;
   positions: (Position & { department?: Department })[];
+  branches?: Branch[];
 }
 
 export function EmployeeModal({
@@ -19,9 +20,11 @@ export function EmployeeModal({
   onSave,
   employee,
   positions,
+  branches = [],
 }: EmployeeModalProps) {
   const [fullName, setFullName] = useState("");
   const [positionId, setPositionId] = useState("");
+  const [branchId, setBranchId] = useState("");
   const [phone, setPhone] = useState("");
   const [photoUrl, setPhotoUrl] = useState("");
   const [hiredAt, setHiredAt] = useState("");
@@ -43,12 +46,13 @@ export function EmployeeModal({
   const selectedPos = positions.find((p) => p.id === positionId);
   const isUstozOrSupport = isTeachingOrSupportRole(selectedPos?.title);
 
-
   useEffect(() => {
     if (!isOpen) return;
+    const defaultBranch = branches[0]?.id || "";
     if (employee) {
       setFullName(employee.full_name || "");
       setPositionId(employee.position_id || (positions[0]?.id || ""));
+      setBranchId(employee.branch_id || defaultBranch);
       setPhone(employee.phone || "");
       setPhotoUrl(employee.photo_url || "");
       setHiredAt(employee.hired_at || "");
@@ -60,6 +64,7 @@ export function EmployeeModal({
     } else {
       setFullName("");
       setPositionId(positions[0]?.id || "");
+      setBranchId(defaultBranch);
       setPhone("");
       setPhotoUrl("");
       setHiredAt("");
@@ -71,7 +76,7 @@ export function EmployeeModal({
     }
     setNewLink("");
     setError(null);
-  }, [isOpen, employee?.id]);
+  }, [isOpen, employee?.id, branches]);
 
   if (!isOpen) return null;
 
@@ -175,6 +180,10 @@ export function EmployeeModal({
       setError("Xodim F.I.Sh kiritilishi shart");
       return;
     }
+    if (!branchId) {
+      setError("Filial tanlanishi shart");
+      return;
+    }
 
     try {
       setIsLoading(true);
@@ -183,6 +192,7 @@ export function EmployeeModal({
         id: employee?.id,
         full_name: fullName.trim(),
         position_id: positionId || null,
+        branch_id: branchId,
         phone: phone.trim() || null,
         photo_url: photoUrl.trim() || null,
         hired_at: hiredAt || null,
@@ -312,6 +322,32 @@ export function EmployeeModal({
               {positions.map((p) => (
                 <option key={p.id} value={p.id}>
                   {p.title} {p.department ? `(${p.department.name})` : ""}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          {/* Filial tanlash (Majburiy) */}
+          <div>
+            <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5 flex items-center justify-between">
+              <span className="flex items-center gap-1.5">
+                <Building2 className="w-3.5 h-3.5 text-emerald-600" />
+                Filial <span className="text-rose-500">*</span>
+              </span>
+              <span className="text-[10px] font-semibold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200/60">
+                Majburiy
+              </span>
+            </label>
+            <select
+              value={branchId}
+              onChange={(e) => setBranchId(e.target.value)}
+              className="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:border-brand-accent focus:ring-2 focus:ring-emerald-100 text-sm font-medium text-slate-800 outline-none transition bg-white"
+              required
+            >
+              <option value="" disabled>Filialni tanlang</option>
+              {branches.map((b) => (
+                <option key={b.id} value={b.id}>
+                  {b.name}
                 </option>
               ))}
             </select>

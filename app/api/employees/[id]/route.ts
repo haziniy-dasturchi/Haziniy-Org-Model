@@ -41,6 +41,7 @@ export async function PUT(
     const {
       full_name,
       position_id,
+      branch_id,
       phone,
       photo_url,
       hired_at,
@@ -57,6 +58,7 @@ export async function PUT(
       id: params.id,
       full_name,
       position_id,
+      branch_id: branch_id !== undefined ? (branch_id || null) : undefined,
       phone,
       photo_url,
       hired_at,

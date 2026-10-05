@@ -32,14 +32,13 @@ export async function PUT(
     }
 
     const body = await request.json();
-    const { department_id, title, yqm_text, status, sort_order, branch_id, estimated_salary } = body;
+    const { department_id, title, yqm_text, status, sort_order, estimated_salary } = body;
 
     await ensureStoreSyncedFromSupabase(false);
 
     const pos = savePosition({
       id: params.id,
       department_id,
-      branch_id: branch_id !== undefined ? (branch_id || null) : undefined,
       title: title ? title.trim() : undefined,
       yqm_text: yqm_text !== undefined ? (yqm_text ? yqm_text.trim() : null) : undefined,
       status: status === "rejalashtirilgan" ? "rejalashtirilgan" : "mavjud",

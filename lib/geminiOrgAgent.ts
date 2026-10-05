@@ -82,7 +82,17 @@ export async function analyzeOrgStructureWithGemini(params: {
     branches: branches.map((b) => ({
       id: b.id,
       name: b.name,
-      hasDedicatedManager: positions.some((p) => p.branch_id === b.id && p.status === "mavjud"),
+      hasDedicatedManager: employees.some(
+        (e) =>
+          e.branch_id === b.id &&
+          positions.some(
+            (p) =>
+              p.id === e.position_id &&
+              (p.title.toUpperCase().includes("MENEJER") ||
+                p.title.toUpperCase().includes("BOSHLIG'I") ||
+                p.title.toUpperCase().includes("DIREKTOR"))
+          )
+      ),
     })),
     calculatedSignals: {
       taskOverlaps: signals.taskOverlaps,

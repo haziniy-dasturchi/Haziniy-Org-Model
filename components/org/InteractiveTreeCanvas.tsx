@@ -31,6 +31,7 @@ interface InteractiveTreeCanvasProps {
     positions?: (Position & { employees?: Employee[] })[];
   })[];
   mode: "current" | "target";
+  selectedBranchId?: string;
 }
 
 // Matte, calm, professional brand colors (no neon, easy on the eyes)
@@ -139,7 +140,11 @@ function getDeptColor(name: string, fallbackHex?: string | null) {
 
 const DEPT_ORDER = ["Moliya", "Marketing", "Sotuv", "O'quv", "HR", "Texnik", "Yuridik"];
 
-export function InteractiveTreeCanvas({ departments, mode }: InteractiveTreeCanvasProps) {
+export function InteractiveTreeCanvas({
+  departments,
+  mode,
+  selectedBranchId = "all",
+}: InteractiveTreeCanvasProps) {
   // Canvas Transform State: zoom (scale) and pan (position)
   const [zoom, setZoom] = useState(1);
   const [pan, setPan] = useState({ x: 0, y: 0 });
@@ -148,6 +153,7 @@ export function InteractiveTreeCanvas({ departments, mode }: InteractiveTreeCanv
   const [isFullscreen, setIsFullscreen] = useState(false);
 
   const containerRef = useRef<HTMLDivElement>(null);
+  const isBranchFiltered = Boolean(selectedBranchId && selectedBranchId !== "all");
 
   // 1. Separate Boshqaruv vs 7 Branch Departments
   const boshqaruvDept = departments.find(
@@ -194,13 +200,17 @@ export function InteractiveTreeCanvas({ departments, mode }: InteractiveTreeCanv
 
   const asoschiEmp =
     (asoschiPos.employees && asoschiPos.employees.length > 0 ? asoschiPos.employees[0] : null) ||
-    allEmployees.find((e) => e.position_id === asoschiPos.id || e.id === "asoschi-test-emp") ||
-    DEFAULT_TEST_EMPLOYEES[0];
+    (isBranchFiltered
+      ? null
+      : allEmployees.find((e) => e.position_id === asoschiPos.id || e.id === "asoschi-test-emp") ||
+        DEFAULT_TEST_EMPLOYEES[0]);
 
   const menejerEmp =
     (menejerPos.employees && menejerPos.employees.length > 0 ? menejerPos.employees[0] : null) ||
-    allEmployees.find((e) => e.position_id === menejerPos.id || e.id === "menejer-test-emp") ||
-    DEFAULT_TEST_EMPLOYEES[1];
+    (isBranchFiltered
+      ? null
+      : allEmployees.find((e) => e.position_id === menejerPos.id || e.id === "menejer-test-emp") ||
+        DEFAULT_TEST_EMPLOYEES[1]);
 
   // Zoom Controls
   const handleZoomIn = () => setZoom((prev) => Math.min(prev + 0.15, 1.8));
@@ -342,50 +352,74 @@ export function InteractiveTreeCanvas({ departments, mode }: InteractiveTreeCanv
           {/* ================= 1. ASOSCHI NODE (BRAND DARK & MINT ACCENT) ================= */}
           <div className="relative z-30 flex flex-col items-center">
             <div className="group relative">
-              <Link
-                href={`/xodim/${asoschiEmp.id}`}
-                className="flex items-center min-w-[220px] sm:min-w-[240px] max-w-[280px] p-2 sm:p-2.5 rounded-2xl bg-brand-dark text-white shadow-md border border-emerald-900/60 hover:border-brand-accent hover:bg-[#002824] hover:scale-[1.02] transition-all duration-200 cursor-pointer text-left brand-card-hover"
-                style={{ boxShadow: "0 6px 20px -2px rgba(0, 57, 51, 0.35)" }}
-              >
-                {/* Photo / Avatar */}
-                <div className="relative flex-shrink-0 select-none">
-                  {asoschiEmp.photo_url ? (
-                    <div className="relative overflow-hidden rounded-full h-9 w-9">
-                      <img
-                        src={asoschiEmp.photo_url}
-                        alt={asoschiEmp.full_name}
-                        draggable={false}
-                        className="h-9 w-9 rounded-full object-cover border border-brand-accent/50 shadow-2xs pointer-events-none select-none"
-                      />
-                      <div
-                        className="absolute inset-0 z-10 bg-transparent select-none cursor-pointer"
-                        onContextMenu={(e) => e.preventDefault()}
-                        onDragStart={(e) => e.preventDefault()}
-                      />
-                    </div>
-                  ) : (
-                    <div className="flex h-9 w-9 items-center justify-center rounded-full bg-brand-accent/20 backdrop-blur-sm border border-brand-accent/40 text-brand-accent text-xs font-black shadow-2xs">
-                      {getInitials(asoschiEmp.full_name)}
-                    </div>
-                  )}
-                </div>
-
-                {/* Info: Lavozim & Ism Familiya */}
-                <div className="ml-2.5 min-w-0 flex-1 text-left text-white">
-                  <div className="flex items-center justify-between gap-1">
-                    <p className="text-[10px] font-black uppercase tracking-wider text-brand-accent truncate leading-tight flex items-center gap-1">
-                      <Crown className="w-3 h-3 text-brand-accent inline" />
-                      {asoschiPos.title}
-                    </p>
-                    <span className="px-1.5 py-0.2 rounded text-[8px] font-bold bg-brand-accent/20 text-brand-accent border border-brand-accent/30">
-                      Mavjud
-                    </span>
+              {asoschiEmp ? (
+                <Link
+                  href={`/xodim/${asoschiEmp.id}`}
+                  className="flex items-center min-w-[220px] sm:min-w-[240px] max-w-[280px] p-2 sm:p-2.5 rounded-2xl bg-brand-dark text-white shadow-md border border-emerald-900/60 hover:border-brand-accent hover:bg-[#002824] hover:scale-[1.02] transition-all duration-200 cursor-pointer text-left brand-card-hover"
+                  style={{ boxShadow: "0 6px 20px -2px rgba(0, 57, 51, 0.35)" }}
+                >
+                  {/* Photo / Avatar */}
+                  <div className="relative flex-shrink-0 select-none">
+                    {asoschiEmp.photo_url ? (
+                      <div className="relative overflow-hidden rounded-full h-9 w-9">
+                        <img
+                          src={asoschiEmp.photo_url}
+                          alt={asoschiEmp.full_name}
+                          draggable={false}
+                          className="h-9 w-9 rounded-full object-cover border border-brand-accent/50 shadow-2xs pointer-events-none select-none"
+                        />
+                        <div
+                          className="absolute inset-0 z-10 bg-transparent select-none cursor-pointer"
+                          onContextMenu={(e) => e.preventDefault()}
+                          onDragStart={(e) => e.preventDefault()}
+                        />
+                      </div>
+                    ) : (
+                      <div className="flex h-9 w-9 items-center justify-center rounded-full bg-brand-accent/20 backdrop-blur-sm border border-brand-accent/40 text-brand-accent text-xs font-black shadow-2xs">
+                        {getInitials(asoschiEmp.full_name)}
+                      </div>
+                    )}
                   </div>
-                  <p className="text-xs font-bold text-white group-hover:text-emerald-200 transition-colors truncate leading-tight mt-0.5">
-                    {asoschiEmp.full_name}
-                  </p>
+
+                  {/* Info: Lavozim & Ism Familiya */}
+                  <div className="ml-2.5 min-w-0 flex-1 text-left text-white">
+                    <div className="flex items-center justify-between gap-1">
+                      <p className="text-[10px] font-black uppercase tracking-wider text-brand-accent truncate leading-tight flex items-center gap-1">
+                        <Crown className="w-3 h-3 text-brand-accent inline" />
+                        {asoschiPos.title}
+                      </p>
+                      <span className="px-1.5 py-0.2 rounded text-[8px] font-bold bg-brand-accent/20 text-brand-accent border border-brand-accent/30">
+                        Mavjud
+                      </span>
+                    </div>
+                    <p className="text-xs font-bold text-white group-hover:text-emerald-200 transition-colors truncate leading-tight mt-0.5">
+                      {asoschiEmp.full_name}
+                    </p>
+                  </div>
+                </Link>
+              ) : (
+                <div
+                  className="flex items-center min-w-[220px] sm:min-w-[240px] max-w-[280px] p-2 sm:p-2.5 rounded-2xl bg-white text-slate-700 shadow-sm border border-slate-200/90 select-none text-left"
+                >
+                  <div className="flex h-9 w-9 items-center justify-center rounded-full border border-slate-200 bg-slate-50 text-slate-400 flex-shrink-0">
+                    <User className="h-4 w-4 stroke-[1.75]" />
+                  </div>
+                  <div className="ml-2.5 min-w-0 flex-1 text-left">
+                    <div className="flex items-center justify-between gap-1">
+                      <p className="text-[10px] font-black uppercase tracking-wider text-slate-400 truncate leading-tight flex items-center gap-1">
+                        <Crown className="w-3 h-3 text-slate-400 inline" />
+                        {asoschiPos.title}
+                      </p>
+                      <span className="px-1.5 py-0.2 rounded text-[8px] font-bold bg-slate-100 text-slate-500 border border-slate-200">
+                        Band emas
+                      </span>
+                    </div>
+                    <p className="text-xs font-semibold text-slate-600 truncate leading-tight mt-0.5">
+                      Bu filialda hali band emas
+                    </p>
+                  </div>
                 </div>
-              </Link>
+              )}
 
               {/* Rich Hover Popover (Identical to Department Employees, Positioned Below to Avoid Canvas Clipping) */}
               {asoschiPos.yqm_text && (
@@ -476,50 +510,74 @@ export function InteractiveTreeCanvas({ departments, mode }: InteractiveTreeCanv
             {/* MENEJER (DIREKTOR) NODE (Centered at Top=32px, height ~46px, bottom=78px) */}
             <div className="absolute top-[32px] left-1/2 -translate-x-1/2 z-20">
               <div className="group relative">
-                <Link
-                  href={`/xodim/${menejerEmp.id}`}
-                  className="flex items-center min-w-[220px] sm:min-w-[240px] max-w-[280px] p-2 sm:p-2.5 rounded-2xl bg-brand-dark text-white shadow-md border border-emerald-900/60 hover:border-brand-accent hover:bg-[#002824] hover:scale-[1.02] transition-all duration-200 cursor-pointer text-left brand-card-hover"
-                  style={{ boxShadow: "0 6px 20px -2px rgba(0, 57, 51, 0.35)" }}
-                >
-                  {/* Photo / Avatar */}
-                  <div className="relative flex-shrink-0 select-none">
-                    {menejerEmp.photo_url ? (
-                      <div className="relative overflow-hidden rounded-full h-9 w-9">
-                        <img
-                          src={menejerEmp.photo_url}
-                          alt={menejerEmp.full_name}
-                          draggable={false}
-                          className="h-9 w-9 rounded-full object-cover border border-brand-accent/50 shadow-2xs pointer-events-none select-none"
-                        />
-                        <div
-                          className="absolute inset-0 z-10 bg-transparent select-none cursor-pointer"
-                          onContextMenu={(e) => e.preventDefault()}
-                          onDragStart={(e) => e.preventDefault()}
-                        />
-                      </div>
-                    ) : (
-                      <div className="flex h-9 w-9 items-center justify-center rounded-full bg-brand-accent/20 backdrop-blur-sm border border-brand-accent/40 text-brand-accent text-xs font-black shadow-2xs">
-                        {getInitials(menejerEmp.full_name)}
-                      </div>
-                    )}
-                  </div>
-
-                  {/* Info: Lavozim & Ism Familiya */}
-                  <div className="ml-2.5 min-w-0 flex-1 text-left text-white">
-                    <div className="flex items-center justify-between gap-1">
-                      <p className="text-[10px] font-black uppercase tracking-wider text-brand-accent truncate leading-tight flex items-center gap-1">
-                        <Briefcase className="w-3 h-3 text-brand-accent inline" />
-                        {menejerPos.title}
-                      </p>
-                      <span className="px-1.5 py-0.2 rounded text-[8px] font-bold bg-brand-accent/20 text-brand-accent border border-brand-accent/30">
-                        Mavjud
-                      </span>
+                {menejerEmp ? (
+                  <Link
+                    href={`/xodim/${menejerEmp.id}`}
+                    className="flex items-center min-w-[220px] sm:min-w-[240px] max-w-[280px] p-2 sm:p-2.5 rounded-2xl bg-brand-dark text-white shadow-md border border-emerald-900/60 hover:border-brand-accent hover:bg-[#002824] hover:scale-[1.02] transition-all duration-200 cursor-pointer text-left brand-card-hover"
+                    style={{ boxShadow: "0 6px 20px -2px rgba(0, 57, 51, 0.35)" }}
+                  >
+                    {/* Photo / Avatar */}
+                    <div className="relative flex-shrink-0 select-none">
+                      {menejerEmp.photo_url ? (
+                        <div className="relative overflow-hidden rounded-full h-9 w-9">
+                          <img
+                            src={menejerEmp.photo_url}
+                            alt={menejerEmp.full_name}
+                            draggable={false}
+                            className="h-9 w-9 rounded-full object-cover border border-brand-accent/50 shadow-2xs pointer-events-none select-none"
+                          />
+                          <div
+                            className="absolute inset-0 z-10 bg-transparent select-none cursor-pointer"
+                            onContextMenu={(e) => e.preventDefault()}
+                            onDragStart={(e) => e.preventDefault()}
+                          />
+                        </div>
+                      ) : (
+                        <div className="flex h-9 w-9 items-center justify-center rounded-full bg-brand-accent/20 backdrop-blur-sm border border-brand-accent/40 text-brand-accent text-xs font-black shadow-2xs">
+                          {getInitials(menejerEmp.full_name)}
+                        </div>
+                      )}
                     </div>
-                    <p className="text-xs font-bold text-white group-hover:text-emerald-200 transition-colors truncate leading-tight mt-0.5">
-                      {menejerEmp.full_name}
-                    </p>
+
+                    {/* Info: Lavozim & Ism Familiya */}
+                    <div className="ml-2.5 min-w-0 flex-1 text-left text-white">
+                      <div className="flex items-center justify-between gap-1">
+                        <p className="text-[10px] font-black uppercase tracking-wider text-brand-accent truncate leading-tight flex items-center gap-1">
+                          <Briefcase className="w-3 h-3 text-brand-accent inline" />
+                          {menejerPos.title}
+                        </p>
+                        <span className="px-1.5 py-0.2 rounded text-[8px] font-bold bg-brand-accent/20 text-brand-accent border border-brand-accent/30">
+                          Mavjud
+                        </span>
+                      </div>
+                      <p className="text-xs font-bold text-white group-hover:text-emerald-200 transition-colors truncate leading-tight mt-0.5">
+                        {menejerEmp.full_name}
+                      </p>
+                    </div>
+                  </Link>
+                ) : (
+                  <div
+                    className="flex items-center min-w-[220px] sm:min-w-[240px] max-w-[280px] p-2 sm:p-2.5 rounded-2xl bg-white text-slate-700 shadow-sm border border-slate-200/90 select-none text-left"
+                  >
+                    <div className="flex h-9 w-9 items-center justify-center rounded-full border border-slate-200 bg-slate-50 text-slate-400 flex-shrink-0">
+                      <User className="h-4 w-4 stroke-[1.75]" />
+                    </div>
+                    <div className="ml-2.5 min-w-0 flex-1 text-left">
+                      <div className="flex items-center justify-between gap-1">
+                        <p className="text-[10px] font-black uppercase tracking-wider text-slate-400 truncate leading-tight flex items-center gap-1">
+                          <Briefcase className="w-3 h-3 text-slate-400 inline" />
+                          {menejerPos.title}
+                        </p>
+                        <span className="px-1.5 py-0.2 rounded text-[8px] font-bold bg-slate-100 text-slate-500 border border-slate-200">
+                          Band emas
+                        </span>
+                      </div>
+                      <p className="text-xs font-semibold text-slate-600 truncate leading-tight mt-0.5">
+                        Bu filialda hali band emas
+                      </p>
+                    </div>
                   </div>
-                </Link>
+                )}
 
                 {/* Rich Hover Popover (Identical to Department Employees, Positioned Below) */}
                 {menejerPos.yqm_text && (
@@ -603,6 +661,7 @@ export function InteractiveTreeCanvas({ departments, mode }: InteractiveTreeCanv
                             employees={group.employees}
                             color={deptColor.bg}
                             isPlanned={group.isPlanned}
+                            isBranchFiltered={isBranchFiltered}
                           />
                         ))
                       ) : (

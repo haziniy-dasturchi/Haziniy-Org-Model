@@ -10,6 +10,7 @@ interface OrgEmployeePillProps {
   position: Position;
   color?: string;
   isPlanned?: boolean;
+  isBranchFiltered?: boolean;
 }
 
 function getInitials(name: string): string {
@@ -24,6 +25,7 @@ export function OrgEmployeePill({
   position,
   color = "#1D4ED8",
   isPlanned,
+  isBranchFiltered = false,
 }: OrgEmployeePillProps) {
   const isPlannedStatus = isPlanned || position.status === "rejalashtirilgan";
 
@@ -110,7 +112,7 @@ export function OrgEmployeePill({
             {position.title}
           </p>
           <p className="text-[11px] font-semibold text-slate-700 leading-snug mt-0.5 break-words">
-            Hali band emas
+            {isBranchFiltered ? "Bu filialda hali band emas" : "Hali band emas"}
           </p>
         </div>
 

@@ -3,7 +3,7 @@ import { OrgChart } from "@/components/org/OrgChart";
 import { AIRecommendation } from "@/components/org/AIRecommendation";
 import { MissionCarousel } from "@/components/org/MissionCarousel";
 import { Sparkles } from "lucide-react";
-import { getFullOrgStructure, getMission, getLatestOrgAIAnalysis, ensureStoreSyncedFromSupabase } from "@/lib/dataStore";
+import { getFullOrgStructure, getMission, getLatestOrgAIAnalysis, ensureStoreSyncedFromSupabase, getBranches } from "@/lib/dataStore";
 import { checkAdminSession } from "@/lib/adminAuth";
 
 export const dynamic = "force-dynamic";
@@ -13,6 +13,7 @@ export const fetchCache = "force-no-store";
 export default async function HomePage() {
   await ensureStoreSyncedFromSupabase(false);
   const departmentsWithData = getFullOrgStructure();
+  const branches = getBranches();
   const mainMission = getMission();
   const aiRecommendation = await getLatestOrgAIAnalysis();
   const isAdmin = checkAdminSession();
@@ -61,7 +62,7 @@ export default async function HomePage() {
       <div className="mx-auto max-w-[1550px] px-3 sm:px-6 lg:px-8 space-y-10">
         {/* 2 & 3 & 4. Interactive OrgChart with Switcher, 7 Departments Auto-fit Grid, Positions, and Vacancy Slots */}
         <section id="org-chart-section">
-          <OrgChart departments={departmentsWithData} isAdmin={isAdmin} />
+          <OrgChart departments={departmentsWithData} branches={branches} isAdmin={isAdmin} />
         </section>
 
         {/* 5. AI Recommendations Block (Faqat adminga ko'rinadi) */}

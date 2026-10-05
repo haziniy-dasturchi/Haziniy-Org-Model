@@ -14,16 +14,19 @@ import {
   Edit3,
   Shield,
   UserCheck,
+  Building2,
 } from "lucide-react";
-import { Employee, Position, Department, isTeachingOrSupportRole } from "@/types";
+import { Employee, Position, Department, Branch, isTeachingOrSupportRole } from "@/types";
 import { EditEmployeeModal } from "./EditEmployeeModal";
 import { EmployeeCertificatesCarousel } from "./EmployeeCertificatesCarousel";
 
 interface EmployeeProfileViewProps {
   employee: Employee & {
     position?: (Position & { department?: Department }) | null;
+    branch?: Branch | null;
   };
   positions: (Position & { department?: Department })[];
+  branches?: Branch[];
   isAdmin: boolean;
 }
 
@@ -37,6 +40,7 @@ function getInitials(name: string): string {
 export function EmployeeProfileView({
   employee: initialEmployee,
   positions,
+  branches = [],
   isAdmin,
 }: EmployeeProfileViewProps) {
   const [employee, setEmployee] = useState(initialEmployee);
@@ -178,6 +182,13 @@ export function EmployeeProfileView({
                   Fani: {employee.subject}
                 </span>
               )}
+
+              {(employee.branch || branches?.find((b) => b.id === employee.branch_id)) && (
+                <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-teal-50 text-teal-900 text-xs font-bold border border-teal-200/80 shadow-2xs">
+                  <Building2 className="w-3.5 h-3.5 text-teal-600" />
+                  {(employee.branch || branches?.find((b) => b.id === employee.branch_id))?.name}
+                </span>
+              )}
             </div>
           </div>
 
@@ -306,11 +317,13 @@ export function EmployeeProfileView({
         <EditEmployeeModal
           employee={employee}
           positions={positions}
+          branches={branches}
           isOpen={isEditModalOpen}
           onClose={() => setIsEditModalOpen(false)}
           onSaved={(updated) => {
             const pos = positions.find((p) => p.id === updated.position_id) || employee.position;
-            setEmployee({ ...updated, position: pos });
+            const branch = branches.find((b) => b.id === updated.branch_id) || employee.branch;
+            setEmployee({ ...updated, position: pos, branch });
           }}
         />
       )}

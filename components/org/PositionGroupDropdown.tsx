@@ -82,6 +82,7 @@ interface PositionGroupDropdownProps {
   employees: Employee[];
   color?: string;
   isPlanned?: boolean;
+  isBranchFiltered?: boolean;
 }
 
 export function PositionGroupDropdown({
@@ -89,6 +90,7 @@ export function PositionGroupDropdown({
   employees = [],
   color = "#1D4ED8",
   isPlanned = false,
+  isBranchFiltered = false,
 }: PositionGroupDropdownProps) {
   const [isOpen, setIsOpen] = useState(false);
   const sortedEmployees = React.useMemo(() => sortEmployeesBySubjectFrequency(employees), [employees]);
@@ -100,6 +102,7 @@ export function PositionGroupDropdown({
         position={position}
         color={color}
         isPlanned={isPlanned}
+        isBranchFiltered={isBranchFiltered}
       />
     );
   }

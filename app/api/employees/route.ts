@@ -32,6 +32,7 @@ export async function POST(request: NextRequest) {
     const {
       full_name,
       position_id,
+      branch_id,
       phone,
       photo_url,
       hired_at,
@@ -51,6 +52,7 @@ export async function POST(request: NextRequest) {
     const emp = saveEmployee({
       full_name: full_name.trim(),
       position_id: position_id || null,
+      branch_id: branch_id || null,
       phone: phone ? phone.trim() : null,
       photo_url: photo_url ? photo_url.trim() : null,
       hired_at: hired_at || null,
