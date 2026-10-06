@@ -162,18 +162,6 @@ export function InteractiveTreeCanvas({
 
   const branchDepartments = departments
     .filter((d) => d !== boshqaruvDept)
-    .filter((d) => {
-      // In target mode (Maqsad / Namuna), show all configured departments
-      if (mode === "target") return true;
-      // In branch view (when a branch is selected), only show departments that have at least one active or existing position
-      if (isBranchFiltered) {
-        const activePositions = (d.positions || []).filter((p) => {
-          return (p.employees && p.employees.length > 0) || p.status === "mavjud";
-        });
-        return activePositions.length > 0;
-      }
-      return true;
-    })
     .sort((a, b) => {
       const idxA = DEPT_ORDER.findIndex((name) => a.name.toLowerCase().includes(name.toLowerCase()));
       const idxB = DEPT_ORDER.findIndex((name) => b.name.toLowerCase().includes(name.toLowerCase()));
